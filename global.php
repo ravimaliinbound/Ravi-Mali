@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html>
-<body>
-
 <?php
-$x = 5; // global scope
- 
-function myTest() {
-  global $x;
-  echo "<p>Variable x inside function is: $x</p>";
-  echo $GLOBALS['x'];
-} 
-myTest();
+$x = 10;
+$y = 20;
 
-echo "<p>Variable x outside function is: $x</p>";
+function show()
+{
+  global $x, $y;
+  echo $x . "<br>";
+  $x = 30; //changing value of a global variabe inside the function
+  echo $x . "<br>";
+  echo $y. "<br>";
+}
+show();
+echo $x. "<br>";
+echo $y;
 ?>
-
-</body>
-</html>

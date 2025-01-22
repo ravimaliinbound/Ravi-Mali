@@ -1,7 +1,7 @@
 <?php
 function show(&$name)
 {
-    $name = "Ravi Mali";
+    $name = "Ravi Mali"; //Changing the value of variable using the reference of variable
 }
 $name = "Ravi";
 echo "Name before calling tha show() function is : $name <br>";

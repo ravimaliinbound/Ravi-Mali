@@ -71,6 +71,7 @@
             ?>
     </div>
 
+
     <div style="border:1px solid; float:left; margin-left:20px;padding:10px">
             <?php
             $num=1;
@@ -86,7 +87,7 @@
                         if($num==11)
                         {
                             echo " &nbsp;$num <br>";
-                        }             
+                        }   
                         echo " ". $num*$num;
                         $num=$num+$x;
                         $x=$x*10;
@@ -96,7 +97,19 @@
             ?>
     </div>
 
-    <div style=" float:left; ">
+
+
+
+
+
+
+
+
+
+
+    
+   <div style="border:1px solid; float:left; margin-left:20px;padding: 10px;">
+   <div style=" float:left;">
                 <?php
                     for($i=1;$i<=4;$i++)
                     {
@@ -163,6 +176,7 @@
         }
         ?>
     </div>
+   </div>
 </body>
 
 </html> 

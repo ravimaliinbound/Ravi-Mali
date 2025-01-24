@@ -17,4 +17,4 @@ function traingle()
 }
 traingle();
 echo "<br>";
-?>
+?>      

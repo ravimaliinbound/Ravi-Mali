@@ -15,14 +15,9 @@ function insertionSort(&$arr, $n)
         $arr[$j + 1] = $key;
     }
 }
-function printArray(&$arr, $n)
-{
-    for ($i = 0; $i < $n; $i++)
-        echo $arr[$i] . " ";
-    echo "\n";
-}
+
 $arr = array(15, 10, 12, 8, 2,7);
 $n = sizeof($arr);
 insertionSort($arr, $n);
-printArray($arr, $n);
+print_r($arr)
 ?>

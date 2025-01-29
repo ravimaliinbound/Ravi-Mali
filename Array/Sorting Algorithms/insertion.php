@@ -15,5 +15,10 @@ function insertionSort(&$arr, $n)
 $arr = array(15, 10, 12, 8, 2,7);
 $n = sizeof($arr);
 insertionSort($arr, $n);
-print_r($arr)
+print_r($arr);
+echo "<br>";
+for($i=0;$i<6;$i++)
+{
+    echo $arr[$i]. " ";
+}
 ?>

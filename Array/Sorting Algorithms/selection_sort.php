@@ -1,4 +1,5 @@
 <?php
+echo "<h2>Selection Sort</h2>";
 $arr = array(23,4,56,67,5,8 );
 for($k=0;$k<6;$k++)
 {

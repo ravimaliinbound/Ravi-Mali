@@ -1,4 +1,5 @@
 <?php
+echo "<h2>Insertion Sort</h2>";
 $arr = array(23,4,2,456,54,34,7,78,3);
 echo "Before Sorting : ";
 for($i=0;$i<count($arr);$i++)

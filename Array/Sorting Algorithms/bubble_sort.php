@@ -1,5 +1,5 @@
 <?php
-echo "<h2>Bub           ble Sort</h2>";
+echo "<h2>Bubble Sort</h2>";
 $arr=array(12,1,34,56,43,21,23);
 echo "Before Sorting : ";
 for($i=0;$i<7;$i++)

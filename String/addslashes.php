@@ -1,4 +1,4 @@
 <?php
-$str = addslashes('What is the meaning of " World " ? ');
+$str = addslashes('What is the meaning of  "World" ? ');
 echo $str;
 ?>

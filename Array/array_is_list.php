@@ -8,4 +8,4 @@ else
 {
     echo "Array is not a list";
 }
-?>
+?>?

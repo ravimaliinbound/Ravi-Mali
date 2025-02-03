@@ -1,6 +1,6 @@
 <?php
 
-$records = [
+$arr = [
     [
         'id' => 1,
         'name' => 'Ravi',
@@ -23,7 +23,7 @@ $records = [
     ]
 ];
  
-$names = array_column($records, 'name');
+$names = array_column($arr, 'name');
 print_r($names);
 
 ?>

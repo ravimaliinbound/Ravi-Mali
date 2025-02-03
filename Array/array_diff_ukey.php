@@ -9,6 +9,7 @@ function show($x, $y)
 }
 $arr1=array("a"=>"Ravi","b"=>"Karan","c"=>"Rajesh");
 $arr2=array("a"=>"Ravi","c"=>"Ashish","d"=>"Rajesh");
-$res = array_diff_uassoc($arr1,$arr2,"show"); 
+$res = array_diff_ukey($arr1,$arr2,"show"); 
 print_r($res); //Array ( [b] => Karan )
+// This function checkes key only but it uses a user-defined function to compare
 ?>

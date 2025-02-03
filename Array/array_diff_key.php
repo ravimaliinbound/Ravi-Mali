@@ -4,4 +4,5 @@ $a2=array("a"=>"red","c"=>"blue","d"=>"pink");
 
 $result=array_diff_key($a1,$a2);
 print_r($result); //Array ( [b] => green )
+// This function compares key only
 ?>

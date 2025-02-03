@@ -1,6 +1,6 @@
 <?php
-$str = bin2hex("Ravi Mali");
-echo $str;
-echo "<br>";
-echo pack("H*", $str);
+$str = "Ravi Mali";
+echo "Before Converting : ".$str;
+echo "<br>After Converting : ";
+echo bin2hex($str);
 ?>

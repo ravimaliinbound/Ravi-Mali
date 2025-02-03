@@ -1,5 +1,7 @@
 <?php
 $str="Hello friends My Name is Ravi Mali.";
+echo $str. "<br>"; 
+echo "<br>"; 
 $str= explode(" ", $str);
 print_r($str);
 echo "<br>";

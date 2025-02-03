@@ -4,6 +4,7 @@
  {
     echo "Your Name is $name <br>";
     $age = 20; //Changing value of age will not affect to the value of actual variable.
+    echo "Your Age is $age <br>";
  }
  $age = 18;
  show("Ravi", $age);

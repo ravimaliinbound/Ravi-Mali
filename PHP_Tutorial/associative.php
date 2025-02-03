@@ -1,16 +1,16 @@
 <?php
 
-$arr = array("name"=>"Ravi", "age"=>"21","state"=>"Rajasthan");
-echo $arr['name'] . "<br>";
-echo $arr['age'] . "<br>";
-echo $arr['state'] . "<br>";
+$arr = array("Name"=>"Ravi", "Age"=>"21","State"=>"Rajasthan");
+echo $arr['Name'] . "<br>";
+echo $arr['Age'] . "<br>";
+echo $arr['State'] . "<br>";
 
 
-$arr['name'] = "Ravi Mali"; //Changing value 
+$arr['Name'] = "Ravi Mali"; //Changing value 
 
-foreach($arr as $a)
+foreach($arr as $a=>$b)
 {
-    echo $a ."<br>";
+    echo $a ." : " .$b .", ";
 }
 
 ?>  

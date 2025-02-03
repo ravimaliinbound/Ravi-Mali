@@ -11,7 +11,5 @@ define("GREETING", "Good Morning!");
 function myTest() {
   echo GREETING; //We can access/user constant inside a functon, even if it is defined outside the function
 }
- 
 myTest();
-
 ?> 

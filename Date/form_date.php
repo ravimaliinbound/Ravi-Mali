@@ -15,4 +15,4 @@ if(isset($_REQUEST['submit']))
     $diff = $date1  ->diff($date2);
     echo "Difference is : ". $diff->y." Years ". $diff->m ." Months ". $diff->d." Days " .$diff->h. " Hours ".$diff->i. " Minutes ";
 }
-?>
+?> 

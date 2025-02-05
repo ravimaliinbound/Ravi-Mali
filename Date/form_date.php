@@ -12,7 +12,7 @@ if(isset($_REQUEST['submit']))
     $date2 = new DateTime($date2);
     echo date_format($date2,"d-M-Y");
     echo "<br>";
-    $diff = $date1  ->diff($date2);
+    $diff = $date1->diff($date2);
     echo "Difference is : ". $diff->y." Years ". $diff->m ." Months ". $diff->d." Days " .$diff->h. " Hours ".$diff->i. " Minutes ";
 }
 ?> 

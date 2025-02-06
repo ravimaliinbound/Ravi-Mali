@@ -21,4 +21,4 @@ function show1($arr1, $arr2)
 $arr1 = array("name"=>"Ravi", "age"=>21);
 $arr2 = array("name"=>"Karan", "age"=>21);
 print_r(array_map("show1", $arr1,$arr2)); // Array ( [0] => Different [1] => Same )
-?>
+?>                      

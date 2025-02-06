@@ -7,7 +7,7 @@ $arr = array(10,20,30,40);
 print_r(array_keys($arr,10)); //Array ( [0] => 0 )
 echo "<br>";
 
-$arr = array(10,20,30,10);
+$arr = array(10,20,30,"10");
 print_r(array_keys($arr,10)); //Array ( [0] => 0 [1] => 3 )
 echo "<br>";
 

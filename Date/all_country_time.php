@@ -4,7 +4,7 @@ echo "<p>Please Select Country</p>";
 ?>
 <form action="#time" method="post">
     <select name="country">
-        <option >Select Country</option>
+        <option value="GMT">Select Country</option>
         <option value="Asia/kolkata">India</option>
         <option value="EST">America</option>
         <option value="Australia/Sydney">Australia</option>
@@ -23,7 +23,7 @@ echo "<p>Please Select Country</p>";
         date_default_timezone_set($timezone);
         echo "Current Time is : " .date("h:i:s A");
     } else {
-        echo "Error";
+        echo "Please Select Country";
     }
     ?>
 </div>

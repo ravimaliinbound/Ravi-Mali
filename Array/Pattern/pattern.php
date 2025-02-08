@@ -111,4 +111,29 @@ function show1()
 }
 show1();
 echo "<br>";
-?>
+
+function palindrome()
+{
+    $space=4;
+    $num=1;
+    $x=10;
+    for($i=1;$i<=5;$i++)
+    {
+        for($j=1;$j<=$space;$j++)
+        {
+            echo "&nbsp;&nbsp;";
+        }
+        for($k=1;$k<=1;$k++)
+        {
+           echo $num*$num;
+           $num+=$x;
+           $x*=10;
+             
+        }
+        echo "<br>";
+        $space--;
+    }
+}
+palindrome();
+echo "<br>";
+

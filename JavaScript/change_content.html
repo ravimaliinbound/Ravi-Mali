@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Change HTML Content</h2>
+    <div>
+        <p id="change">This is HTML content</p>
+        <button onclick="document.getElementById('change').innerHTML= 'This is JavaScript content'">Click
+            to change</button>
+    </div>
+    <div>
+        <p id="demo">This is HTML</p>
+        <button onclick="document.getElementById('demo').innerHTML='<h1>This is JavaScript</h1>'" >Click</button>
+    </div>
+    <div>
+        <p id="demo1">This is HTML Content</p>
+        <button onclick="document.getElementById('demo1').innerText='<h1>This is JavaScript</h1>'" >Click</button>
+    </div>
+</body>
+
+</html>

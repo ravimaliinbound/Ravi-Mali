@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function show()
+        {
+            document.getElementById('demo2').innerHTML="<h2>Changed</h2>";
+            document.getElementById('demo2').style.color ='red';
+            document.getElementById('demo2').style.backgroundColor ='Yellow';
+        }
+    </script>
+</head>
+<body>
+    <p id="demo">Click to change Paragraph</p>
+    <button onclick="document.getElementById('demo').innerHTML='Paragraph changed!!'">Click!</button>
+
+    <p id="demo1">Click to convert Paragraph into Heading</p>
+    <button onclick="document.getElementById('demo1').innerHTML='<h1>Paragraph changed!!</h1>'">Click!</button>
+
+    <p id="demo2">Click to change Text</p>
+    <button onclick="show()">Click!</button>
+</body>
+</html>

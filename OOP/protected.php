@@ -1,0 +1,3 @@
+<?php
+// Protected Access Modifier
+?>

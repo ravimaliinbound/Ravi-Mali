@@ -26,4 +26,4 @@ $apple->getname(); // The Price of Red Apple is : 100
 $banana->setname("Banana", "Yellow", 80);
 $apple->getname(); // The Price of Red Apple is : 100
 $banana->getname(); // The Price of Yellow Banana is : 80
-?>
+?> 

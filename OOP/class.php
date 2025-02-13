@@ -20,4 +20,4 @@ $obj->getname();
 $obj->setname();
 $obj->getname();
 
-?>
+?> 

@@ -16,4 +16,4 @@ $obj->getname();
 echo "<br>";
 $banana = new Fruits("Banana");
 $banana->getname();
-?>
+?> 

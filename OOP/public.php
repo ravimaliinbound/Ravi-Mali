@@ -2,7 +2,7 @@
 // Public Access Modifier
 class Car
 {
-    public $name = "Ravi Mali";
+    public $name = "Toyota";
     function show()
     {
         echo $this->name;

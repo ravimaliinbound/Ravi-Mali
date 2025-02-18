@@ -10,9 +10,9 @@ class Car
     private function display()
     {
         echo $this->name;
-    }
+    } 
 }
 $obj = new Car();
 $obj->show();
 // $obj->display(); // ERROR
-?>  
+?>   

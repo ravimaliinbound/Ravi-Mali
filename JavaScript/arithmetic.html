@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arithmetic Operators</title>
+</head>
+
+<body>
+    <p id="add"></p>
+    <p id="sub"></p>
+    <p id="mul"></p>
+    <p id="div"></p>
+    <p id="mod"></p>
+    <p id="exp"></p>
+    <script>
+        let a, b, sum, sub, mul, div, mod, exp;
+        a = 4;
+        b = 2;
+        sum = a + b;
+        sub = a - b;
+        mul = a * b;
+        div = a / b;
+        mod = a % b;
+        exp = a ** b;
+        document.getElementById('add').innerHTML = "a + b = " + sum;
+        document.getElementById('sub').innerHTML = "a - b = " + sub;
+        document.getElementById('mul').innerHTML = "a * b = " + mul;
+        document.getElementById('div').innerHTML = "a / b = " + div;
+        document.getElementById('mod').innerHTML = "a % b = " + mod;
+        document.getElementById('exp').innerHTML = "a ** b = " + exp;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Output</title>
+</head>
+
+<body>
+    <div>
+        <p id="test1"> Change HTML Using innerHTML</p>
+        <button onclick="document.getElementById('test1').innerHTML='<h3>HTML Changed!</h3>'">Click</button>
+    </div>
+    <div>
+        <p id="test2"> Change Content Using innerHTML</p>
+        <button onclick="document.getElementById('test2').innerText='HTML Changed!'">Click</button>
+    </div>
+    <div>
+        <p>Output Using window.alert()</p>
+        <button onclick="window.alert('Hello window.alert()')">Click</button>
+    </div>
+</body>
+
+</html>

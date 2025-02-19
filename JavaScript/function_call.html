@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Calling</title>
+
+    <script>
+        function show() {
+            document.getElementById('test1').innerHTML = "Paragraph Changed From Head!";
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <p id="test1">Change Paragraph Using Function In Head Section</p>
+        <button onclick="show()">Click</button>
+    </div>
+    <div>
+        <p id="test2">Change Paragraph Using Function In Body Section</p>
+        <button onclick="display()">Click</button>
+    </div>
+
+    <script>
+        function display()
+        {
+            document.getElementById('test2').innerHTML="Paragraph Changed From Body!";
+        }
+    </script>
+</body>
+
+</html>

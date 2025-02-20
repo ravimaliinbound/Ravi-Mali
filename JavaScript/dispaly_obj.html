@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Object</title>
+    <title>Display Object</title>
 </head>
 <body>
-    <p id="demo"></p>
+    <p id="test"></p>
 
     <script>
-        const person = 
+        const student = 
         {
             name : "Ravi Mali",
-            age : 20
+            age : 20,
+            city : "Mandar"
         };
-        document.getElementById('demo').innerHTML = person.name + " is " + person.age + " Years Old.";
+        document.getElementById('test').innerHTML = student; // Output :- [object Object]
     </script>
 </body>
 </html>

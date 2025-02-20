@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deleting Property</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        const person = 
+        {
+            name : "Ravi Mali",
+            age : 20
+        };
+        delete person.age; // Deleting property of object
+       // delete person["age"];     // We can also delete object property like this
+        document.getElementById('test').innerHTML = person.name + " is " + person.age + " years old."; // Ravi Mali is undefined years old.
+    </script>
+</body>
+</html>

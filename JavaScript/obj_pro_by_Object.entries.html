@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object.entries()</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        const student = 
+        {
+            Name : "Ravi Mali",
+            Age : 20,
+            City : "Mandar"
+        };
+        let text = "";
+        for(let[key, value] of Object.entries(student))
+        {
+            text = text + key + " : " + value + "<br>";
+        }
+        document.getElementById('test').innerHTML = text;
+    </script>
+</body>
+</html>

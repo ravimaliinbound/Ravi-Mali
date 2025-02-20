@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested Objects</title>
+</head>
+
+<body>
+    <p id="test"></p>
+
+    <script>
+        const student =
+        {
+            name: "Ravi Mali",
+            age: 20,
+            myCars:
+            {
+                car1: "Mustang GT",
+                car2: "BMW",
+                car3: "Volvo"
+            },
+            city: "Mandar"
+        };
+        document.getElementById('test').innerHTML = student.name + " is just " + student.age + " years old and have a " + student.myCars.car1;
+    </script>
+</body>
+
+</html>

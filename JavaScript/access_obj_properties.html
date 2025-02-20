@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessing Object Properties</title>
+</head>
+<body>
+    <p id="demo"></p>
+
+    <script>
+        const student = 
+        {
+            name : "Ravi Mali",
+            age : 20,
+            marks : 97
+        };             
+      // There are two ways to accecc a property :  student.name             student["marks"]   // both are correct
+        document.getElementById('demo').innerHTML = student.name + " got " + student["marks"] + " Marks";
+    </script>
+</body>
+</html>

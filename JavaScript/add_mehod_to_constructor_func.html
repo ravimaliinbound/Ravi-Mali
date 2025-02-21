@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding method to constructor function</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        function Student(firstName, lastName, age, city)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.age = age;
+            this.city = city;
+        }
+        const ravi = new Student("Ravi", "Mali", 20, "Mandar");
+        Student.prototype.changeName = function(name)
+        {
+            this.firstName = name;
+        };
+        ravi.changeName("Raviii");
+        Student.prototype.fullName = function()
+        {
+            return this.firstName + " " + this.lastName;
+        }
+        document.getElementById('test').innerHTML = ravi.fullName();
+    </script>
+</body>
+</html>

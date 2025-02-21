@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding Property To Object</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        function Family(name, age, car)
+        {
+            this.name = name;
+            this.age = age;
+            this.car = car;
+        }
+        const father = new Family("Kishan Lal Mali", 54, "BMW");
+        const self = new Family("Ravi Mali", 20, "Mustang GT");
+        father.nationality = "Indian";
+        document.getElementById('test').innerHTML = father.name + " has a " + father.car + " and nationality is " + father.nationality;
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructor Function Method</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        function Student(firstName, lastName, age, city, fullName)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.age = age;
+            this.city = city;
+            this.fullName = function()
+            {
+                return this.firstName + " " + this.lastName;
+            }
+        }
+        const ravi = new Student("Ravi", "Mali", 20, "Mandar");
+        document.getElementById('test').innerHTML = "Full Name is : " + ravi.fullName();
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding Method To Object</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        function Student(firstName, lastName, age, city)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.agec = age; 
+            this.city = city;
+            this.fullName = function()
+            {
+                return this.firstName + " " + this.lastName;
+            }
+        }
+        const ravi = new Student("Ravi", "Mali", 20, "Mandar");
+        ravi.changeName = function(name)
+        {
+            this.firstName = name;
+        }
+        ravi.changeName("Raviii");
+        document.getElementById('test').innerHTML = ravi.fullName();
+    </script>
+</body>
+</html> 

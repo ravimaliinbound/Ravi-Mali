@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Default Value</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        function Family(name, age, favCar)
+        {
+            this.name = name;
+            this.age = age;
+            this.favCar = favCar;
+            this.nationality = "Indian";
+        }
+        const father = new Family("Kishan Lal", 54, "BMW");
+        const mother = new Family("Shanta Devi", 48, "Audi");
+        const self = new Family("Ravi Mali", 20, "Mustang GT");
+        document.getElementById('test').innerHTML = "My name is " + self.name +
+         ". My father's name is " + father.name + " and my mother's name is " + mother.name +
+          ". My favourite car is " + self.favCar + " and our nationality is " + self.nationality + ".";
+    </script>
+</body>
+</html>

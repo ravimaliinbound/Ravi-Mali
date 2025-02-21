@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding Property To Constructor</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        function Family(name, age, city)
+        {
+            this.name = name;
+            this.age = age;
+            this.city = city;
+        }
+        Family.prototype.nationality = "Indian";
+        const brother = new Family("Vishal Mali", 23, "Mandar");
+        document.getElementById('test').innerHTML = brother.name + " is my brother and his nationality is " + brother.nationality;
+    </script>
+</body>
+</html>

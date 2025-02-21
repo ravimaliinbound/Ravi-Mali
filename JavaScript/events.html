@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Event</title>
+    <style>
+        div {
+            height: 150px;
+            width: 150px;
+            border: 2px solid;
+            margin-top: 20px;
+            background-color: rgb(159, 249, 255);
+        }
+
+        .p {
+            font-size: 20px;
+            margin-left: 5px;
+            margin-top: 40px;
+        }
+
+        #test1,
+        #test2,
+        #test3 {
+            margin-left: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div onmousemove="mouseMove()">
+        <p class="p">On Mouse Move</p>
+        <p id="test3">Hi</p>
+    </div>
+    <div onmouseover="mouseOver()">
+        <p class="p">On Mouse Over</p>
+        <p id="test1">Hi</p>
+    </div>
+    <div onmouseenter="mouseEnter()">
+        <p class="p">On Mouse Enter</p>
+        <p id="test2">Hi</p>
+    </div>
+
+    <script>
+        let x = 0;
+        let y = 0;
+        let z = 0;
+        function mouseMove()
+        {
+            document.getElementById('test3').innerHTML = ++z;
+        }
+        function mouseOver()    
+        {
+            document.getElementById('test1').innerHTML = ++x;
+        }
+        function mouseEnter()
+        {
+            document.getElementById('test2').innerHTML = ++y;
+        }
+    </script>
+</body>
+
+</html>

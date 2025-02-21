@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Constructor</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        function Student(name, age, city)
+        {
+            this.name = name;
+            this.age  = age;
+            this.city = city;
+        }
+        const ravi = new Student("Ravi Mali", 20, "Mandar");
+        const rajesh = new Student("Rajesh Mali", 21, "Mandar");
+        document.getElementById('test').innerHTML = ravi.name + " is " + ravi.age + " years old, his friend's name is " + rajesh.name + " and both are from " + ravi.city;
+    </script>
+</body>
+</html>

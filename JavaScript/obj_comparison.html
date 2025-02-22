@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Comparision</title>
+</head>
+<body>
+    <p id="test1"></p>
+    <p id="test2"></p>
+    <p id="test3"></p>
+
+    <script>
+        let x = new String("Hello");
+        let y = new String("Hello");
+        document.getElementById('test1').innerHTML = x + " " + y;
+        document.getElementById('test2').innerHTML = (x==y); //false because JS objects can't be compared
+        document.getElementById('test3').innerHTML = (x===y); // Objects can't be compared
+    </script>
+</body>
+</html>

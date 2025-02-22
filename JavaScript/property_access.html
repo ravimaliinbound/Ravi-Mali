@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Access [ ]</title>
+</head>
+<body>
+    <p id="test1"></p>
+    <p id="test2"></p>
+    <script>
+        let text = "Hello JavaSript !";
+        text[0] = "C"; // Gives no error but doesn't work
+        let char = text[0];
+        document.getElementById('test1').innerHTML = "Character at 0 index : " + char;
+        document.getElementById('test2').innerHTML = text;
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String replace( )</title>
+</head>
+<body>
+    <p id="test">Hello World!</p>
+    <button onclick="replace()">Replace</button>
+
+    <script>
+        function replace()
+        {
+           let text = document.getElementById('test').innerHTML;
+           document.getElementById('test').innerHTML = text.replace("World","India");
+        }
+    </script>
+</body>
+</html>

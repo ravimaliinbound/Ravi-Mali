@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Replace Insensitive</title>
+</head>
+<body>
+    <p id="test">Hello World!</p>
+    <button onclick="replace()">Replace</button>
+
+    <script>
+        function replace()
+        {
+            let text = document.getElementById('test').innerHTML;
+            let text2 = text.replace(/WORLD/i,"India"); //Replacing in case-insensitive manner
+            document.getElementById('test').innerHTML = text2;
+        }
+    </script>
+</body>
+</html>

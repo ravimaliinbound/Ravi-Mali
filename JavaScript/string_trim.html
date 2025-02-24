@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String trim( )</title>
+</head>
+<body>
+    <p id="test"></p>
+    <p id="test2"></p>
+
+    <script>
+        let text = "        Hello World!     ";
+        let text2 = text.trim();
+        document.getElementById('test').innerHTML = "Length before trim() : " + text.length;
+        document.getElementById('test2').innerHTML = 
+        "Length after trim() : " + text2.length; // We can also write without using second variable like this : text.trim().length;
+    </script>
+</body>
+</html>

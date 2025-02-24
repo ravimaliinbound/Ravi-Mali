@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String substr()</title>
+</head>
+<body>
+    <p id="test1"></p>
+    <p id="test2"></p>
+
+    <script>
+        let text = "Hey, this is Ravi Mali";
+        let part = text.substr(10,13); // substr(start, length);  length = number of characters.
+        document.getElementById('test1').innerHTML = "Original String : " + text;
+        document.getElementById('test2').innerHTML = " text.substr(10,13) : " + part;
+    </script>
+</body>
+</html>

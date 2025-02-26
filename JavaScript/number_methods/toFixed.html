@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toFixed( )</title>
+</head>
+<body>
+    <p id="test"></p>
+    <script>
+        let num = 10.563;
+        document.getElementById('test').innerHTML = 'num.toFixed(0) : ' + num.toFixed(0) + // 11
+        "<br> num.toFixed(1) : " + num.toFixed(2) + // 10.56
+        "<br> num.toFixed(3) : " + num.toFixed(3) + // 10.563
+        "<br> num.toFixed(5) : " + num.toFixed(5);  // 10.56300
+    </script>
+</body>
+</html>

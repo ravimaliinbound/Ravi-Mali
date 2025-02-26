@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toPrecision( )</title>
+</head>
+<body>
+    <p id="test"></p>
+    <script>
+        let num = 9.123;
+        document.getElementById('test').innerHTML = 'num.toPrecision(1) : ' + num.toPrecision(1) +  // 9
+        "<br> num.toPrecision(3) : " + num.toPrecision(3) + // 9.12
+        "<br> num.toPrecision(5) : " + num.toPrecision(5)+ // 9.1230
+        "<br> typeof (num.toPrecision(5)) : " + typeof(num.toPrecision(5));
+    </script>
+</body>
+</html>

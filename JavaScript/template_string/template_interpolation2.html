@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Interpolation 2</Template></title>
+</head>
+<body>
+    <p id="test1"></p>
+    <p id="test2"></p>
+    <script>
+        let price = 10;
+        let tax = 0.25
+        let total = `Total is : ${(price * (1 + tax)).toFixed(2)}`;
+        document.getElementById('test1').innerHTML = "price = " + price + "<br> tax = " + tax;
+        document.getElementById('test2').innerHTML = total;
+    </script>
+</body>
+</html>

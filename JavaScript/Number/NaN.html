@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaN (Not a Number)</title>
+</head>
+<body>
+    <p id="demo"></p>
+    <p id="demo1"></p>
+
+    <script>
+        let num = 100 / "A";
+        document.getElementById('demo').innerHTML = '100 / "A" : ' + num + "<br><br> isNan(num) : " + isNaN(num);
+        document.getElementById('demo1').innerHTML = "typeof(NaN) : " + typeof num;
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extra Large & Small Number</title>
+</head>
+<body>
+    <p>Extra large or extra small numbers can be written with scientific (exponent) notation:</p>
+    <p id="test"></p>
+    <script>
+        let large = 123e5; // 12300000
+        let small = 123e-5; // 0.00123
+        document.getElementById('test').innerHTML = large + "<br>" + small;
+    </script>
+</body>
+</html>

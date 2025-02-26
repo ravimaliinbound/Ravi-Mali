@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>includes( )</title>
+</head>
+<body>
+    <p>includes() method returns 'true' if a string contains a specified string, otherwise 'false'</p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+
+    <script>
+        let str = "Hello World, India is a beautiful country.";
+        let isInclude = str.includes("India"); // returns true or false
+        document.getElementById('test1').innerHTML = "Original String : " + str;
+        document.getElementById('test2').innerHTML = 'str.includes("India") : ' + isInclude;
+    </script>
+</body>
+</html>

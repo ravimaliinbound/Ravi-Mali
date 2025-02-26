@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>match( ) </title>
+</head>
+<body>
+    <p id="test1"></p>
+    <p id="str"></p>
+    <p id="test2"></p>
+
+    <script>
+        let text = "Hello World!";
+        let arr = text.match("World");
+        document.getElementById('test1').innerHTML = "Length of returned array : " + arr.length;
+        document.getElementById('str').innerHTML = "Original String : " + text;
+        document.getElementById('test2').innerHTML = "Matching string : " + arr;
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>matchAll( )</title>
+</head>
+<body>
+    <p>The matchAll() method returns an iterator</p>
+    <p id="test"></p>
+
+    <script>
+      let str = "Hello  World, India is the best country.";
+      let myIterator = str.matchAll("India");
+      document.getElementById('test').innerHTML = Array.from(myIterator);  
+    </script>
+</body>
+</html>

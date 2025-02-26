@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>matchAll( ) with RegExp</title>
+</head>
+<body>
+    <p id="test"></p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+    <p id="test3"></p>
+    
+    <script>
+        // matchAll() with global flag(g) and insensitive flag(i) Regular Expression
+        let str = "Hello world, India is a beautiful country. We love INDIA!";
+        let myIterator = str.matchAll(/India/gi);
+        let myArray = Array.from(myIterator);
+        document.getElementById('test').innerHTML = "Original String : " + str;
+        document.getElementById('test1').innerHTML = "After converting iterator to Array : " + myArray;
+        document.getElementById('test2').innerHTML = "Length of array : " + myArray.length; 
+        document.getElementById('test3').innerHTML = "myArray[0] : " + myArray[0] + "<br>myArray[1] : " + myArray[1];
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lastIndexOf( )</title>
+</head>
+<body>
+    <p>The lastIndexOf() methods returns the index of last occurance of a string in a string</p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+
+    <script>
+        let text = "Meet Mr. Rajesh Kumar. Rajesh is a very good student.";
+        let text2 = text.lastIndexOf("Rajesh");
+        document.getElementById('test1').innerHTML = "<br>Original String : " + text;
+        document.getElementById('test2').innerHTML = "Index of last occurance of 'Rajesh' is : " +text2;
+    </script>
+</body>
+</html>

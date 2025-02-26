@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>match( ) with RegExp</title>
+</head>
+<body>
+    <p id="test"></p>
+    <p id="test2"></p>
+    <p id="test3"></p>
+
+    <script>
+        let text = "The rain in Spain stays mainly in the plain";
+        let res = text.match(/ain/g);
+        document.getElementById('test').innerHTML = "Returned array : " + res;
+        document.getElementById('test2').innerHTML = "Length of array : " + res.length;
+        document.getElementById('test3').innerHTML = "res[0] : " + res[0];
+    </script>
+</body>
+</html>

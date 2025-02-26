@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>startWith( )</title>
+</head>
+<body>
+    <p id="test1"></p>
+    <p id="test2"></p>
+    <p id="test3"></p>
+    <p id="test4"></p>
+
+    <script>
+        let str = "Hello, Welcome to JavaScript!";
+        let isStartWith = str.startsWith("Hello");
+        document.getElementById('test1').innerHTML = "Original String : " + str;
+        document.getElementById('test2').innerHTML = 'str.startsWith("Hello") : ' + isStartWith;
+        document.getElementById('test3').innerHTML = 'str.startsWith("JavaScript") : ' + str.startsWith("JavaScript");
+        document.getElementById('test4').innerHTML = 'str.startsWith("Welcome", 7) : ' + str.startsWith("Welcome", 7);
+    </script>
+</body>
+</html>

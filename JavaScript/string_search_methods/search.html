@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>search( )</title>
+</head>
+<body>
+    <p>The search() method searches a string in a string and returns the position of match.</p>
+    <p>search() method returns -1 if string not matched</p>
+    <p id="test"></p>
+    <p id="test2"></p>
+
+    <script>
+        let text = "'India' is a beautiful country.";
+        let text2 = text.search("India"); 
+        document.getElementById('test').innerHTML = "<br>Original String : " + text;
+        document.getElementById('test2').innerHTML = "Position of India is : " + text2;
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>indexOf( )</title>
+</head>
+<body>
+    <p>The indexOf() method returns the first occurance of a string in a string.</p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+
+    <script>
+        let text = "His name is Ashish. Ashish is very famous.";
+        let text2 = text.indexOf("Ashish");
+        document.getElementById('test1').innerHTML = "<br>Original String : " + text;
+        document.getElementById('test2').innerHTML = "Index of first occurance of 'Ashish' is : " + text2;
+    </script>
+</body>
+</html>

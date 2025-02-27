@@ -6,10 +6,12 @@
     <title>valueOf( )</title>
 </head>
 <body>
+    <p>The valueOf() method returns number as a number</p>
     <p id="test"></p>
     <script>
         let num = 120;
-        document.getElementById('test').innerHTML = typeof(num.valueOf());
+        document.getElementById('test').innerHTML = "num.valueOf() : " + num.valueOf() +
+        "<br> typeof(num.valueOf()) : " + typeof(num.valueOf());
     </script>
 </body>
 </html>

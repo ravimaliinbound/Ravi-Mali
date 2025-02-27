@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looping Array Elements</title>
+</head>
+
+<body>
+    <h4>List of Students</h4>
+    <p id="arr"></p>
+
+    <script>
+        const students = ["Ravi Mali", "Rajesh Mali", "Ashish Dodiya", "Karan Singh", "Ketan Saini"];
+        let text = "<ul>";
+        for (let i = 0; i < students.length; i++) 
+        {
+            text = text + "<li>" + students[i] + "</li>";
+        }
+        text = text + "</ul>"
+        document.getElementById('arr').innerHTML = text;
+    </script>
+</body>
+
+</html> 

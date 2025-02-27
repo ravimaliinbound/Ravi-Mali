@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recognize an Array</title>
+</head>
+
+<body>
+    <p id="test"></p>
+
+    <script>
+        const arr = [10, 20, 30, 40, 50];
+        let isArray = (arr instanceof Array);
+        if (isArray == true) 
+        {
+            document.getElementById('test').innerHTML = "'arr' is an Array.";
+        }
+        else
+        {
+            document.getElementById('test').innerHTML = "'arr' is not an Array.";
+        }
+    </script>
+</body>
+
+</html>

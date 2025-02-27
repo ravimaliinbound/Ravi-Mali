@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number.isSafeInteger( )</title>
+</head>
+<body>
+    <p>The Number.isSafeInteger() method returns true if the agrument is a safe integer.</p>
+    <p id="test"></p>
+
+    <script>
+        document.getElementById('test').innerHTML = 'Number.isSafeInteger(10) : ' + Number.isSafeInteger(10) +
+        '<br> Number.isSafeInteger(true) : ' + Number.isSafeInteger(true) +
+        '<br> Number.isSafeInteger(10.5) : ' + Number.isSafeInteger(10.5) +
+        '<br> Number.isSafeInteger(12345678912345678) : ' + Number.isSafeInteger(12345678912345678); // true until 16 digits
+    </script>
+</body>
+</html>

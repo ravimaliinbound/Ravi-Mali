@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested Array Object</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        const obj = 
+        {
+            students : ["Ravi", "Rajesh", "Ashish", "Karan"],
+            cars : ["Mustang GT", "Thar", "Audi", "Swift"]
+        };
+        let text = "<ul>";
+        for(let i = 0; i<obj.students.length; i++)
+        {
+            text += "<li>" + obj.students[i] + "</li>";
+        }
+        text += "</ul>"
+        document.getElementById('test').innerHTML = text;
+    </script>
+</body>
+</html>

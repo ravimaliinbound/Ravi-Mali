@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Element Using Length Property</title>
+</head>
+<body>
+    <p id="arr"></p>
+    <button onclick="addElement()">Add Fruit</button>
+
+    <script>
+        const arr = ["Apple", "Banana", "Mango"];
+        document.getElementById('arr').innerHTML = "Array Elements : " + arr;
+        function addElement()
+        {
+            arr[arr.length] = "Orange";
+            document.getElementById('arr').innerHTML = "Array Elements : " + arr;
+        }
+    </script>
+</body>
+</html>

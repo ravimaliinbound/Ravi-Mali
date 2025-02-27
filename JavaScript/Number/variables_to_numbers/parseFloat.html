@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>parseFloat( )</title>
+</head>
+<body>
+    <p id="test"></p>
+    <script>
+        document.getElementById('test').innerHTML = "parseFloat(10) : " + parseFloat(10) +
+        "<br> parseFloat( -10.5) : " + parseFloat(-10.5) +
+        '<br> parseFloat(" 10") : ' + parseFloat(" 10") +
+        '<br> parseFloat("10.54") : ' + parseFloat("10.54") +
+        '<br> parseFloat("10 Years") : ' + parseFloat("10 Years") +
+        '<br> parseFloat("Years 10") : ' + parseFloat("Years 10");
+    </script>
+</body>
+</html>

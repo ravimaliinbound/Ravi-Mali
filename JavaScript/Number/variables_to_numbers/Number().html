@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number( )</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        document.getElementById('test').innerHTML = 
+        "Number(0.5) : " + Number(0.5) + 
+        "<br> Number(true) : " + Number(true) +
+        "<br> Number(false) : " + Number(false) +
+        "<br> Number(10.56) : " + Number(10.56) +
+        '<br> Number("Hello") : ' + Number("Hello") +
+        "<br> Number()  : " + Number() +
+        '<br> Number("  10") : ' + Number("  10") +
+        '<br> Number("5.56 &nbsp &nbsp")  : ' + Number("5.56   ") ;
+    </script>
+</body>
+</html>

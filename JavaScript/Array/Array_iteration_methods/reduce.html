@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array reduce( )</title>
+</head>
+<body>
+    <p>The <b>reduce()</b> method runs a function on each array element to produce single value.</p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+
+    <script>
+        const arr = [10, 12, 28, 34, 82, 10];
+        let sum = arr.reduce(show);
+        document.getElementById('test1').innerHTML = "Array Elements : " + arr;
+        document.getElementById('test2').innerHTML = "Sum of All Values is : " + sum;
+
+        function show(total, value, index, array)
+        {
+            return total + value;
+        }
+    </script>
+</body>
+</html>

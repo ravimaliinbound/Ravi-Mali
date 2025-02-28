@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descending Order Sorting</title>
+</head>
+<body>
+    <p>By combining sort() and reverse() methods, we can sort an array in descending Ord aner</p>
+    <p id="test"></p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+
+    <script>
+        const arr = ["Hero", "Car", "Orange", "Rain", "Weather", "Sun", "Environment", "Moon", "Star"];
+        document.getElementById('test').innerHTML = "Original Array : " + arr;
+        arr.sort();
+        document.getElementById('test1').innerHTML = "Ascending Order : " + arr;
+        arr.reverse();
+        document.getElementById('test2').innerHTML = "Descending Order : " + arr;
+    </script>
+</body>
+</html>

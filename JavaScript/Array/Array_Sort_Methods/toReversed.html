@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toReversed( )</title>
+</head>
+<body>
+    <p>The toReversed() method creates new array, keeping original array unchanged.</p>
+    <p id="test"></p>
+
+    <script>
+        const arr = [12, 45, 23, 18, 46, 37, 80];
+        const arr2 = arr.toReversed();
+        document.getElementById('test').innerHTML = "Original Array Before : " + arr +
+        '<br> Reversed Array : ' + arr2 +
+        '<br> Original Array After ; ' + arr;
+    </script>
+</body>
+</html>

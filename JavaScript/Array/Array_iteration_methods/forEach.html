@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forEach( )</title>
+</head>
+<body>
+    <p>The forEach() methods calls a function once for each array element</p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+    <script>
+        const arr = [10, 20, 52, 12, 34, 18];
+        document.getElementById('test1').innerHTML = "Original Array : " + arr; 
+        text = "<ul>";
+        arr.forEach(show);
+        document.getElementById('test2').innerHTML = text;
+        function show(value, index, array)
+        {
+            text = text + "<li>" + value + "</li>";
+        }
+        text = text + "</ul>";
+    </script>
+</body>
+</html>

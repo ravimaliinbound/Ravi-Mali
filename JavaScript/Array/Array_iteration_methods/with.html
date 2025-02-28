@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array with( )</title>
+</head>
+<body>
+        <p>The <b>with()</b> method updates elements in array without modifying the original array.</p>
+        <p id="test"></p>
+        <p id="test1"></p>
+        <p id="test2"></p>
+
+        <script>
+            const arr = ["Apple", "Ban", "Orange", "Mango"];
+            const arr2 = arr.with(1, "Banana");
+            document.getElementById('test').innerHTML = "<br> Original Array Before : "  + arr;
+            document.getElementById('test1').innerHTML = "Updated Array : " + arr2;
+            document.getElementById('test2').innerHTML = "Original Array After : " + arr;
+
+        </script>
+</body>
+</html>

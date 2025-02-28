@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.from( )</title>
+</head>
+<body>
+    <p>The <b>Array.from()</b> method returns an Array object from any object with length property.</p>
+    <p id="test"></p>
+
+    <script>
+        const str = "Hello World, India is beautiful!";
+        document.getElementById('test').innerHTML = "Original String : " + str + 
+        '<br> typeof str : ' + typeof str +
+        '<br>Array.from(str) : ' + Array.from(str) +
+        '<br> typeof(Array.from(str)) : ' + typeof(Array.from(str)) +
+        '<br> Array.isArray(Array.from(str)) : ' + Array.isArray(Array.from(str));
+        
+    </script>
+</body>
+</html>

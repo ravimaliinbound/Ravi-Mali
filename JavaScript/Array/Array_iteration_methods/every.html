@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array every( )</title>
+</head>
+<body>
+    <p>The <b>every()</b> method checks if all array elements pass a test.</p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+    <p id="test3"></p>
+
+    <script>
+        const arr = [12, 20, 15, 36, 42, 87];
+        let isPass = arr.every(show);
+        let isOver = arr.every(display);
+        document.getElementById('test1').innerHTML = "Array Elements : " + arr;
+        document.getElementById('test2').innerHTML = "All Elements Are Over 18 : " + isPass;
+        document.getElementById('test3').innerHTML = "All Elements Are Over 10 : " + isOver;
+
+        function show(value)
+        {
+            return value > 18;
+        }
+        function display(value)
+        {
+            return value > 10;
+        }
+    </script>
+</body>
+</html>

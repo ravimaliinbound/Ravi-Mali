@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array join( )</title>
+</head>
+<body>
+    <p id="test"></p>
+    <script>
+        const arr = ["Apple", "Banana", "Grapes", "Litchi", "Mango", "Orange"];
+        document.getElementById('test').innerHTML = "Array Elements Before : " + arr +
+        '<br>Type of  Array Before : ' + typeof arr +
+        '<br> Array Elements After : ' + arr.join(" ! ") +
+        '<br> Type of Array After : ' + typeof arr.join();
+    </script>
+</body>
+</html>

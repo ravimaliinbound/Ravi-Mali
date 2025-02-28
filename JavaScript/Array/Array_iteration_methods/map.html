@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array map( )</title>
+</head>
+<body>
+    <p>The <b>map() </b>method creates a new array by perforning a function on each array element.</p>
+    <p id="test"></p>
+    <p id="test2"></p>
+    <p id="test3"></p>
+
+    <script>
+        const arr = [21,12,18,32,18];
+        const arr2 = arr.map(show); 
+        document.getElementById('test').innerHTML = "Original Array : " + arr;
+        document.getElementById('test2').innerHTML = "After : " + arr2;
+        function show(value, index, array)
+        {
+            return value * 2;
+        }
+        document.getElementById('test3').innerHTML = "Array Not Modified : " + arr;
+    </script>
+</body>
+</html>

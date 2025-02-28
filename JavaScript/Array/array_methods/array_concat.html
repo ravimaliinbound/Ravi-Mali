@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array concat( )</title>
+</head>
+<body>
+    <p>The <b>concat()</b> method creates new array by concatenating existing arrays.</p>
+    <p id="test"></p>
+    <script>
+        const fruits = ["Apple", "Banana", "Mango"];
+        const vegetables = ["Tomato", "Potato", "Brinjal"];
+        document.getElementById('test').innerHTML = "Fruits Array : " + fruits +
+        '<br> Vegetables Array : ' + vegetables + 
+        '<br> Array After concatenating both : ' + fruits.concat(vegetables);
+    </script>
+</body>
+</html>

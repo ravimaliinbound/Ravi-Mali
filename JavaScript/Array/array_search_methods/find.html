@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>find( )</title>
+</head>
+
+<body>
+    <p id="test"></p>
+        
+    <script>
+        const arr = [10, 8, 19, 20, 25];
+        let first = arr.find(myFind);
+
+        document.getElementById('test').innerHTML = "First Value Over 18 is : " + first;
+
+        function myFind(value) 
+        {
+            return value > 18;
+        }
+    </script>
+</body>
+
+</html>

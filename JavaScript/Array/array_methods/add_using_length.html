@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Element Using length</title>
+</head>
+<body>
+    <p>The length property provides an easy way to append new element to an array.</p>
+    <p id="test"></p>
+    <p id="test2"></p>
+
+    <script>
+        const fruits = ["Apple", "Banana", "Mango"];
+        document.getElementById('test').innerHTML = "Original Array : " + fruits;
+        fruits[fruits.length] = "Litchi";
+        document.getElementById('test2').innerHTML = 'fruits[fruits.length] = "Litchi" : ' + fruits; 
+
+    </script>
+</body>
+</html>

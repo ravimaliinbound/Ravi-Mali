@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Highest & Lowest value</title>
+</head>
+<body>
+    <p id="test"></p>
+    <script>
+        const arr = [10,25,30,78,81,21,20];
+        document.getElementById('test').innerHTML = "Original Array : " + arr +
+        '<br> Sorted Array : ' + arr.sort() +
+        '<br>Highest Value is : ' + arr[arr.length-1] + 
+        '<br>Lowest value is : ' + arr[0];
+    </script>
+</body>
+</html>

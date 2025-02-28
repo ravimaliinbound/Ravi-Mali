@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>delete</title>
+</head>
+<body>
+    <p><b>Note : </b>Using delete() leaves undefined holes in the array.</p>
+    <p id="test"></p>
+    <script>
+        const arr = [10, 20, 30, 40, 50];
+        document.getElementById('test').innerHTML = "Original Array : " + arr +
+        '<br>delete arr[0] : ' + delete arr[0] +
+        '<br> arr[0] : ' + arr[0]
+    </script>
+</body>
+</html>

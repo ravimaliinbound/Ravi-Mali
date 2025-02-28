@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array filter( )</title>
+</head>
+<body>
+    <p>The filter() method creates a new array with elements that pass a test.</p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+    <p id="test3"></p>
+
+    <script>
+        const arr = [12,20, 14, 13, 25, 28, 10, 42, 38];
+        const arr2 = arr.filter(show);
+        document.getElementById('test1').innerHTML = 'Original Array Before : ' + arr;
+        document.getElementById('test2').innerHTML = "Array Elements Over 18 are : " + arr2;
+        function show(value, index, array)
+        {
+            return value > 18;
+        }
+        document.getElementById('test3').innerHTML = "Original Array After : " + arr;
+    </script>
+</body>
+</html>

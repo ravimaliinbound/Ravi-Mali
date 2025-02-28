@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>splice( )</title>
+</head>
+<body>
+    <p>The splice() can be used to add and remove array elements.</p>
+    <p id="test"></p>
+    <p id="testt"></p>
+    <p id="test1"></p>
+
+    <script>
+        const arr = [10, 20, 30, 40, 50, 60];
+        document.getElementById('test').innerHTML = "Original Array : " + arr;
+        arr1=  arr.splice(2,2, 100, 200);
+        document.getElementById('testt').innerHTML = "Removed Elements : " + arr1;
+        document.getElementById('test1').innerHTML = "New Array : " + arr;
+    </script>
+</body>
+</html>

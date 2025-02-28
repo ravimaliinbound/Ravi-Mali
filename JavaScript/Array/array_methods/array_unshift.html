@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array unshift( )</title>
+</head>
+<body>
+    <p><b>Note : </b>The unshift() adds a new element at the begining of the array.</p>
+    <p id="test"></p>
+    <script>
+        const arr = [10, 20, 30, 40, 50];
+        document.getElementById('test').innerHTML = "Array Before : " + arr +
+        '<br>Length of Array : ' + arr.length +
+        '<br>Array length after adding new element : ' + arr.unshift(60) +
+        '<br>New Array : ' + arr;
+    </script>
+</body>
+</html>

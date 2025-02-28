@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toSorted( )</title>
+</head>
+<body>
+    <p>The toSorted() creates a new array, keeping original array unchanged.</p>
+    <p id="test"></p>
+
+    <script>
+        const arr = [20,11,45,23,78,56,14,22];
+        const arr2 = arr.toSorted();
+        document.getElementById('test').innerHTML = "Original Array Before Sorting : " + arr +
+        '<br> Sorted Array : ' + arr2 +
+        '<br> Original Array after : ' + arr;
+    </script>
+</body>
+</html>

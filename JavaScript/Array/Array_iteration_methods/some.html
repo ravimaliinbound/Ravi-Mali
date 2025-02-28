@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array some( )</title>
+</head>
+<body>
+    <p>The <b>some()</b> method checks if some array elements pass a test.</p>
+    <p id="test1"></p>
+    <p id="test2"></p>
+
+    <script>
+        const arr = [12, 20, 36, 10, 25, 75];
+        const isPass = arr.some(show);
+        document.getElementById('test1').innerHTML = "Array Elements : " + arr;
+        document.getElementById('test2').innerHTML = "Some Values Are Over 18 : " + isPass;
+
+        function show(value)
+        {
+            return value > 18;
+        }
+    </script>
+</body>
+</html>

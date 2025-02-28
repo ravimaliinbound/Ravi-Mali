@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>findIndex( )</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        const arr = [17, 23, 5, 32, 28, 42, 18];
+        let first = arr.findIndex(myFindIndex);
+        document.getElementById('test').innerHTML = "Index of first value over 40 is : " + first +
+         '<br> And the value is : ' + arr[first];
+
+        function myFindIndex(value, index, array)
+        {
+            return value > 40;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year-Month</title>
+</head>
+<body>
+    <p id="date1"></p>
+    <p id="date2"></p>
+
+    <script>
+        const date = new Date(2025, 2); // 0 = January,......, 11 = December
+        const date2 = new Date(2025, 2, 3, 12, 54);
+        document.getElementById('date1').innerHTML = "The Date is : " + date;
+        document.getElementById('date2').innerHTML = "The Date is : " + date2;
+    </script>
+</body>
+</html>

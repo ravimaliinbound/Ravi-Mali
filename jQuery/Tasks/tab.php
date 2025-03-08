@@ -17,6 +17,7 @@ include_once('C:\xampp\htdocs\Ravi-Kumar\jQuery\header.php');
         color: white;
     }
 </style>
+<br>
 <button class="home">Home</button>
 <button class="profile">Profile</button>
 <button class="contact">Contact</button><br><br>

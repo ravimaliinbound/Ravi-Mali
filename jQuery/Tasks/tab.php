@@ -42,8 +42,7 @@ include_once('C:\xampp\htdocs\Ravi-Kumar\jQuery\header.php');
                     "border": "1px solid",
                     "width": "fit-content",
                     "padding": "15px",
-                    "border-radius": "0 0 5px 5px",
-                    "border-top": "none"
+                    "border-radius": "0 0 5px 20px",
                 });
                 $("#profile").css("display", "none")
                 $("#contact").css("display", "none");
@@ -59,8 +58,7 @@ include_once('C:\xampp\htdocs\Ravi-Kumar\jQuery\header.php');
                     "border": "1px solid",
                     "width": "fit-content",
                     "padding": "15px",
-                    "border-radius": "0 0 5px 5px",
-                    "border-top": "none"
+                    "border-radius": "0 0 5px 20px",
                 });
                 $("#home").css("display", "none")
                 $("#contact").css("display", "none");
@@ -76,8 +74,7 @@ include_once('C:\xampp\htdocs\Ravi-Kumar\jQuery\header.php');
                     "border": "1px solid",
                     "width": "fit-content",
                     "padding": "15px",
-                    "border-radius": "0 0 5px 5px",
-                    "border-top": "none"
+                    "border-radius": "0 0 5px 20px",
                 });
                 $("#home").css("display", "none")
                 $("#profile").css("display", "none");

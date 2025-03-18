@@ -4,11 +4,10 @@ fs.readFile(file, 'utf8', function (err, data) {
     let jsonData = JSON.parse(data);
 
 
-    jsonData.sheet1.forEach(item => {
-        for(let key in item){
-            if(typeof item[key] === "string"){
-                item[key] = item[key].replace(/ /g, "-");
-            }
+    let a = 2;
+    jsonData.sheet1.forEach(function(obj, index){
+        if(obj.path == "voces-21" && index >= 1){
+            obj.path += "-" + a++;
         }
     });
      

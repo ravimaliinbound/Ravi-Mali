@@ -40,7 +40,7 @@
 
     .logout-btn {
         background-color: red;
-        margin-left: 1100px;
+        margin-left: 950px;
     }
 
     table {
@@ -73,15 +73,18 @@
 
     <div class="btn">
         <a href="add_product" class="add-product-btn">Add Product</a>
-        <a href="logout" class="logout-btn">Logout</a>
+        <!-- <a href="logout" class="logout-btn">Logout</a> -->
+        <a href="login" class="logout-btn">Login</a>
     </div>
     <table border="1" cellspacing="0">
         <tr>
             <th>Sr. No.</th>
             <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
+            <th>Email</th>
             <th>Image</th>
+            <th>Gender</th>
+            <th>Language</th>
+            <th>City</th>
             <th>Action</th>
         </tr>
         <?php
@@ -92,9 +95,12 @@
                 <tr>
                     <td><?php echo $i; ?></td>
                     <td><?php echo $products->name; ?></td>
-                    <td>Rs.<?php echo $products->price; ?> /-</td>
-                    <td><?php echo $products->description; ?></td>
-                    <td><img src="image/<?php echo $products->image; ?>" height="30px" width="40px"></td>
+                    <td><?php echo $products->email; ?></td>
+                    <td><img src="image/<?php echo $products->image; ?>" height="30px" width="40px" style="border-radius: 5px">
+                    </td>
+                    <td><?php echo $products->gender; ?></td>
+                    <td><?php echo $products->language; ?></td>
+                    <td><?php echo $products->city; ?></td>
                     <td>
                         <a href="edit_product?id=<?php echo $products->id; ?>" class="edit-product">Edit</a>
                         <a href="delete_product?id=<?php echo $products->id; ?>" class="delete-product">Delete</a>
@@ -107,5 +113,7 @@
         ?>
     </table>
 </body>
+
+
 
 </html>

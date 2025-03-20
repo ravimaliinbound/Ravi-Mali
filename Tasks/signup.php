@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product</title>
+    <title>Signup</title>
 </head>
 
 
@@ -15,19 +15,17 @@
         font-family: sans-serif;
     }
 
-    body {
+    body{
         background-color: aliceblue;
     }
-
     .form-div {
         margin: 150px auto;
         width: 40%;
-        padding: 30px 5px;
-        border-radius: 5px;
-        ;
-        background-color: rgb(216, 252, 255);
+        padding: 20px 5px;
+        border-radius: 5px;;
+        background-color:rgb(216, 252, 255);
         box-shadow: 2px 4px gray;
-
+        
     }
 
     .form-div h2 {
@@ -44,11 +42,10 @@
         padding: 3px;
         border: 1px solid;
         border-radius: 5px;
-        margin-left: 48px;
-        width: 75%;
+        margin-left: 40px;
+        width: 80%;
     }
-
-    .inp-div button {
+    .inp-div button{
         background-color: aqua;
         width: 50%;
         padding: 5px;
@@ -56,45 +53,40 @@
         border-radius: 5px;
         margin-left: 25%;
     }
-
-    .inp-div p {
+    .inp-div p{
         margin-left: 30%;
     }
-
-    .inp-div a {
+    .inp-div a{
         text-decoration: none;
     }
 </style>
 
 <body>
     <div class="form-div">
-        <h2>Edit Product Form</h2>
-        <form action="update_product?id=<?php echo $fetch->id; ?>" method="post" enctype="multipart/form-data">
+        <h2>Signup Form</h2>
+        <form action="" method="post" enctype="multipart/form-data">
             <div class="inp-div">
                 <label>Name :</label>
-                <input type="text" name="name" value="<?php echo $fetch->name; ?>" required>
+                <input type="text" name="name" placeholder="Enter Your Name" required style="margin-left: 38px;">
             </div>
             <div class="inp-div">
-                <label>Price :</label>
-                <input type="number" name="price" value="<?php echo $fetch->price; ?>" required
-                    style="margin-left: 53px;">
+                <label>Email :</label>
+                <input type="email" name="email" placeholder="Enter Your Email" required>
             </div>
             <div class="inp-div">
-                <label>Description :</label>
-                <input type="text" name="description" value="<?php echo $fetch->description; ?>" required
+                <label>Password :</label>
+                <input type="password" name="password" placeholder="Enter Your Password" required
                     style="margin-left: 10px;">
             </div>
             <div class="inp-div">
                 <label>Image :</label>
-                <input type="file" name="image"  style="margin-left: 45px;">
-            </div>
-            <img src="image/<?php echo $fetch->image; ?>" alt="" height="80px" width="80px" style="margin-left: 40px; margin-top:20px">
-
-            <div class="inp-div">
-                <button type="submit" name="save">Submit</button>
+                <input type="file" name="image" required style="margin-left: 35px;">
             </div>
             <div class="inp-div">
-                <a href="dashboard">Back</a>
+               <button type="submit" name="signup">Signup</button>
+            </div>
+            <div class="inp-div">
+                <p>Already have an account? <a href="login">Login</a></p>
             </div>
         </form>
     </div>

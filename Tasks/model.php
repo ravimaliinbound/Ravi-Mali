@@ -25,11 +25,13 @@ class Model
         $sel = "SELECT * FROM $table";
         $run = $this->conn->query($sel);
 
-        while($fetch = $run->fetch_object())
-        {
+        while ($fetch = $run->fetch_object()) {
             $arr[] = $fetch;
         }
+        if($arr)
+        {
         return $arr;
+        }
     }
 
     public function delete_product($table, $arr)
@@ -59,15 +61,12 @@ class Model
     }
 
     public function update_product($table, $arr, $id)
-    {     
-        
-      
+    {
         $column_arr = array_keys($arr);
         $value_arr = array_values($arr);
 
         $update_arr = [];
-        for($i=0; $i<count($column_arr); $i++)
-        {
+        for ($i = 0; $i < count($column_arr); $i++) {
             $update_arr[] = "$column_arr[$i] = '$value_arr[$i]'";
         }
         $update_str = implode(",", $update_arr);

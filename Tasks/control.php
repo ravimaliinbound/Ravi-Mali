@@ -9,22 +9,26 @@ class Control extends Model
         $path = $_SERVER['PATH_INFO'];
 
         switch ($path) {
+            case '/':
+                $product_arr = $this->select('product');
+                include_once 'dashboard.php';
+                break;
             case '/dashboard':
                 $product_arr = $this->select('product');
                 include_once 'dashboard.php';
                 break;
-
+            
             case '/add_product':
                 if (isset($_REQUEST['submit'])) {
                     $name = $_REQUEST['name'];
                     $email = $_REQUEST['email'];
-                    $password =md5( $_REQUEST['password']);
+                    $password = md5($_REQUEST['password']);
                     $image = $_FILES['image']['name'];
                     $gender = $_REQUEST['gender'];
                     $language = $_REQUEST['language'];
                     $city = $_REQUEST['city'];
                     $language_str = implode(",", $language);
-                    $data = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender"=>$gender, "language"=>$language_str, "city"=>$city);
+                    $data = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city);
                     $res = $this->insert('product', $data);
 
                     if ($res) {
@@ -66,6 +70,7 @@ class Control extends Model
                     $data = array("id" => $id);
                     $resdata = $this->select_where('product', $data);
                     $fetch = $resdata->fetch_object();
+                    $language = explode(",", $fetch->language);
                 }
                 include_once 'edit_product.php';
                 break;
@@ -76,14 +81,18 @@ class Control extends Model
                     $id = $_REQUEST['id'];
                     $data = array("id" => $id);
                     $name = $_REQUEST['name'];
-                    $price = $_REQUEST['price'];
-                    $description = $_REQUEST['description'];
+                    $email = $_REQUEST['email'];
+                    $gender = $_REQUEST['gender'];
+                    $language = $_REQUEST['language'];
+                    $city = $_REQUEST['city'];
+                    $language_str = implode(",", $language);
+
                     if ($_FILES['image']['name'] > 0) {
                         $image = $_FILES['image']['name'];
                         $resdata = $this->select_where('product', $data);
                         $fetch = $resdata->fetch_object();
                         $old_img = $fetch->image;
-                        $data_arr = array("name" => $name, "price" => $price, "description" => $description, "image" => $image);
+                        $data_arr = array("name" => $name, "email" => $email, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city);
                         $res = $this->update_product('product', $data_arr, $id);
 
                         if ($res) {
@@ -102,7 +111,7 @@ class Control extends Model
                                 </script>";
                         }
                     } else {
-                        $data_arr = array("name" => $name, "price" => $price, "description" => $description);
+                        $data_arr = array("name" => $name, "email" => $email, "gender" => $gender, "language" => $language_str, "city" => $city);
                         $res = $this->update_product('product', $data_arr, $id);
 
                         if ($res) {
@@ -122,20 +131,18 @@ class Control extends Model
                 }
                 break;
 
-            case '/signup' :
-                if(isset($_REQUEST['signup']))
-                {
+            case '/signup':
+                if (isset($_REQUEST['signup'])) {
                     $name = $_REQUEST['name'];
                     $email = $_REQUEST['email'];
                     $password = md5($_REQUEST['password']);
                     $image = $_FILES['image']['name'];
-                    
-                    $data = array("name"=>$name, "email"=>$email, "password"=>$password, "image"=>$image);
+
+                    $data = array("name" => $name, "email" => $email, "password" => $password, "image" => $image);
                     $res = $this->insert('customer', $data);
 
-                    if($res)
-                    {
-                        $path = "customer_img/".$image;
+                    if ($res) {
+                        $path = "customer_img/" . $image;
                         $tmp = $_FILES['image']['tmp_name'];
                         move_uploaded_file($tmp, $path);
                         echo "<script>
@@ -146,11 +153,13 @@ class Control extends Model
                 }
                 include_once 'signup.php';
                 break;
-            case '/login' :
+            case '/login':
                 include_once 'login.php';
                 break;
+           
         }
     }
+
 }
 $obj = new Control();
 ?>

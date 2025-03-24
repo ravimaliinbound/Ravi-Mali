@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Ascending Sort</title>
 </head>
 
 <style>
@@ -30,6 +30,7 @@
     }
 
     .add-product-btn,
+    .sort-btn,
     .logout-btn {
         background-color: orange;
         padding: 10px 15px;
@@ -37,11 +38,13 @@
         border-radius: 5px;
         margin-left: 200px;
     }
-
-   
+    .sort-btn{
+        background-color: green;
+        margin-left: 400px;
+    }
     .logout-btn {
         background-color: red;
-        margin-left: 950px;
+        margin-left: 400px;
     }
 
     table {
@@ -67,7 +70,6 @@
     table tr td .delete-product {
         background-color: red;
     }
-   
 </style>
 
 <body>
@@ -76,9 +78,9 @@
     <div class="btn">
         <a href="add_product" class="add-product-btn">Add Product</a>
         <!-- <a href="logout" class="logout-btn">Logout</a> -->
+        <a href="dashboard" class="sort-btn">Original Order</a>
         <a href="login" class="logout-btn">Login</a>
     </div>
-    
     <table border="1" cellspacing="0">
         <tr>
             <th>Sr. No.</th>
@@ -91,9 +93,9 @@
             <th>Action</th>
         </tr>
         <?php
-        if (!empty($product_arr)) {
+        if (!empty($sort_arr)) {
             $i = 1;
-            foreach ($product_arr as $products) {
+            foreach ($sort_arr as $products) {
                 ?>
                 <tr>
                     <td><?php echo $i; ?></td>

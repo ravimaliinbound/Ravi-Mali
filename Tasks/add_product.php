@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>Registration</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
@@ -156,64 +156,286 @@
 </body>
 
 <script>
-    $(document).ready(function () {
-        $("#submit").click(function (obj) {
-            let valid = true;
-            if ($("#name").val() === "") {
-                $('#err_name').text("Please Enter Name...!");
-                $("#name").focus(function () {
-                    $("#err_name").css("display", "none");
-                });
-                $("#name").blur(function () {
-                    if ($("#name").val() == "") {
-                        $("#err_name").css("display", "inline");
-                    }
-                });
-                valid = false;
+    $(document).ready(function (e) {
+        let isValid = true;
+        $("#name").blur(function () {
+            var name = $("#name").val();
+            var namePattern = /^[a-zA-Z]{4,15}$/;
+            if (namePattern.test(name)) {
+                $("#err_name").text("");
             }
-            if ($("#email").val() === "") {
-                $("#err_email").text("Please Enter Email...!");
-                $("#email").focus(function () {
-                    $("#err_email").css("display", "none");
-                });
-                $("#email").blur(function () {
-                    if ($("#email").val() == "") {
-                        $("#err_email").css("display", "inline");
-                    }
-                });
-                valid = false;
+            else {
+                $("#err_name").text("Minimum Length = 4, Maximum Length = 15");
+            }
+            if ($("#name").val() == "") {
+                $("#err_name").text("Please Enter Name...!");
+            }
+            isValid = false;
+        });
+        $("#email").blur(function () {
+
+            var mail = $("#email").val();
+            var emailPattern = /^[a-zA-Z0-9.]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;
+            var a = emailPattern.test(mail);
+            if (a == true) {
+                $("#err_email").text("");
+            }
+            else {
+                $("#err_email").text("Please Enter A Valid Email");
+            }
+            if ($("#email").val() == "") {
+                $("#err_email").text("Please Enter an Email");
+            }
+
+            isValid = false;
+        });
+        $("#password").blur(function () {
+            var pass = $("#password").val();
+            var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
+            if (passPatern.test(pass)) {
+                $("#err_password").text("");
+            }
+            else {
+                $("#err_password").text("Password length must be between 8-15 characters");
             }
             if ($("#password").val() == "") {
                 $("#err_password").text("Please Enter Password...!");
+            }
+            isValid = false;
+        });
+
+        if ($("#image").blur(function () {
+            var image = $("#image").val();
+            var imgPattern = /\.(jpg|jpeg|png)$/;
+
+            if ($("#image").val() == "") {
+                $("#err_image").text("Please Choose an Image...!");
+            }
+            else if (!imgPattern.test(image)) {
+                $("#err_image").text("Only JPG, JPEG and PNG images allowed");
+            }
+            else {
+                $("#err_image").text("");
+            }
+            if ($("#image").change(function () {
+                var image = $("#image").val();
+                var imgPattern = /\.(jpg|jpeg|png)$/;
+
+                if ($("#image").val() == "") {
+                    $("#err_image").text("Please Choose an Image...!");
+                }
+                else if (!imgPattern.test(image)) {
+                    $("#err_image").text("Only JPG, JPEG and PNG images allowed");
+                }
+                else {
+                    $("#err_image").text("");
+                }
+                isValid = false;
+            }));
+            isValid = false;
+        }));
+
+
+
+        if ($("input[name='gender']").blur(function () {
+            if (!$("input[name='gender']:checked").val()) {
+                $("#err_gender").text("Please Select Gender...!");
+            }
+            else {
+                $("#err_gender").text("");
+            }
+            if ($("input[name='gender']").change(function () {
+                if ($(this).val() != "") {
+                    $("#err_gender").text("");
+                }
+                else {
+                    $("#err_gender").text("Please Select Gender...!");
+                }
+                isValid = false;
+            }));
+            isValid = false;
+        }));
+
+        if ($("input[name='language[]']").blur(function () {
+
+            if (!$("input[name='language[]']:checked").val()) {
+                $("#err_lang").text("Please Select Language(s)");
+            }
+            else {
+                $("#err_lang").text("");
+            }
+            if ($("input[name='language[]']").change(function () {
+                if ($(this).val() != "") {
+                    $("#err_lang").text("");
+                }
+                else {
+                    $("#err_lang").text("Please Select Language(s)");
+                }
+                if (!$("input[name='language[]']:checked").val()) {
+                    $("#err_lang").text("Please Select Language(s)");
+                }
+                isValid = false;
+            }));
+            isValid = false;
+        }));
+
+        if ($("#city").blur(function () {
+            if ($(this).val() != "") {
+                $("#err_city").text("");
+            }
+            else {
+                $("#err_city").text("Please Select Your City...!");
+                valid = false;
+            }
+            if ($("#city").change(function () {
+                if ($(this).val() != "") {
+                    $("#err_city").text("");
+                }
+                else {
+                    $("#err_city").text("Please Select Your City...!");
+                }
+                isValid = false;
+            }));
+        }));
+        if (!isValid) {
+            e.preventDefault();
+        }
+
+
+        $("#submit").click(function (obj) {
+            let valid = true;
+            if ($("#name").val() == "") {
+                $('#err_name').text("Please Enter Name...!");
+                $("#name").focus(function () {
+                    $("#err_name").text("");
+                });
+                $("#name").blur(function () {
+                    var name = $("#name").val();
+                    var namePattern = /^[a-zA-Z]{4,15}$/;
+                    if (namePattern.test(name)) {
+                        $("#err_name").text("");
+                    }
+                    else {
+                        $("#err_name").text("Minimum Length = 4, Maximum Length = 15");
+                    }
+                    if ($("#name").val() == "") {
+                        $("#err_name").text("Please Enter Name...!");
+                    }
+                });
+                valid = false;
+            }
+            let email = $("#email").val();
+
+            if (email == "") {
+                $("#err_email").text("Please Enter an Email");
+            }
+            $("#email").focus(function () {
+                $("#err_email").text("");
+            });
+            $("#email").blur(function () {
+
+                var mail = $("#email").val();
+                var emailPattern = /^[a-zA-Z0-9.]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;
+                var a = emailPattern.test(mail);
+                if (a == true) {
+                    $("#err_email").text("");
+                }
+                else {
+                    $("#err_email").text("Please Enter A Valid Email");
+                }
+                if ($("#email").val() == "") {
+                    $("#err_email").text("Please Enter an Email");
+                }
+            });
+
+
+            if ($("#password").val() == "") {
+                $("#err_password").text("Please Enter Password...!");
                 $("#password").focus(function () {
-                    $("#err_password").css("display", "none");
+                    $("#err_password").text("");
                 });
                 $("#password").blur(function () {
+                    var pass = $("#password").val();
+                    var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
+                    if (passPatern.test(pass)) {
+                        $("#err_password").text("");
+                    }
+                    else {
+                        $("#err_password").text("Password length must be between 8-15 characters");
+                    }
                     if ($("#password").val() == "") {
-                        $("#err_password").css("display", "inline");
+                        $("#err_password").text("Please Enter Password...!");
                     }
                 });
                 valid = false;
             }
             if ($("#image").val() == "") {
+
                 $("#err_image").text("Please Choose an Image...!");
                 valid = false;
             }
-            if ($("input[name='gender']").val()) {
+            if ($("#image").blur(function () {
+                var image = $("#image").val();
+                var imgPattern = /\.(jpg|jpeg|png)$/;
+
+                if ($("#image").val() == "") {
+                    $("#err_image").text("Please Choose an Image...!");
+                }
+                else if (!imgPattern.test(image)) {
+                    $("#err_image").text("Only JPG, JPEG and PNG images allowed");
+                }
+                else {
+                    $("#err_image").text("");
+                }
+                valid = false;
+            }));
+            if (!$("input[name='gender']:checked").val()) {
                 $("#err_gender").text("Please Select Gender...!");
                 valid = false;
             }
-            if ($("input[name='language[]']").val()) {
-                $("#err_lang").text("Please Check Language(s)");
+            if ($("input[name='gender']").change(function () {
+                if ($(this).val() != "") {
+                    $("#err_gender").text("");
+                }
+                else {
+                    $("#err_gender").text("Please Select Gender...!");
+                    valid = false;
+                }
+            }));
+            if (!$("input[name='language[]']:checked").val()) {
+                $("#err_lang").text("Please Select Language(s)");
             }
+            if ($("input[name='language[]']").change(function () {
+                if ($(this).val() != "") {
+                    $("#err_lang").text("");
+                }
+                else {
+                    $("#err_lang").text("Please Select Language(s)");
+                    valid = false;
+                }
+                if (!$("input[name='language[]']:checked").val()) {
+                    $("#err_lang").text("Please Select Language(s)");
+                }
+                valid = false;
+            }));
+
             if ($("#city").val() == "") {
                 $("#err_city").text("Please Select Your City...!");
                 valid = false;
             }
+            if ($("#city").change(function () {
+                if ($(this).val() != "") {
+                    $("#err_city").text("");
+                }
+                else {
+                    $("#err_city").text("Please Select Your City...!");
+                    valid = false;
+                }
+            }));
             if (!valid) {
                 obj.preventDefault();
             }
-        })
+        });
     })
 </script>
 

@@ -28,11 +28,35 @@ class Model
         while ($fetch = $run->fetch_object()) {
             $arr[] = $fetch;
         }
-        if($arr)
-        {
-        return $arr;
+        if ($arr) {
+            return $arr;
         }
     }
+
+    // public function sortasc($table, $column)
+    // {
+
+    //     $sort = "SELECT * FROM $table ORDER BY $column";
+    //     $run = $this->conn->query($sort);
+    //     while ($fetch = $run->fetch_object()) {
+    //         $arr[] = $fetch;
+    //     }
+    //     if ($arr) {
+    //         return $arr;
+    //     }
+    // }
+    // public function sortdesc($table, $column)
+    // {
+
+    //     $sort = "SELECT * FROM $table ORDER BY $column DESC";
+    //     $run = $this->conn->query($sort);
+    //     while ($fetch = $run->fetch_object()) {
+    //         $arr[] = $fetch;
+    //     }
+    //     if ($arr) {
+    //         return $arr;
+    //     }
+    // }
 
     public function delete_product($table, $arr)
     {
@@ -73,6 +97,17 @@ class Model
         $upd = "UPDATE $table SET $update_str WHERE id = $id";
         $run = $this->conn->query($upd);
         return $run;
+    }
+    public function search($table, $column, $value)
+    {
+        $search = "SELECT * FROM $table WHERE $column LIKE '%$value%'";
+        $run = $this->conn->query($search);
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        if ($arr) {
+            return $arr;
+        }
     }
 }
 $obj = new Model();

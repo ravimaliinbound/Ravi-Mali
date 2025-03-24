@@ -64,31 +64,80 @@
     .inp-div a {
         text-decoration: none;
     }
+
+    .gender,
+    .lang,
+    .city {
+        padding: 0 15px;
+        margin-top: 10px
+    }
+
+    .gender input {
+        margin-left: 37px;
+    }
+
+    .lang input {
+        margin-left: 20px;
+    }
+
+    .city select {
+        margin-left: 60px;
+    }
 </style>
 
 <body>
     <div class="form-div">
-        <h2>Edit Product Form</h2>
+    <h2>Edit Product Form</h2>
+
         <form action="update_product?id=<?php echo $fetch->id; ?>" method="post" enctype="multipart/form-data">
             <div class="inp-div">
                 <label>Name :</label>
-                <input type="text" name="name" value="<?php echo $fetch->name; ?>" required>
+                <input type="text" name="name" id="name" value="<?php echo $fetch->name; ?>">
+                <span class="err" id="err_name" style="margin-left: 105px;"></span>
             </div>
             <div class="inp-div">
-                <label>Price :</label>
-                <input type="number" name="price" value="<?php echo $fetch->price; ?>" required
-                    style="margin-left: 53px;">
-            </div>
-            <div class="inp-div">
-                <label>Description :</label>
-                <input type="text" name="description" value="<?php echo $fetch->description; ?>" required
-                    style="margin-left: 10px;">
+                <label>Email :</label>
+                <input type="email" name="email" id="email" style="margin-left: 50px;"
+                    value="<?php echo $fetch->email; ?>">
+                <span class="err" style="margin-left: 105px;" id="err_email"></span>
+
             </div>
             <div class="inp-div">
                 <label>Image :</label>
-                <input type="file" name="image"  style="margin-left: 45px;">
+                <input type="file" name="image" id="image" style="margin-left: 45px;">
+                <span class="err" style="margin-left: 105px;" id="err_image"></span>
+
             </div>
-            <img src="image/<?php echo $fetch->image; ?>" alt="" height="80px" width="80px" style="margin-left: 40px; margin-top:20px">
+            <div class="gender">
+                <label>Gender :</label>
+                <input type="radio" name="gender" value="Male" <?php if($fetch->gender == "Male")echo "checked";?>> Male
+                <input type="radio" name="gender" value="Female" <?php if($fetch->gender == "Female")echo "checked";?>> Female
+                <input type="radio" name="gender" value="Other" <?php if($fetch->gender == "Other")echo "checked";?>> Other
+                <span class="err" id="err_gender"></span>
+
+            </div>
+            <div class="lang">
+                <label>Language :</label>
+                <input type="checkbox" name="language[]" value="Hindi" <?php if(in_array("Hindi", $language))echo "checked";?>> Hindi
+                <input type="checkbox" name="language[]" value="English" <?php if(in_array("English", $language))echo "checked";?>> English
+                <input type="checkbox" name="language[]" value="Gujrati" <?php if(in_array("Gujrati", $language))echo "checked";?>> Gujrati
+                <span class="err" id="err_lang"></span>
+
+            </div>
+            <div class="city">
+                <label>City :</label>
+                <select name="city" id="city">
+                    <option value="">Select City</option>
+                    <option value="Ahmedabad" <?php if($fetch->city == "Ahmedabad")echo "selected";?>>Ahmedabad</option>
+                    <option value="Mandar" <?php if($fetch->city == "Mandar")echo "selected";?>>Mandar</option>
+                    <option value="Mumbai" <?php if($fetch->city == "Mumbai")echo "selected";?>>Mumbai</option>
+                    <option value="Delhi" <?php if($fetch->city == "Delhi")echo "selected";?>>Delhi</option>
+                </select>
+                <span class="err" id="err_city"></span>
+
+            </div>
+            <img src="image/<?php echo $fetch->image; ?>" alt="" height="80px" width="80px"
+                style="margin-left: 40px; margin-top:20px">
 
             <div class="inp-div">
                 <button type="submit" name="save">Submit</button>

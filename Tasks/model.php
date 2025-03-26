@@ -24,7 +24,7 @@ class Model
     {
         $sel = "SELECT * FROM $table";
         $run = $this->conn->query($sel);
-
+        $arr = [];
         while ($fetch = $run->fetch_object()) {
             $arr[] = $fetch;
         }
@@ -33,30 +33,6 @@ class Model
         }
     }
 
-    // public function sortasc($table, $column)
-    // {
-
-    //     $sort = "SELECT * FROM $table ORDER BY $column";
-    //     $run = $this->conn->query($sort);
-    //     while ($fetch = $run->fetch_object()) {
-    //         $arr[] = $fetch;
-    //     }
-    //     if ($arr) {
-    //         return $arr;
-    //     }
-    // }
-    // public function sortdesc($table, $column)
-    // {
-
-    //     $sort = "SELECT * FROM $table ORDER BY $column DESC";
-    //     $run = $this->conn->query($sort);
-    //     while ($fetch = $run->fetch_object()) {
-    //         $arr[] = $fetch;
-    //     }
-    //     if ($arr) {
-    //         return $arr;
-    //     }
-    // }
 
     public function delete_product($table, $arr)
     {
@@ -98,16 +74,42 @@ class Model
         $run = $this->conn->query($upd);
         return $run;
     }
-    public function search($table, $column, $value)
+
+    public function sort_asc($table, $column)
     {
-        $search = "SELECT * FROM $table WHERE $column LIKE '%$value%'";
-        $run = $this->conn->query($search);
+        $sel = "SELECT * FROM $table ORDER BY $column";
+        $run = $this->conn->query($sel);
+        $arr = [];
         while ($fetch = $run->fetch_object()) {
             $arr[] = $fetch;
         }
         if ($arr) {
             return $arr;
         }
+    }
+    public function sort_desc($table, $column)
+    {
+        $sel = "SELECT * FROM $table ORDER BY $column DESC";
+        $run = $this->conn->query($sel);
+        $arr = [];
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        if ($arr) {
+            return $arr;
+        }
+    }
+    public function search($table, $value)
+    {
+        $search = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '%$value%' OR city LIKE '%$value%'";
+        $run = $this->conn->query($search);
+        $arr = [];
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        if ($arr) {
+            return $arr;
+        } 
     }
 }
 $obj = new Model();

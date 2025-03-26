@@ -76,7 +76,7 @@
 
     .search {
         margin-top: 50px;
-        margin-left: 260px;
+        margin-left: 320px;
         ;
     }
 
@@ -122,7 +122,6 @@
             <th>Sr. No.</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Password</th>
             <th>Image</th>
             <th>Gender</th>
             <th>Language</th>
@@ -138,14 +137,13 @@
                     <td><?php echo $i; ?></td>
                     <td><?php echo $products->name; ?></td>
                     <td><?php echo $products->email; ?></td>
-                    <td><?php echo $products->password; ?></td>
                     <td><img src="image/<?php echo $products->image; ?>" height="30px" width="40px" style="border-radius: 5px">
                     </td>
                     <td><?php echo $products->gender; ?></td>
                     <td><?php echo $products->language; ?></td>
                     <td><?php echo $products->city; ?></td>
                     <td>
-                        <a href="add_product?id=<?php echo $products->id; ?>" class="edit-product">Edit</a>
+                        <a href="edit_product?id=<?php echo $products->id; ?>" class="edit-product">Edit</a>
                         <a href="delete_product?id=<?php echo $products->id; ?>" class="delete-product">Delete</a>
                     </td>
                 </tr>

@@ -38,7 +38,7 @@ class Control extends Model
                 if (isset($_REQUEST['submit'])) {
                     $name = $_REQUEST['name'];
                     $email = $_REQUEST['email'];
-                    $password = $_REQUEST['password'];
+                    $password = md5($_REQUEST['password']);
                     $image = $_FILES['image']['name'];
                     $gender = $_REQUEST['gender'];
                     $language = $_REQUEST['language'];
@@ -58,14 +58,6 @@ class Control extends Model
                         </script>";
                     }
                 }
-                if (isset($_REQUEST['id'])) {
-                    $id = $_REQUEST['id'];
-                    $data = array("id" => $id);
-                    $resdata = $this->select_where('product', $data);
-                    $fetch = $resdata->fetch_object();
-                    $language = explode(",", $fetch->language);
-                }
-       
                 include_once 'add_product.php';
                 break;
 
@@ -88,14 +80,24 @@ class Control extends Model
                 }
                 break;
 
+            case '/edit_product':
+                if (isset($_REQUEST['id'])) {
+                    $id = $_REQUEST['id'];
+                    $data = array("id" => $id);
+                    $resdata = $this->select_where('product', $data);
+                    $fetch = $resdata->fetch_object();
+                    $language = explode(",", $fetch->language);
+                }
+                include_once 'edit_product.php';
+                break;
+
             case '/update_product':
 
-                if (isset($_REQUEST['submit'])) {
+                if (isset($_REQUEST['save'])) {
                     $id = $_REQUEST['id'];
                     $data = array("id" => $id);
                     $name = $_REQUEST['name'];
                     $email = $_REQUEST['email'];
-                    $password = $_REQUEST['password'];
                     $gender = $_REQUEST['gender'];
                     $language = $_REQUEST['language'];
                     $city = $_REQUEST['city'];
@@ -106,7 +108,7 @@ class Control extends Model
                         $resdata = $this->select_where('product', $data);
                         $fetch = $resdata->fetch_object();
                         $old_img = $fetch->image;
-                        $data_arr = array("name" => $name, "email" => $email, "password" => $password,  "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city);
+                        $data_arr = array("name" => $name, "email" => $email, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city);
                         $res = $this->update_product('product', $data_arr, $id);
 
                         if ($res) {
@@ -125,7 +127,7 @@ class Control extends Model
                                 </script>";
                         }
                     } else {
-                        $data_arr = array("name" => $name, "email" => $email, "password" => $password,   "gender" => $gender, "language" => $language_str, "city" => $city);
+                        $data_arr = array("name" => $name, "email" => $email, "gender" => $gender, "language" => $language_str, "city" => $city);
                         $res = $this->update_product('product', $data_arr, $id);
 
                         if ($res) {

@@ -30,7 +30,6 @@
     }
 
     .add-product-btn,
-    .sort-btn,
     .logout-btn {
         background-color: orange;
         padding: 10px 15px;
@@ -42,13 +41,10 @@
 
     .logout-btn {
         background-color: red;
-        margin-left: 450px;
+        margin-left: 950px;
     }
 
-    .sort-btn {
-        margin-left: 400px;
-        background-color: green
-    }
+
 
     table {
         margin: 10px auto;
@@ -76,7 +72,7 @@
 
     .search {
         margin-top: 50px;
-        margin-left: 260px;
+        margin-left: 320px;
         ;
     }
 
@@ -91,9 +87,9 @@
         background-color: orange;
         border: none;
         color: white;
-        padding: 7px 10px;;
-        ;
+        padding: 7px 10px;
     }
+
     #no-data {
         margin-left: 550px;
         margin-top: 50px;
@@ -106,12 +102,11 @@
     <div class="btn">
         <a href="add_product" class="add-product-btn">Add Product</a>
         <!-- <a href="logout" class="logout-btn">Logout</a> -->
-        <a href="sort-asc" class="sort-btn">Sort Data</a>
         <a href="login" class="logout-btn">Login</a>
     </div>
     <form action="search" method="post">
         <div class="search">
-            <input type="text" name="inp-search" placeholder="Search Values...">
+            <input type="text" name="inp-search" value="<?php echo $value; ?>">
             <span>
                 <button type="submit" name="search">Search</button>
             </span>
@@ -122,7 +117,6 @@
             <th>Sr. No.</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Password</th>
             <th>Image</th>
             <th>Gender</th>
             <th>Language</th>
@@ -130,22 +124,21 @@
             <th>Action</th>
         </tr>
         <?php
-        if (!empty($product_arr)) {
+        if (!empty($search_arr)) {
             $i = 1;
-            foreach ($product_arr as $products) {
+            foreach ($search_arr as $products) {
                 ?>
                 <tr>
                     <td><?php echo $i; ?></td>
                     <td><?php echo $products->name; ?></td>
                     <td><?php echo $products->email; ?></td>
-                    <td><?php echo $products->password; ?></td>
                     <td><img src="image/<?php echo $products->image; ?>" height="30px" width="40px" style="border-radius: 5px">
                     </td>
                     <td><?php echo $products->gender; ?></td>
                     <td><?php echo $products->language; ?></td>
                     <td><?php echo $products->city; ?></td>
                     <td>
-                        <a href="add_product?id=<?php echo $products->id; ?>" class="edit-product">Edit</a>
+                        <a href="edit_product?id=<?php echo $products->id; ?>" class="edit-product">Edit</a>
                         <a href="delete_product?id=<?php echo $products->id; ?>" class="delete-product">Delete</a>
                     </td>
                 </tr>
@@ -155,13 +148,13 @@
         } else {
             ?>
             <tr>
-            <th id="no-data" colspan="8">No Data Found At This Moment..!</th>
-
+                <th id="no-data" colspan="8">No Data Found At This Moment..!</th>
             </tr>
-<?php
+            <?php
         }
         ?>
     </table>
+
 </body>
 
 

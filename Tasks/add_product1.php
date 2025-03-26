@@ -1,14 +1,3 @@
-<?php
-if (isset($_GET["id"])) {
-    $id = $_GET["id"];
-    include_once 'model.php';
-    $sel = "SELECT * FROM product WHERE id=$id";
-    $res = mysqli_query($this->conn, $sel);
-    $data = mysqli_fetch_assoc($res);
-    $data['language'] = explode(",", $data['language']);
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -103,44 +92,25 @@ if (isset($_GET["id"])) {
 <body>
     <div class="form-div">
         <h2>Registration Form</h2>
-        <form action="<?php
-        if (isset($_GET['id'])) {
-            echo "update_product?id=$_GET[id]";
-        } else {
-            echo 'add_product';
-        }
-        ?>" method="post" enctype="multipart/form-data">
+        <form action="add_product" method="post" enctype="multipart/form-data">
             <div class="inp-div">
                 <label>Name :</label>
-                <input type="text" name="name" id="name" placeholder="Enter Your Name" value="<?php if (isset($data['name']))
-                    echo $data['name']; ?>">
+                <input type="text" name="name" id="name" placeholder="Enter Your Name">
                 <span class="err" id="err_name" style="margin-left: 105px;"></span>
             </div>
             <div class="inp-div">
                 <label>Email :</label>
-                <input type="email" name="email" id="email" style="margin-left: 50px;" placeholder="Enter Your Email"
-                    value="<?php if (isset($data['email']))
-                        echo $data['email']; ?>">
+                <input type="email" name="email" id="email" style="margin-left: 50px;" placeholder="Enter Your Email">
                 <span class="err" style="margin-left: 105px;" id="err_email"></span>
 
             </div>
             <div class="inp-div">
                 <label>Password :</label>
-                <input type="text" name="password" id="password" style="margin-left: 20px;" placeholder="Enter Password"
-                    value="<?php if (isset($data['password']))
-                        echo $data['password']; ?>">
+                <input type="password" name="password" id="password" style="margin-left: 20px;"
+                    placeholder="Enter Password">
                 <span class="err" style="margin-left: 105px;" id="err_password"></span>
 
             </div>
-            <div class="inp-div">
-                <label>Confirm Password :</label>
-                <input type="text" name="password2" id="password2" style="margin-left: 0px; width: 68%;"
-                    placeholder="Confirm Password" value="<?php if (isset($data['password']))
-                        echo $data['password']; ?>">
-                <span class="err" style="margin-left: 105px;" id="err_password2"></span>
-
-            </div>
-
             <div class="inp-div">
                 <label>Image :</label>
                 <input type="file" name="image" id="image" style="margin-left: 45px;">
@@ -149,53 +119,17 @@ if (isset($_GET["id"])) {
             </div>
             <div class="gender">
                 <label>Gender :</label>
-                <input type="radio" name="gender" value="Male" <?php
-                if (isset($data['gender'])) {
-                    if ($data['gender'] == 'Male') {
-                        echo 'checked';
-                    }
-                }
-                ?>> Male
-                <input type="radio" name="gender" value="Female" <?php
-                if (isset($data['gender'])) {
-                    if ($data['gender'] == 'Female') {
-                        echo 'checked';
-                    }
-                }
-                ?>> Female
-                <input type="radio" name="gender" value="Other" <?php
-                if (isset($data['gender'])) {
-                    if ($data['gender'] == 'Other') {
-                        echo 'checked';
-                    }
-                }
-                ?>> Other
+                <input type="radio" name="gender" value="Male"> Male
+                <input type="radio" name="gender" value="Female"> Female
+                <input type="radio" name="gender" value="Other"> Other
                 <span class="err" id="err_gender"></span>
 
             </div>
             <div class="lang">
                 <label>Language :</label>
-                <input type="checkbox" name="language[]" value="Hindi" <?php
-                if (isset($data['language'])) {
-                    if (in_array("Hindi", $language)) {
-                        echo 'checked';
-                    }
-                }
-                ?>> Hindi
-                <input type="checkbox" name="language[]" value="English" <?php
-                if (isset($data['language'])) {
-                    if (in_array("English", $language)) {
-                        echo 'checked';
-                    }
-                }
-                ?>> English
-                <input type="checkbox" name="language[]" value="Gujrati" <?php
-                if (isset($data['language'])) {
-                    if (in_array("Gujrati", $language)) {
-                        echo 'checked';
-                    }
-                }
-                ?>> Gujrati
+                <input type="checkbox" name="language[]" value="Hindi"> Hindi
+                <input type="checkbox" name="language[]" value="English"> English
+                <input type="checkbox" name="language[]" value="Gujrati"> Gujrati
                 <span class="err" id="err_lang"></span>
 
             </div>
@@ -203,34 +137,10 @@ if (isset($_GET["id"])) {
                 <label>City :</label>
                 <select name="city" id="city">
                     <option value="">Select City</option>
-                    <option value="Ahmedabad" <?php
-                    if (isset($data['city'])) {
-                        if ($data['city'] == 'Ahmedabad') {
-                            echo 'selected';
-                        }
-                    }
-                    ?>>Ahmedabad</option>
-                    <option value="Mandar" <?php
-                    if (isset($data['city'])) {
-                        if ($data['city'] == 'Mandar') {
-                            echo 'selected';
-                        }
-                    }
-                    ?>>Mandar</option>
-                    <option value="Mumbai" <?php
-                    if (isset($data['city'])) {
-                        if ($data['city'] == 'Mumbai') {
-                            echo 'selected';
-                        }
-                    }
-                    ?>>Mumbai</option>
-                    <option value="Delhi" <?php
-                    if (isset($data['city'])) {
-                        if ($data['city'] == 'Delhi') {
-                            echo 'selected';
-                        }
-                    }
-                    ?>>Delhi</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Mandar">Mandar</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
                 </select>
                 <span class="err" id="err_city"></span>
 
@@ -260,9 +170,6 @@ if (isset($_GET["id"])) {
             if ($("#name").val() == "") {
                 $("#err_name").text("Please Enter Name...!");
             }
-            $("#name").focus(function () {
-                $("#err_name").text("");
-            });
             isValid = false;
         });
         $("#email").blur(function () {
@@ -279,9 +186,7 @@ if (isset($_GET["id"])) {
             if ($("#email").val() == "") {
                 $("#err_email").text("Please Enter an Email");
             }
-            $("#email").focus(function () {
-                $("#err_email").text("");
-            });
+
             isValid = false;
         });
         $("#password").blur(function () {
@@ -296,38 +201,12 @@ if (isset($_GET["id"])) {
             if ($("#password").val() == "") {
                 $("#err_password").text("Please Enter Password...!");
             }
-            $("#password").focus(function () {
-                $("#err_password").text("");
-            });
-
-            isValid = false;
-        });
-        $("#password2").blur(function () {
-            var pass = $("#password").val();
-            var pass2 = $("#password2").val();
-            var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
-            if (passPatern.test(pass)) {
-                $("#err_password2").text("");
-            }
-            else {
-                $("#err_password2").text("Password length must be between 8-15 characters");
-            }
-            if (pass != pass2) {
-                $("#err_password2").text("Password Does Not Match...!");
-            }
-            if ($("#password2").val() == "") {
-                $("#err_password2").text("Please Enter Password...!");
-            }
-            $("#password2").focus(function () {
-                $("#err_password2").text("");
-            });
-
             isValid = false;
         });
 
         if ($("#image").blur(function () {
             var image = $("#image").val();
-            var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG)$/;
+            var imgPattern = /\.(jpg|jpeg|png)$/;
 
             if ($("#image").val() == "") {
                 $("#err_image").text("Please Choose an Image...!");
@@ -340,7 +219,7 @@ if (isset($_GET["id"])) {
             }
             if ($("#image").change(function () {
                 var image = $("#image").val();
-                var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG)$/;
+                var imgPattern = /\.(jpg|jpeg|png)$/;
 
                 if ($("#image").val() == "") {
                     $("#err_image").text("Please Choose an Image...!");
@@ -355,6 +234,9 @@ if (isset($_GET["id"])) {
             }));
             isValid = false;
         }));
+
+
+
         if ($("input[name='gender']").blur(function () {
             if (!$("input[name='gender']:checked").val()) {
                 $("#err_gender").text("Please Select Gender...!");
@@ -487,35 +369,6 @@ if (isset($_GET["id"])) {
                 });
                 valid = false;
             }
-            if ($("#password2").val() == "") {
-                var pass = $("#password").val();
-                var pass2 = $("#password2").val();
-
-                $("#err_password2").text("Please Enter Password...!");
-                $("#password2").focus(function () {
-                    $("#err_password2").text("");
-                });
-                $("#password2").blur(function () {
-                    var pass = $("#password2").val();
-                    var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
-                    if (passPatern.test(pass)) {
-                        $("#err_password2").text("");
-                    }
-                    else {
-                        $("#err_password2").text("Password length must be between 8-15 characters");
-                    }
-                    if (pass != pass2) {
-                        $("#err_password2").text("Password Does Not Match...!");
-                    }
-                    if ($("#password2").val() == "") {
-                        $("#err_password2").text("Please Enter Password...!");
-                    }
-                    valid = false;
-
-                });
-
-                valid = false;
-            }
             if ($("#image").val() == "") {
 
                 $("#err_image").text("Please Choose an Image...!");
@@ -523,7 +376,7 @@ if (isset($_GET["id"])) {
             }
             if ($("#image").blur(function () {
                 var image = $("#image").val();
-                var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG)$/;
+                var imgPattern = /\.(jpg|jpeg|png)$/;
 
                 if ($("#image").val() == "") {
                     $("#err_image").text("Please Choose an Image...!");

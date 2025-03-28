@@ -26,6 +26,11 @@ class Control extends Model
 
         switch ($path) {
             case '/pagination':
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                } else {
+                    $value = '';
+                }
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -36,8 +41,8 @@ class Control extends Model
                 } else {
                     $limit = 5;
                 }
-                $product_arr = $this->pagination('product', $page, $limit);
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->pagination('product', $page, $limit, $value);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/search':
@@ -196,129 +201,147 @@ class Control extends Model
                 break;
 
             case '/sort-num-asc':
-                $product_arr = $this->sort('product', 'id', 'asc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-num-desc':
-                $product_arr = $this->sort('product', 'id', 'desc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'id', 'desc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-name-asc':
-                $product_arr = $this->sort('product', 'name', 'asc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'name', 'asc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-name-desc':
-                $product_arr = $this->sort('product', 'name', 'desc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'name', 'desc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-email-asc':
-                $product_arr = $this->sort('product', 'email', 'asc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'email', 'asc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-email-desc':
-                $product_arr = $this->sort('product', 'email', 'desc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
-                include_once 'dashboard.php';
-                break;
-            case '/sort-password-asc':
-                $product_arr = $this->sort('product', 'password', 'asc');
-                if (isset($_REQUEST['limit'])) {
-                    $limit = $_REQUEST['limit'];
-                } else
-                    $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
-                include_once 'dashboard.php';
-                break;
-            case '/sort-password-desc':
-                $product_arr = $this->sort('product', 'password', 'desc');
-                if (isset($_REQUEST['limit'])) {
-                    $limit = $_REQUEST['limit'];
-                } else
-                    $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'email', 'desc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-gender-asc':
-                $product_arr = $this->sort('product', 'gender', 'asc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'gender', 'asc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-gender-desc':
-                $product_arr = $this->sort('product', 'gender', 'desc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'gender', 'desc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-lang-asc':
-                $product_arr = $this->sort('product', 'language', 'asc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'language', 'asc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-lang-desc':
-                $product_arr = $this->sort('product', 'language', 'desc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'language', 'desc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-city-asc':
-                $product_arr = $this->sort('product', 'city', 'asc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'city', 'asc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
             case '/sort-city-desc':
-                $product_arr = $this->sort('product', 'city', 'desc');
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $totalPage = $this->totalpage('product', $limit);
+                $product_arr = $this->sort('product', 'city', 'desc', $value, $limit);
+                $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
 

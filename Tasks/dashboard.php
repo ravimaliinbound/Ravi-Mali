@@ -44,7 +44,7 @@
         <!-- <a href="logout" class="logout-btn">Logout</a> -->
         <a href="login" class="logout-btn">Login</a>
     </div>
-    <form action="search?limit=<?php if (isset($limit))
+    <form action="pagination?limit=<?php if (isset($limit))
         echo $limit ?>" method="post">
             <div class="search">
                 <input type="text" name="inp-search" placeholder="Search Values..." value="<?php if (isset($value))

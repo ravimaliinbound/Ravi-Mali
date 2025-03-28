@@ -45,24 +45,24 @@ class Control extends Model
                 $totalPage = $this->totalSpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
-            case '/search':
-                if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
-                }
-                if (isset($_REQUEST['page'])) {
-                    $page = $_REQUEST['page'];
-                } else {
-                    $page = 1;
-                }
-                if (isset($_REQUEST['limit'])) {
-                    $limit = $_REQUEST['limit'];
-                } else {
-                    $limit = 5;
-                }
-                $product_arr = $this->search('product', $value, $limit, $page);
-                $totalPage = $this->totalSpage('product', $limit, $value);
-                include_once 'search.php';
-                break;
+            // case '/search':
+            //     if (isset($_REQUEST['inp-search'])) {
+            //         $value = $_REQUEST['inp-search'];
+            //     }
+            //     if (isset($_REQUEST['page'])) {
+            //         $page = $_REQUEST['page'];
+            //     } else {
+            //         $page = 1;
+            //     }
+            //     if (isset($_REQUEST['limit'])) {
+            //         $limit = $_REQUEST['limit'];
+            //     } else {
+            //         $limit = 5;
+            //     }
+            //     $product_arr = $this->search('product', $value, $limit, $page);
+            //     $totalPage = $this->totalSpage('product', $limit, $value);
+            //     include_once 'search.php';
+            //     break;
             case '/add_product':
                 if (isset($_REQUEST['submit'])) {
                     $name = $_REQUEST['name'];

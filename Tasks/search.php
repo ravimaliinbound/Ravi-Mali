@@ -43,7 +43,7 @@
         <!-- <a href="logout" class="logout-btn">Logout</a> -->
         <a href="login" class="logout-btn">Login</a>
     </div>
-    <form action="search?limit=<?php if (isset($limit))
+    <form action="pagination?limit=<?php if (isset($limit))
         echo $limit ?>&inp-search=<?php if (isset($value))
         echo $value; ?>" method="post">
         <div class="search">
@@ -123,14 +123,41 @@
     </table>
     <ul class="pages">
         <?php
+        if (isset($page)) {
+            if ($page >= 2) {
+                ?>
+                <a href="pagination?page=<?php if (isset($page))
+                    echo $page - 1; ?>&limit=<?php if (isset($limit))
+                            echo $limit ?>&inp-search=<?php if (isset($value))
+                            echo $value; ?>">
+                    <li><i class="fa-solid fa-backward"></i></li>
+                </a>
+
+                <?php
+            }
+        }
+        ?>
+        <?php
         if (isset($totalPage)) {
             for ($i = 1; $i <= $totalPage; $i++) {
                 ?>
-                <a href="search?page=<?php echo $i; ?>&inp-search=<?php if (isset($value))
+                <a href="pagination?page=<?php echo $i; ?>&inp-search=<?php if (isset($value))
                        echo $value ?>&limit=<?php if (isset($limit))
                        echo $limit ?>">
                         <li><?php echo $i; ?></li>
                 </a>
+                <?php
+            }
+        }
+        if (isset($page) && isset($totalPage)) {
+            if ($page < $totalPage) {
+                ?>
+                <a href="pagination?page=<?php echo $page + 1; ?>&limit=<?php if (isset($limit))
+                         echo $limit ?>&inp-search=<?php if (isset($value))
+                         echo $value; ?>">
+                    <li><i class="fa-solid fa-forward"></i></li>
+                </a>
+
                 <?php
             }
         }
@@ -148,7 +175,7 @@
     $(document).ready(function () {
         $("#limit").change(function () {
             var limit = $(this).val();
-            window.location.href = "search?limit=" + limit + "&inp-search=<?php if (isset($value))
+            window.location.href = "pagination?limit=" + limit + "&inp-search=<?php if (isset($value))
                 echo $value; ?>";
         })
     })

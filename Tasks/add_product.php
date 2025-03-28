@@ -16,89 +16,9 @@ if (isset($_GET["id"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
+    <link rel="stylesheet" href="insert.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-
-
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-    }
-
-    body {
-        background-color: aliceblue;
-    }
-
-    .form-div {
-        margin: 150px auto;
-        width: 40%;
-        padding: 30px 5px;
-        border-radius: 5px;
-        background-color: rgb(216, 252, 255);
-        box-shadow: 2px 4px gray;
-
-    }
-
-    .form-div h2 {
-        text-transform: uppercase;
-        text-align: center;
-    }
-
-    .inp-div {
-        margin-top: 10px;
-        padding: 0 15px;
-    }
-
-    .inp-div input {
-        padding: 3px;
-        border: 1px solid;
-        border-radius: 5px;
-        margin-left: 48px;
-        width: 75%;
-    }
-
-    .inp-div button {
-        background-color: aqua;
-        width: 50%;
-        padding: 5px;
-        border: none;
-        border-radius: 5px;
-        margin-left: 25%;
-    }
-
-    .inp-div p {
-        margin-left: 30%;
-    }
-
-    .inp-div a {
-        text-decoration: none;
-    }
-
-    .gender,
-    .lang,
-    .city {
-        padding: 0 15px;
-        margin-top: 10px
-    }
-
-    .gender input {
-        margin-left: 37px;
-    }
-
-    .lang input {
-        margin-left: 20px;
-    }
-
-    .city select {
-        margin-left: 60px;
-    }
-
-    .err {
-        color: red;
-    }
-</style>
 
 <body>
     <div class="form-div">
@@ -109,42 +29,42 @@ if (isset($_GET["id"])) {
         } else {
             echo 'add_product';
         }
-        ?>" method="post" enctype="multipart/form-data">
+        ?>" method="post" enctype="multipart/form-data" id="form">
             <div class="inp-div">
                 <label>Name :</label>
-                <input type="text" name="name" id="name" placeholder="Enter Your Name" value="<?php if (isset($data['name']))
+                <input type="text" name="name" id="Name" placeholder="Enter Your Name" value="<?php if (isset($data['name']))
                     echo $data['name']; ?>">
-                <span class="err" id="err_name" style="margin-left: 105px;"></span>
+                <span class="err" id="errName" style="margin-left: 105px;"></span>
             </div>
             <div class="inp-div">
                 <label>Email :</label>
-                <input type="email" name="email" id="email" style="margin-left: 50px;" placeholder="Enter Your Email"
+                <input type="email" name="email" id="Email" style="margin-left: 50px;" placeholder="Enter Your Email"
                     value="<?php if (isset($data['email']))
                         echo $data['email']; ?>">
-                <span class="err" style="margin-left: 105px;" id="err_email"></span>
+                <span class="err" style="margin-left: 105px;" id="errEmail"></span>
 
             </div>
             <div class="inp-div">
                 <label>Password :</label>
-                <input type="text" name="password" id="password" style="margin-left: 20px;" placeholder="Enter Password"
+                <input type="text" name="password" id="Password" style="margin-left: 20px;" placeholder="Enter Password"
                     value="<?php if (isset($data['password']))
                         echo $data['password']; ?>">
-                <span class="err" style="margin-left: 105px;" id="err_password"></span>
+                <span class="err" style="margin-left: 105px;" id="errPassword"></span>
 
             </div>
             <div class="inp-div">
                 <label>Confirm Password :</label>
-                <input type="text" name="password2" id="password2" style="margin-left: 0px; width: 68%;"
+                <input type="text" name="password2" id="Confirm_Password" style="margin-left: 0px; width: 68%;"
                     placeholder="Confirm Password" value="<?php if (isset($data['password']))
                         echo $data['password']; ?>">
-                <span class="err" style="margin-left: 105px;" id="err_password2"></span>
+                <span class="err" style="margin-left: 105px;" id="errConfirm_Password"></span>
 
             </div>
 
-            <div class="inp-div">
+            <div class="inp-div img-div">
                 <label>Image :</label>
-                <input type="file" name="image" id="image" style="margin-left: 45px;">
-                <span class="err" style="margin-left: 105px;" id="err_image"></span>
+                <input type="file" name="image" id="Image" style="margin-left: 45px;">
+                <span class="err" style="margin-left: 105px;" id="errImage"></span>
 
             </div>
             <div class="gender">
@@ -170,7 +90,7 @@ if (isset($_GET["id"])) {
                     }
                 }
                 ?>> Other
-                <span class="err" id="err_gender"></span>
+                <span class="err" id="errGender"></span>
 
             </div>
             <div class="lang">
@@ -196,7 +116,7 @@ if (isset($_GET["id"])) {
                     }
                 }
                 ?>> Gujrati
-                <span class="err" id="err_lang"></span>
+                <span class="err" id="errLang"></span>
 
             </div>
             <div class="city">
@@ -231,358 +151,500 @@ if (isset($_GET["id"])) {
                         }
                     }
                     ?>>Delhi</option>
+                    <option value="Malipura" <?php
+                    if (isset($data['city'])) {
+                        if ($data['city'] == 'Malipura') {
+                            echo 'selected';
+                        }
+                    }
+                    ?>>Malipura</option>
+                    <option value="Surat" <?php
+                    if (isset($data['city'])) {
+                        if ($data['city'] == 'Surat') {
+                            echo 'selected';
+                        }
+                    }
+                    ?>>Surat</option>
                 </select>
-                <span class="err" id="err_city"></span>
+                <span class="err" id="errCity"></span>
 
             </div>
             <div class="inp-div">
                 <button type="submit" name="submit" id="submit">Submit</button>
             </div>
             <div class="inp-div">
-                <a href="dashboard">Back</a>
+                <a href="pagination">Back</a>
             </div>
         </form>
     </div>
 </body>
 
 <script>
-    $(document).ready(function (e) {
-        let isValid = true;
-        $("#name").blur(function () {
-            var name = $("#name").val();
-            var namePattern = /^[a-zA-Z ]{4,15}$/;
-            if (namePattern.test(name)) {
-                $("#err_name").text("");
+    $(document).ready(function () {
+
+
+
+        $("input").blur(function (e) {
+            var valid = true;
+            var inp_id = $(this).attr('id');
+            if ($(this).val() == "") {
+                $("#err" + inp_id).text(inp_id + " field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        })
+        $("input").focus(function (e) {
+            var valid = true;
+            var inp_id = $(this).attr('id');
+            if ($(this).val() == "") {
+                $("#err" + inp_id).text("");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        })
+
+
+        //----------------IMAGE EDIT----------------->>
+
+        $("#Image").blur(function (e) {
+            var isValid = true;
+            var image = $("#Image").val();
+            var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|PNG)$/;
+            if ($("#Image").val() == "") {
+                $("#errImage").text("");
+
+            }
+            else if (!imgPattern.test(image)) {
+                $("#errImage").text("Only JPG, JPEG, PNG and GIF images allowed");
+                isValid = false;
+
             }
             else {
-                $("#err_name").text("Minimum Length = 4, Maximum Length = 15");
+                $("#errImage").text("");
             }
-            if ($("#name").val() == "") {
-                $("#err_name").text("Please Enter Name...!");
-            }
-            $("#name").focus(function () {
-                $("#err_name").text("");
-            });
-            isValid = false;
         });
-        $("#email").blur(function () {
+        $("#Image").change(function (e) {
+            var isValid = true;
+            var image = $("#Image").val();
+            var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|PNG)$/;
 
-            var mail = $("#email").val();
+            if ($("#Image").val() == "") {
+                $("#errImage").text("");
+
+            }
+            else if (!imgPattern.test(image)) {
+                $("#errImage").text("Only JPG, JPEG, PNG and GIF images allowed");
+                isValid = false;
+
+            }
+            else {
+                $("#errImage").text("");
+            }
+        });
+
+        ///  ///   IMAGE  INSERT ///  ///
+
+        <?php
+        if (!isset($_GET['id'])) {
+            ?>
+            if ($("#Image").blur(function (e) {
+                var valid = true;
+                var image = $("#Image").val();
+                var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|PNG)$/;
+
+                if ($("#Image").val() == "") {
+                    $("#errImage").text("Image field is required...!");
+                    valid = false;
+
+                }
+                else if (!imgPattern.test(image)) {
+                    $("#errImage").text("Only JPG, JPEG, PNG and GIF images allowed");
+                    valid = false;
+
+                }
+                else {
+                    $("#errImage").text("");
+                }
+                if (!valid) {
+                    e.preventDefault();
+                }
+            }));
+            if ($("#Image").change(function (e) {
+                var valid = true;
+                var image = $("#Image").val();
+                var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|PNG)$/;
+
+                if ($("#Image").val() == "") {
+                    $("#errImage").text("Image field is required...!");
+                    valid = false;
+
+                }
+                else if (!imgPattern.test(image)) {
+                    $("#errImage").text("Only JPG, JPEG, PNG and GIF images allowed");
+                    valid = false;
+
+                }
+                else {
+                    $("#errImage").text("");
+                }
+                if (!valid) {
+                    e.preventDefault();
+                }
+            }));
+            <?php
+        }
+        ?>
+
+        /// ///    GENDER    ///   /// 
+
+
+
+        if ($("input[name='gender']").blur(function (e) {
+            var valid = true;
+            if ($(this).val() != "") {
+                $("#errGender").text("");
+            }
+            else {
+                $("#errGender").text("Gender field is required...!");
+                valid = false;
+            }
+            if (!$("input[name='gender']:checked").val()) {
+                $("#errGender").text("Gender field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        }));
+        if ($("input[name='gender']").change(function (e) {
+            var valid = true;
+            if ($(this).val() != "") {
+                $("#errGender").text("");
+            }
+            else {
+                $("#errGender").text("Gender field is required...!");
+                valid = false;
+            }
+            if (!$("input[name='gender']:checked").val()) {
+                $("#errGender").text("Gender field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        }));
+
+
+
+        ///  ///     LANGUAGE    ///  ///
+
+        if ($("input[name='language[]']").blur(function (e) {
+            var valid = true;
+            if ($(this).val() != "") {
+                $("#errLang").text("");
+            }
+            else {
+                $("#err_lang").text("Language field is required...!");
+                valid = false;
+            }
+            if (!$("input[name='language[]']:checked").val()) {
+                $("#errLang").text("Language field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        }));
+        if ($("input[name='language[]']").change(function (e) {
+            var valid = true;
+            if ($(this).val() != "") {
+                $("#errLang").text("");
+            }
+            else {
+                $("#err_lang").text("Language field is required...!");
+                valid = false;
+            }
+            if (!$("input[name='language[]']:checked").val()) {
+                $("#errLang").text("Language field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        }));
+
+
+        ///  /// CITY  ///  ///
+
+        if ($("#city").blur(function (e) {
+            var valid = true;
+            if ($(this).val() != "") {
+                $("#errCity").text("");
+            }
+            else {
+                $("#errCity").text("City field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        }));
+        if ($("#city").change(function (e) {
+            var valid = true;
+            if ($(this).val() != "") {
+                $("#errCity").text("");
+            }
+            else {
+                $("#errCity").text("City field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        }));
+
+
+        // ----------------------- Name Validation -------------------------->>
+
+        $("#Name").blur(function (e) {
+            var valid = true;
+            var name = $("#Name").val();
+            var namePattern = /^[a-zA-Z ]{3,15}$/;
+            if (namePattern.test(name)) {
+                $("#errName").text("");
+            }
+            else {
+                $("#errName").text("Name must contain alphabets only. Min = 4, Max = 15 Alphabets");
+                valid = false;
+            }
+            if ($("#Name").val() == "") {
+                $("#errName").text("Name field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        });
+
+
+
+        //---------------- Email Validation ------------------->>
+
+        $("#Email").blur(function (e) {
+            var valid = true;
+            var mail = $("#Email").val();
             var emailPattern = /^[a-zA-Z0-9.]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;
             var a = emailPattern.test(mail);
             if (a == true) {
-                $("#err_email").text("");
+                $("#errEmail").text("");
             }
             else {
-                $("#err_email").text("Please Enter A Valid Email");
+                $("#errEmail").text("Enter A Valid Email...!");
+                valid = false;
             }
-            if ($("#email").val() == "") {
-                $("#err_email").text("Please Enter an Email");
+            if ($("#Email").val() == "") {
+                $("#errEmail").text("Email field is required...!");
+                valid = false;
             }
-            $("#email").focus(function () {
-                $("#err_email").text("");
-            });
-            isValid = false;
+            if (!valid) {
+                e.preventDefault();
+            }
         });
-        $("#password").blur(function () {
-            var pass = $("#password").val();
-            var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
-            if (passPatern.test(pass)) {
-                $("#err_password").text("");
-            }
-            else {
-                $("#err_password").text("Password length must be between 8-15 characters");
-            }
-            if ($("#password").val() == "") {
-                $("#err_password").text("Please Enter Password...!");
-            }
-            $("#password").focus(function () {
-                $("#err_password").text("");
-            });
 
-            isValid = false;
-        });
-        $("#password2").blur(function () {
-            var pass = $("#password").val();
-            var pass2 = $("#password2").val();
+
+
+
+        //----------------------- Password Validation----------------------->>
+
+        $("#Password").blur(function (e) {
+            var valid = true;
+            var pass = $("#Password").val();
             var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
             if (passPatern.test(pass)) {
-                $("#err_password2").text("");
+                $("#errPassword").text("");
             }
             else {
-                $("#err_password2").text("Password length must be between 8-15 characters");
+                $("#errPassword").text("Password length must be between 8-15 characters");
+                valid = false;
+            }
+            if ($("#Password").val() == "") {
+                $("#errPassword").text("Password field is required...!");
+                valid = false;
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        });
+        $("#Confirm_Password").blur(function (e) {
+            var valid = true;
+            var pass = $("#Password").val();
+            var pass2 = $("#Confirm_Password").val();
+            var passPattern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
+            var a = passPattern.test(pass);
+            if (a == true) {
+                $("#errConfirm_Password").text("");
+            }
+            else {
+                $("#errConfirm_Password").text("Password length must be between 8-15 characters");
+                valid = false;
             }
             if (pass != pass2) {
-                $("#err_password2").text("Password Does Not Match...!");
+                $("#errConfirm_Password").text("Password Does Not Match...!");
+                valid = false;
             }
-            if ($("#password2").val() == "") {
-                $("#err_password2").text("Please Enter Password...!");
+            if ($("#Confirm_Password").val() == "") {
+                $("#errConfirm_Password").text("Confirm_Password field is required...!");
+                valid = false;
             }
-            $("#password2").focus(function () {
-                $("#err_password2").text("");
-            });
-
-            isValid = false;
+            if (!valid) {
+                e.preventDefault();
+            }
         });
 
-        if ($("#image").blur(function () {
-            var image = $("#image").val();
-            var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG)$/;
 
-            if ($("#image").val() == "") {
-                $("#err_image").text("Please Choose an Image...!");
+
+        //------------------------ON SUBMIT -------------------->>
+
+        $("#form").submit(function (obj) {
+            var isValid = true;
+            $(".err").text("");
+            if ($("#Name").val() == "") {
+                $("#errName").text("Name field is required...!");
+                isValid = false;
+            }
+            if ($("#Email").val() == "") {
+                $("#errEmail").text("Email field is required...!");
+                isValid = false;
+            }
+            if ($("#Password").val() == "") {
+                $("#errPassword").text("Password field is required...!");
+                isValid = false;
+            }
+            if ($("#Confirm_Password").val() == "") {
+                $("#errConfirm_Password").text("Confirm_Password field is Required...!");
+                isValid = false;
+            }
+
+
+            var name = $("#Name").val();
+            var namePattern = /^[a-zA-Z ]{3,15}$/;
+            if (namePattern.test(name)) {
+                $("#errName").text("");
+            }
+            else {
+                $("#errName").text("Name must contain alphabets only. Min = 4, Max = 15 Alphabets");
+                isValid = false;
+            }
+            if ($("#Name").val() == "") {
+                $("#errName").text("Name field is required...!");
+                isValid = false;
+            }
+
+
+            var mail = $("#Email").val();
+            var emailPattern = /^[a-zA-Z0-9.]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;
+            var a = emailPattern.test(mail);
+            if (a == true) {
+                $("#errEmail").text("");
+            }
+            else {
+                $("#errEmail").text("Enter A Valid Email...!");
+                isValid = false;
+            }
+            if ($("#Email").val() == "") {
+                $("#errEmail").text("Email field is required...!");
+                isValid = false;
+            }
+
+
+
+            var pass = $("#Password").val();
+            var pass2 = $("#Confirm_Password").val();
+            var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
+            if (passPatern.test(pass)) {
+                $("#errPassword").text("");
+            }
+            else {
+                $("#errPassword").text("Password length must be between 8-15 characters");
+                isValid = false;
+            }
+            if (passPatern.test(pass2)) {
+                $("#errConfirm_Password").text("");
+            }
+            else {
+                $("#errConfirm_Password").text("Password length must be between 8-15 characters");
+                isValid = false;
+            }
+            if (pass != pass2) {
+                $("#errConfirm_Password").text("Password Does Not Match...!");
+                isValid = false;
+            }
+            if ($("#Password").val() == "") {
+                $("#errConfirm_Password").text("Confirm_Password field is required");
+                isValid = false;
+            }
+
+
+
+            var image = $("#Image").val();
+            var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|PNG)$/;
+
+            if ($("#Image").val() == "") {
+                $("#errImage").text("");
+
             }
             else if (!imgPattern.test(image)) {
-                $("#err_image").text("Only JPG, JPEG and PNG images allowed");
+                $("#errImage").text("Only JPG, JPEG, PNG and GIF images allowed");
+                isValid = false;
+
             }
             else {
-                $("#err_image").text("");
+                $("#errImage").text("");
             }
-            if ($("#image").change(function () {
-                var image = $("#image").val();
-                var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG)$/;
 
-                if ($("#image").val() == "") {
-                    $("#err_image").text("Please Choose an Image...!");
+
+            <?php
+            if (!isset($_GET['id'])) {
+                ?>
+                var image = $("#Image").val();
+                var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|PNG)$/;
+
+                if ($("#Image").val() == "") {
+                    $("#errImage").text("Image field is required...!");
+                    isValid = false;
+
                 }
                 else if (!imgPattern.test(image)) {
-                    $("#err_image").text("Only JPG, JPEG and PNG images allowed");
+                    $("#errImage").text("Only JPG, JPEG, PNG and GIF images allowed");
+                    isValid = false;
+
                 }
                 else {
-                    $("#err_image").text("");
+                    $("#errImage").text("");
                 }
-                isValid = false;
-            }));
-            isValid = false;
-        }));
-        if ($("input[name='gender']").blur(function () {
+                <?php
+            }
+            ?>
             if (!$("input[name='gender']:checked").val()) {
-                $("#err_gender").text("Please Select Gender...!");
-            }
-            else {
-                $("#err_gender").text("");
-            }
-            if ($("input[name='gender']").change(function () {
-                if ($(this).val() != "") {
-                    $("#err_gender").text("");
-                }
-                else {
-                    $("#err_gender").text("Please Select Gender...!");
-                }
+                $("#errGender").text("Gender field is required...!");
                 isValid = false;
-            }));
-            isValid = false;
-        }));
-
-        if ($("input[name='language[]']").blur(function () {
-
+            }
             if (!$("input[name='language[]']:checked").val()) {
-                $("#err_lang").text("Please Select Language(s)");
-            }
-            else {
-                $("#err_lang").text("");
-            }
-            if ($("input[name='language[]']").change(function () {
-                if ($(this).val() != "") {
-                    $("#err_lang").text("");
-                }
-                else {
-                    $("#err_lang").text("Please Select Language(s)");
-                }
-                if (!$("input[name='language[]']:checked").val()) {
-                    $("#err_lang").text("Please Select Language(s)");
-                }
+                $("#errLang").text("Language field is required...!");
                 isValid = false;
-            }));
-            isValid = false;
-        }));
-
-        if ($("#city").blur(function () {
-            if ($(this).val() != "") {
-                $("#err_city").text("");
             }
-            else {
-                $("#err_city").text("Please Select Your City...!");
-                valid = false;
-            }
-            if ($("#city").change(function () {
-                if ($(this).val() != "") {
-                    $("#err_city").text("");
-                }
-                else {
-                    $("#err_city").text("Please Select Your City...!");
-                }
-                isValid = false;
-            }));
-        }));
-        if (!isValid) {
-            e.preventDefault();
-        }
-
-
-        $("#submit").click(function (obj) {
-            let valid = true;
-            if ($("#name").val() == "") {
-                $('#err_name').text("Please Enter Name...!");
-                $("#name").focus(function () {
-                    $("#err_name").text("");
-                });
-                $("#name").blur(function () {
-                    var name = $("#name").val();
-                    var namePattern = /^[a-zA-Z ]{4,15}$/;
-                    if (namePattern.test(name)) {
-                        $("#err_name").text("");
-                    }
-                    else {
-                        $("#err_name").text("Minimum Length = 4, Maximum Length = 15");
-                    }
-                    if ($("#name").val() == "") {
-                        $("#err_name").text("Please Enter Name...!");
-                    }
-                });
-                valid = false;
-            }
-            let email = $("#email").val();
-
-            if (email == "") {
-                $("#err_email").text("Please Enter an Email");
-            }
-            $("#email").focus(function () {
-                $("#err_email").text("");
-            });
-            $("#email").blur(function () {
-
-                var mail = $("#email").val();
-                var emailPattern = /^[a-zA-Z0-9.]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;
-                var a = emailPattern.test(mail);
-                if (a == true) {
-                    $("#err_email").text("");
-                }
-                else {
-                    $("#err_email").text("Please Enter A Valid Email");
-                }
-                if ($("#email").val() == "") {
-                    $("#err_email").text("Please Enter an Email");
-                }
-            });
-
-
-            if ($("#password").val() == "") {
-                $("#err_password").text("Please Enter Password...!");
-                $("#password").focus(function () {
-                    $("#err_password").text("");
-                });
-                $("#password").blur(function () {
-                    var pass = $("#password").val();
-                    var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
-                    if (passPatern.test(pass)) {
-                        $("#err_password").text("");
-                    }
-                    else {
-                        $("#err_password").text("Password length must be between 8-15 characters");
-                    }
-                    if ($("#password").val() == "") {
-                        $("#err_password").text("Please Enter Password...!");
-                    }
-                });
-                valid = false;
-            }
-            if ($("#password2").val() == "") {
-                var pass = $("#password").val();
-                var pass2 = $("#password2").val();
-
-                $("#err_password2").text("Please Enter Password...!");
-                $("#password2").focus(function () {
-                    $("#err_password2").text("");
-                });
-                $("#password2").blur(function () {
-                    var pass = $("#password2").val();
-                    var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
-                    if (passPatern.test(pass)) {
-                        $("#err_password2").text("");
-                    }
-                    else {
-                        $("#err_password2").text("Password length must be between 8-15 characters");
-                    }
-                    if (pass != pass2) {
-                        $("#err_password2").text("Password Does Not Match...!");
-                    }
-                    if ($("#password2").val() == "") {
-                        $("#err_password2").text("Please Enter Password...!");
-                    }
-                    valid = false;
-
-                });
-
-                valid = false;
-            }
-            if ($("#image").val() == "") {
-
-                $("#err_image").text("Please Choose an Image...!");
-                valid = false;
-            }
-            if ($("#image").blur(function () {
-                var image = $("#image").val();
-                var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG)$/;
-
-                if ($("#image").val() == "") {
-                    $("#err_image").text("Please Choose an Image...!");
-                }
-                else if (!imgPattern.test(image)) {
-                    $("#err_image").text("Only JPG, JPEG and PNG images allowed");
-                }
-                else {
-                    $("#err_image").text("");
-                }
-                valid = false;
-            }));
-            if (!$("input[name='gender']:checked").val()) {
-                $("#err_gender").text("Please Select Gender...!");
-                valid = false;
-            }
-            if ($("input[name='gender']").change(function () {
-                if ($(this).val() != "") {
-                    $("#err_gender").text("");
-                }
-                else {
-                    $("#err_gender").text("Please Select Gender...!");
-                    valid = false;
-                }
-            }));
-            if (!$("input[name='language[]']:checked").val()) {
-                $("#err_lang").text("Please Select Language(s)");
-            }
-            if ($("input[name='language[]']").change(function () {
-                if ($(this).val() != "") {
-                    $("#err_lang").text("");
-                }
-                else {
-                    $("#err_lang").text("Please Select Language(s)");
-                    valid = false;
-                }
-                if (!$("input[name='language[]']:checked").val()) {
-                    $("#err_lang").text("Please Select Language(s)");
-                }
-                valid = false;
-            }));
-
             if ($("#city").val() == "") {
-                $("#err_city").text("Please Select Your City...!");
-                valid = false;
+                $("#errCity").text("City field is required...!");
+                isValid = false;
             }
-            if ($("#city").change(function () {
-                if ($(this).val() != "") {
-                    $("#err_city").text("");
-                }
-                else {
-                    $("#err_city").text("Please Select Your City...!");
-                    valid = false;
-                }
-            }));
-            if (!valid) {
+            if (!isValid) {
                 obj.preventDefault();
             }
-        });
+        })
     })
 </script>
 

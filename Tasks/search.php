@@ -5,94 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <style>
-    * {
-        font-family: sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .heading {
-        background-color: deepskyblue;
-        text-align: center;
-        padding: 10px;
-        font-size: 40px;
-    }
-
-    .btn {
-        margin-top: 20px;
-    }
-
-    .btn a {
-        text-decoration: none;
-    }
-
-    .add-product-btn,
-    .logout-btn {
-        background-color: orange;
-        padding: 10px 15px;
-        color: white;
-        border-radius: 5px;
-        margin-left: 200px;
-    }
-
-
-    .logout-btn {
-        background-color: red;
-        margin-left: 950px;
-    }
-
-
-
-    table {
-        margin: 10px auto;
-        border-radius: 3px;
-        border: 1px solid;
-    }
-
-    table th,
-    td {
-        padding: 10px;
-    }
-
-    table tr td .edit-product,
-    .delete-product {
-        background-color: green;
-        text-decoration: none;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-
-    table tr td .delete-product {
-        background-color: red;
-    }
-
-    .search {
-        margin-top: 50px;
-        margin-left: 320px;
-        ;
-    }
-
-    .search input,
-    button {
-        padding: 5px;
-        border-radius: 5px;
-    }
-
-    .search button {
-        margin-left: 8px;
-        background-color: orange;
-        border: none;
-        color: white;
-        padding: 7px 10px;
-    }
-
-    #no-data {
+    .pages {
+        display: flex;
         margin-left: 550px;
-        margin-top: 50px;
+    }
+
+    .pages li {
+        list-style: none;
+        padding: 5px 10px;
+        margin: 5px;
+        border: 1px solid grey;
+    }
+
+    .pages li:hover {
+        background-color: aqua;
+    }
+
+    .pages a {
+        text-decoration: none;
+    }
+
+    #limit {
+        margin-left: 785px;
+        padding: 5px 10px;
     }
 </style>
 
@@ -106,7 +45,8 @@
     </div>
     <form action="search" method="post">
         <div class="search">
-            <input type="text" name="inp-search" value="<?php echo $value; ?>">
+            <input type="text" name="inp-search" value="<?php if (isset($value))
+                echo $value; ?>">
             <span>
                 <button type="submit" name="search">Search</button>
             </span>
@@ -114,22 +54,28 @@
     </form>
     <table border="1" cellspacing="0">
         <tr>
-            <th>Sr. No.</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Image</th>
-            <th>Gender</th>
-            <th>Language</th>
-            <th>City</th>
+            <th>ID <a href="sort-num-asc"><i class="fa-solid fa-sort-up"></i></a><a href="sort-num-desc"><i
+                        class="fa-solid fa-sort-down"></i></a></th>
+            <th>Name <a href="sort-name-asc"><i class="fa-solid fa-sort-up"></i></a>
+                <a href="sort-name-desc"><i class="fa-solid fa-sort-down"></i></a>
+            </th>
+            <th>Email <a href="sort-email-asc"><i class="fa-solid fa-sort-up"></i></a><a href="sort-email-desc"><i
+                        class="fa-solid fa-sort-down"></i></a></th>
+            <th>Image </th>
+            <th>Gender <a href="sort-gender-asc"><i class="fa-solid fa-sort-up"></i></a><a href="sort-gender-desc"><i
+                        class="fa-solid fa-sort-down"></i></a></th>
+            <th>Language<a href="sort-lang-asc"><i class="fa-solid fa-sort-up"></i></a><a href="sort-lang-desc"><i
+                        class="fa-solid fa-sort-down"></i></a></th>
+            <th>City <a href="sort-city-asc"><i class="fa-solid fa-sort-up"></i></a><a href="sort-city-desc"><i
+                        class="fa-solid fa-sort-down"></i></a></th>
             <th>Action</th>
         </tr>
         <?php
-        if (!empty($search_arr)) {
-            $i = 1;
-            foreach ($search_arr as $products) {
+        if (!empty($product_arr)) {
+            foreach ($product_arr as $products) {
                 ?>
                 <tr>
-                    <td><?php echo $i; ?></td>
+                    <td><?php echo $products->id; ?></td>
                     <td><?php echo $products->name; ?></td>
                     <td><?php echo $products->email; ?></td>
                     <td><img src="image/<?php echo $products->image; ?>" height="30px" width="40px" style="border-radius: 5px">
@@ -138,12 +84,11 @@
                     <td><?php echo $products->language; ?></td>
                     <td><?php echo $products->city; ?></td>
                     <td>
-                        <a href="edit_product?id=<?php echo $products->id; ?>" class="edit-product">Edit</a>
-                        <a href="delete_product?id=<?php echo $products->id; ?>" class="delete-product">Delete</a>
+                        <a href="add_product?id=<?php echo $products->id; ?>"  class="edit-product">Edit</a>
+                        <a href="delete_product?id=<?php echo $products->id; ?>" onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
                     </td>
                 </tr>
                 <?php
-                $i++;
             }
         } else {
             ?>
@@ -154,7 +99,20 @@
         }
         ?>
     </table>
-
+    <ul class="pages">
+        <?php
+        if (isset($totalPage)) {
+            for ($i = 1; $i <= $totalPage; $i++) {
+                ?>
+                <a href="search?page=<?php echo $i; ?>&inp-search=<?php if (isset($value))
+                       echo $value ?>">
+                        <li><?php echo $i; ?></li>
+                </a>
+                <?php
+            }
+        }
+        ?>
+    </ul>
 </body>
 
 

@@ -25,15 +25,39 @@ class Control extends Model
         $path = $_SERVER['PATH_INFO'];
 
         switch ($path) {
-            case '/':
-                $product_arr = $this->select('product');
+            case '/pagination':
+                if (isset($_REQUEST['page'])) {
+                    $page = $_REQUEST['page'];
+                } else {
+                    $page = 1;
+                }
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else {
+                    $limit = 5;
+                }
+                $product_arr = $this->pagination('product', $page, $limit);
+                $totalPage = $this->totalpage('product', $limit);
                 include_once 'dashboard.php';
                 break;
-            case '/dashboard':
-                $product_arr = $this->select('product');
-                include_once 'dashboard.php';
+            case '/search':
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
+                if (isset($_REQUEST['page'])) {
+                    $page = $_REQUEST['page'];
+                } else {
+                    $page = 1;
+                }
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else {
+                    $limit = 5;
+                }
+                $product_arr = $this->search('product', $value, $limit, $page);
+                $totalPage = $this->totalSpage('product', $limit, $value);
+                include_once 'search.php';
                 break;
-
             case '/add_product':
                 if (isset($_REQUEST['submit'])) {
                     $name = $_REQUEST['name'];
@@ -65,7 +89,7 @@ class Control extends Model
                     $fetch = $resdata->fetch_object();
                     $language = explode(",", $fetch->language);
                 }
-       
+
                 include_once 'add_product.php';
                 break;
 
@@ -82,7 +106,7 @@ class Control extends Model
                         unlink("image/" . $img);
                         echo "<script>
                         alert('Product Deleted Successfully');
-                        window.location = 'dashboard';
+                        window.location = 'pagination';
                         </script>";
                     }
                 }
@@ -106,7 +130,7 @@ class Control extends Model
                         $resdata = $this->select_where('product', $data);
                         $fetch = $resdata->fetch_object();
                         $old_img = $fetch->image;
-                        $data_arr = array("name" => $name, "email" => $email, "password" => $password,  "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city);
+                        $data_arr = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city);
                         $res = $this->update_product('product', $data_arr, $id);
 
                         if ($res) {
@@ -116,27 +140,27 @@ class Control extends Model
                             unlink("image/" . $old_img);
                             echo "<script>
                                 alert('Product Updated Successfully');
-                                window.location = 'dashboard';
+                                window.location = 'pagination';
                                 </script>";
                         } else {
                             echo "<script>
                                 alert('Product Update Failed');
-                                window.location = 'dashboard';                          
+                                window.location = 'pagination';                          
                                 </script>";
                         }
                     } else {
-                        $data_arr = array("name" => $name, "email" => $email, "password" => $password,   "gender" => $gender, "language" => $language_str, "city" => $city);
+                        $data_arr = array("name" => $name, "email" => $email, "password" => $password, "gender" => $gender, "language" => $language_str, "city" => $city);
                         $res = $this->update_product('product', $data_arr, $id);
 
                         if ($res) {
                             echo "<script>
                                 alert('Product Updated Successfully');
-                                window.location = 'dashboard';
+                                window.location = 'pagination';
                                 </script>";
                         } else {
                             echo "<script>
                                 alert('Product Update Failed');
-                                window.location = 'dashboard';                          
+                                window.location = 'pagination';                          
                                 </script>";
                         }
                     }
@@ -161,7 +185,7 @@ class Control extends Model
                         move_uploaded_file($tmp, $path);
                         echo "<script>
                         alert('Signup Success');
-                        window.location = 'dashboard';
+                        window.location = 'pagination';
                         </script>";
                     }
                 }
@@ -170,21 +194,135 @@ class Control extends Model
             case '/login':
                 include_once 'login.php';
                 break;
-            case '/sort-asc':
-                $sort_arr = $this->sort_asc('product', 'name');
-                include_once 'sort-asc.php';
+
+            case '/sort-num-asc':
+                $product_arr = $this->sort('product', 'id', 'asc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
                 break;
-            case '/sort-desc':
-                $sort_arr = $this->sort_desc('product', 'name');
-                include_once 'sort-desc.php';
+            case '/sort-num-desc':
+                $product_arr = $this->sort('product', 'id', 'desc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
                 break;
-            case '/search':
-                if (isset($_REQUEST['search'])) {
-                    $value = $_REQUEST['inp-search'];
-                }
-                $search_arr = $this->search('product', $value);
-                include_once 'search.php';
+            case '/sort-name-asc':
+                $product_arr = $this->sort('product', 'name', 'asc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
                 break;
+            case '/sort-name-desc':
+                $product_arr = $this->sort('product', 'name', 'desc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-email-asc':
+                $product_arr = $this->sort('product', 'email', 'asc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-email-desc':
+                $product_arr = $this->sort('product', 'email', 'desc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-password-asc':
+                $product_arr = $this->sort('product', 'password', 'asc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-password-desc':
+                $product_arr = $this->sort('product', 'password', 'desc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-gender-asc':
+                $product_arr = $this->sort('product', 'gender', 'asc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-gender-desc':
+                $product_arr = $this->sort('product', 'gender', 'desc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-lang-asc':
+                $product_arr = $this->sort('product', 'language', 'asc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-lang-desc':
+                $product_arr = $this->sort('product', 'language', 'desc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-city-asc':
+                $product_arr = $this->sort('product', 'city', 'asc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+            case '/sort-city-desc':
+                $product_arr = $this->sort('product', 'city', 'desc');
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else
+                    $limit = 5;
+                $totalPage = $this->totalpage('product', $limit);
+                include_once 'dashboard.php';
+                break;
+
+
         }
     }
 

@@ -75,33 +75,11 @@ class Model
         return $run;
     }
 
-    public function sort_asc($table, $column)
+
+    public function search($table, $value, $limit, $page)
     {
-        $sel = "SELECT * FROM $table ORDER BY $column";
-        $run = $this->conn->query($sel);
-        $arr = [];
-        while ($fetch = $run->fetch_object()) {
-            $arr[] = $fetch;
-        }
-        if ($arr) {
-            return $arr;
-        }
-    }
-    public function sort_desc($table, $column)
-    {
-        $sel = "SELECT * FROM $table ORDER BY $column DESC";
-        $run = $this->conn->query($sel);
-        $arr = [];
-        while ($fetch = $run->fetch_object()) {
-            $arr[] = $fetch;
-        }
-        if ($arr) {
-            return $arr;
-        }
-    }
-    public function search($table, $value)
-    {
-        $search = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '%$value%' OR city LIKE '%$value%'";
+        $offset = ($page - 1) * $limit;
+        $search = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' LIMIT $offset, $limit";
         $run = $this->conn->query($search);
         $arr = [];
         while ($fetch = $run->fetch_object()) {
@@ -109,7 +87,52 @@ class Model
         }
         if ($arr) {
             return $arr;
-        } 
+        }
+    }
+    public function sort($table, $column, $order)
+    {
+        $search = "SELECT * FROM $table ORDER BY $column $order LIMIT 0,5";
+        $run = $this->conn->query($search);
+        $arr = [];
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        if ($arr) {
+            return $arr;
+        }
+    }
+    public function pagination($table, $page, $limit)
+    {
+        $offset = ($page - 1) * $limit;
+
+        $query = "SELECT * FROM $table LIMIT $offset, $limit";
+        $q_run = $this->conn->query($query);
+
+        $arr = [];
+        while ($fetch = $q_run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        if ($arr) {
+            return $arr;
+        }
+    }
+    public function totalpage($table, $limit)
+    {
+        $sel = "SELECT * FROM $table ";
+        $run = $this->conn->query($sel);
+        $rows = $run->num_rows;
+        $totalPage = ceil(($rows / $limit));
+        return $totalPage;
+
+    }
+    public function totalSpage($table, $limit, $value)
+    {
+        $sel = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%'";
+        $run = $this->conn->query($sel);
+        $rows = $run->num_rows;
+        $totalPage = ceil(($rows / $limit));
+        return $totalPage;
+
     }
 }
 $obj = new Model();

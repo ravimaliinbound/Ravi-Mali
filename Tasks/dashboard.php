@@ -94,7 +94,6 @@
             <?php
             if (!empty($product_arr)) {
                 foreach ($product_arr as $products) {
-
                     ?>
                 <tr>
                     <td><?php echo $products->id; ?></td>
@@ -131,9 +130,9 @@
                 <a href="pagination?page=<?php if (isset($page))
                     echo $page - 1; ?>&limit=<?php if (isset($limit))
                             echo $limit ?>&inp-search=<?php if (isset($value))
-                       echo $value; ?>">
-                        <li><i class="fa-solid fa-backward"></i></li>
-                    </a>
+                            echo $value; ?>">
+                    <li><i class="fa-solid fa-backward"></i></li>
+                </a>
 
                 <?php
             }
@@ -156,9 +155,9 @@
                 ?>
                 <a href="pagination?page=<?php echo $page + 1; ?>&limit=<?php if (isset($limit))
                          echo $limit ?>&inp-search=<?php if (isset($value))
-                       echo $value; ?>">
-                        <li><i class="fa-solid fa-forward"></i></li>
-                    </a>
+                         echo $value; ?>">
+                    <li><i class="fa-solid fa-forward"></i></li>
+                </a>
 
                 <?php
             }

@@ -66,17 +66,6 @@ class Model
         $run = $this->conn->query($upd);
         return $run;
     }
-    // public function search($table, $value, $limit, $page)
-    // {
-    //     $offset = ($page - 1) * $limit;
-    //     $search = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' LIMIT $offset, $limit";
-    //     $run = $this->conn->query($search);
-    //     $arr = [];
-    //     while ($fetch = $run->fetch_object()) {
-    //         $arr[] = $fetch;
-    //     }
-    //     return $arr;
-    // }
     public function sort($table, $column, $order, $value, $limit)
     {
         $search = "SELECT * FROM $table  WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' ORDER BY $column $order LIMIT 0, $limit";
@@ -100,7 +89,7 @@ class Model
         }
         return $arr;
     }
-    public function totalSpage($table, $limit, $value)
+    public function totalpage($table, $limit, $value)
     {
         $sel = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%'";
         $run = $this->conn->query($sel);

@@ -45,6 +45,28 @@ class Control extends Model
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
+
+            case '/multi-search':
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else {
+                    $limit = 5;
+                }
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = $_REQUEST['inp-search'];
+                }
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                }
+                if (isset($_REQUEST['language'])) {
+                    $language = $_REQUEST['language'];
+                }
+                if (isset($_REQUEST['city'])) {
+                    $city = $_REQUEST['city'];
+                }
+                $product_arr = $this->multi_search('product', $gender, $language, $city, $value);
+                include_once 'dashboard.php';
+                break;
             case '/add_product':
                 if (isset($_REQUEST['submit'])) {
                     $name = $_REQUEST['name'];
@@ -190,7 +212,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'id', 'asc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -202,7 +235,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'id', 'desc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'id', 'desc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -214,7 +258,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'name', 'asc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'name', 'asc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -226,7 +281,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'name', 'desc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'name', 'desc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -238,7 +304,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'email', 'asc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'email', 'asc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -250,7 +327,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'email', 'desc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'email', 'desc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -262,7 +350,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'gender', 'asc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'gender', 'asc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -274,7 +373,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'gender', 'desc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'gender', 'desc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -286,7 +396,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'language', 'asc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'language', 'asc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -298,7 +419,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'language', 'desc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'language', 'desc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -310,7 +442,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'city', 'asc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'city', 'asc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;
@@ -322,7 +465,18 @@ class Control extends Model
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                $product_arr = $this->sort('product', 'city', 'desc', $value, $limit);
+                if (isset($_REQUEST['gender'])) {
+                    $gender = $_REQUEST['gender'];
+                    if (isset($_REQUEST['language'])) {
+                        $language = $_REQUEST['language'];
+                        if (isset($_REQUEST['city'])) {
+                            $city = $_REQUEST['city'];
+                            $product_arr = $this->sort_where('product', 'city', 'desc', $value, $limit, $gender, $language, $city);
+                        }
+                    }
+                } else {
+                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
                 break;

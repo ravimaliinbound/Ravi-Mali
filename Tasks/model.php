@@ -76,6 +76,16 @@ class Model
         }
         return $arr;
     }
+    public function sort_where($table, $column, $order, $value, $limit, $gender, $language, $city)
+    {
+        $search = "SELECT * FROM $table  WHERE gender ='$gender' AND language LIKE '%$language%' AND city = '$city' ORDER BY $column $order LIMIT 0, $limit";
+        $run = $this->conn->query($search);
+        $arr = [];
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        return $arr;
+    }
     public function pagination($table, $page, $limit, $value)
     {
         $offset = ($page - 1) * $limit;
@@ -96,6 +106,24 @@ class Model
         $rows = $run->num_rows;
         $totalPage = ceil($rows / $limit);
         return $totalPage;
+    }
+    public function multi_search($table, $gender, $language, $city, $value){
+        $sel = "SELECT * FROM $table WHERE gender LIKE '$gender'  AND language LIKE '%$language%' AND city LIKE '%$city%' ";
+        $run = $this->conn->query($sel);
+        $arr= [];
+        while($fetch = $run->fetch_object()){
+            $arr[] = $fetch;
+        }
+        return $arr;
+    }
+    public function multi_sort($table, $column, $order, $gender, $language, $city){
+        $sel = "SELECT * FROM $table WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' ORDER BY $column $order";
+        $run = $this->conn->query($sel);
+        $arr = [];
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        return $arr;
     }
 }
 $obj = new Model();

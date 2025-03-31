@@ -66,9 +66,8 @@ class Model
         $run = $this->conn->query($upd);
         return $run;
     }
-    public function sort($table, $column, $order, $value, $limit)
+    public function sort($table, $column, $order, $value = null, $limit)
     {
-       
         $search = "SELECT * FROM $table  WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' ORDER BY $column $order LIMIT 0, $limit";
         $run = $this->conn->query($search);
         $arr = [];
@@ -77,16 +76,7 @@ class Model
         }
         return $arr;
     }
-    public function sort_where($table, $column, $order, $value, $limit, $gender, $language, $city)
-    {
-        $search = "SELECT * FROM $table  WHERE gender ='$gender' AND language LIKE '%$language%' AND city = '$city' ORDER BY $column $order LIMIT 0, $limit";
-        $run = $this->conn->query($search);
-        $arr = [];
-        while ($fetch = $run->fetch_object()) {
-            $arr[] = $fetch;
-        }
-        return $arr;
-    }
+
     public function pagination($table, $page, $limit, $value)
     {
         $offset = ($page - 1) * $limit;
@@ -100,6 +90,42 @@ class Model
         }
         return $arr;
     }
+    public function multi_search($table, $gender = null, $language = null, $city = null, $page, $limit)
+    {
+        $offset = ($page - 1) * $limit;
+        $sel = "SELECT * FROM $table WHERE gender LIKE '$gender'  AND language LIKE '%$language%' AND city LIKE '%$city%' LIMIT $offset, $limit";
+        $run = $this->conn->query($sel);
+        $arr = [];
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        return $arr;
+    }
+    public function sort_where($table, $column, $order, $limit, $gender = null, $language = null, $city = null, $page)
+    {
+        $offset = ($page - 1) * $limit;
+        $search = "SELECT * FROM $table  WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' ORDER BY $column $order LIMIT $offset, $limit";
+        $run = $this->conn->query($search);
+        $arr = [];
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        return $arr;
+    }
+    public function pagination_where($table, $page, $limit, $gender = null, $language = null, $city = null)
+    {
+        $offset = ($page - 1) * $limit;
+
+        $query = "SELECT * FROM $table WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' LIMIT $offset, $limit";
+        $q_run = $this->conn->query($query);
+
+        $arr = [];
+        while ($fetch = $q_run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        return $arr;
+    }
+
     public function totalpage($table, $limit, $value)
     {
         $sel = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%'";
@@ -108,16 +134,17 @@ class Model
         $totalPage = ceil($rows / $limit);
         return $totalPage;
     }
-    public function multi_search($table, $gender, $language, $city, $value){
-        $sel = "SELECT * FROM $table WHERE gender LIKE '$gender'  AND language LIKE '%$language%' AND city LIKE '%$city%' ";
+    public function totalpage_where($table, $limit, $gender, $language, $city)
+    {
+        $sel = "SELECT * FROM $table WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%'";
         $run = $this->conn->query($sel);
-        $arr= [];
-        while($fetch = $run->fetch_object()){
-            $arr[] = $fetch;
-        }
-        return $arr;
+        $rows = $run->num_rows;
+        $totalPage = ceil($rows / $limit);
+        return $totalPage;
     }
-    public function multi_sort($table, $column, $order, $gender, $language, $city){
+
+    public function multi_sort($table, $column, $order, $gender = null, $language = null, $city = null)
+    {
         $sel = "SELECT * FROM $table WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' ORDER BY $column $order";
         $run = $this->conn->query($sel);
         $arr = [];

@@ -42,6 +42,22 @@
     #multi-search select {
         padding: 5px;
     }
+
+    .inp-div {
+        margin-left: 350px;
+    }
+
+    .inp-div a {
+        text-decoration: none;
+        background-color: orange;
+        color: white;
+        padding: 7px 10px;
+        border-radius: 5px;
+    }
+
+    .active {
+        background-color: aqua;
+    }
 </style>
 
 <body>
@@ -72,18 +88,72 @@
         </select>
         <select name="language" id="language">
             <option value="">Select Language</option>
-            <option value="Hindi">Hindi</option>
-            <option value="English">English</option>
-            <option value="Gujrati">Gujrati</option>
+            <option value="Hindi" <?php
+            if (isset($_REQUEST['language'])) {
+                if ($_REQUEST['language'] == 'Hindi') {
+                    echo 'selected';
+                }
+            }
+            ?>>Hindi</option>
+            <option value="English" <?php
+            if (isset($_REQUEST['language'])) {
+                if ($_REQUEST['language'] == 'English') {
+                    echo 'selected';
+                }
+            }
+            ?>>English</option>
+            <option value="Gujrati" <?php
+            if (isset($_REQUEST['language'])) {
+                if ($_REQUEST['language'] == 'Gujrati') {
+                    echo 'selected';
+                }
+            }
+            ?>>Gujrati</option>
         </select>
         <select name="city" id="city">
             <option value="">Select City</option>
-            <option value="Ahmedabad">Ahmedabad</option>
-            <option value="Mandar">Mandar</option>
-            <option value="Mumbai">Mumbai</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Malipura">Malipura</option>
-            <option value="Surat">Surat</option>
+            <option value="Ahmedabad" <?php
+            if (isset($_REQUEST['city'])) {
+                if ($_REQUEST['city'] == 'Ahmedabad') {
+                    echo 'selected';
+                }
+            }
+            ?>>Ahmedabad</option>
+            <option value="Mandar" <?php
+            if (isset($_REQUEST['city'])) {
+                if ($_REQUEST['city'] == 'Mandar') {
+                    echo 'selected';
+                }
+            }
+            ?>>Mandar</option>
+            <option value="Mumbai" <?php
+            if (isset($_REQUEST['city'])) {
+                if ($_REQUEST['city'] == 'Mumbai') {
+                    echo 'selected';
+                }
+            }
+            ?>>Mumbai</option>
+            <option value="Delhi" <?php
+            if (isset($_REQUEST['city'])) {
+                if ($_REQUEST['city'] == 'Delhi') {
+                    echo 'selected';
+                }
+            }
+            ?>>Delhi</option>
+            <option value="Malipura" <?php
+            if (isset($_REQUEST['city'])) {
+                if ($_REQUEST['city'] == 'Malipura') {
+                    echo 'selected';
+                }
+            }
+            ?>>Malipura</option>
+            <option value="Surat" <?php
+            if (isset($_REQUEST['city'])) {
+                if ($_REQUEST['city'] == 'Surat') {
+                    echo 'selected';
+                }
+            }
+            ?>>Surat</option>
         </select>
     </form>
     <form action="pagination?limit=<?php if (isset($limit))
@@ -99,87 +169,108 @@
     </form>
     <table border="1" cellspacing="0">
         <tr>
-            <th>ID <a href="sort-num-asc?inp-search=<?php if (isset($value))
-                echo $value ?>&limit=<?php if (isset($limit))
-                echo $limit ?><?php if (isset($gender))
-                echo '&gender=' . $gender; ?><?php if (isset($language))
-                        echo '&language=' . $language; ?><?php if (isset($city))
-                                echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-up"></i></a><a href="sort-num-desc?inp-search=<?php if (isset($value))
-                                        echo $value ?>&limit=<?php if (isset($limit))
-                                        echo $limit ?><?php if (isset($gender))
-                                        echo '&gender=' . $gender; ?><?php if (isset($language))
-                                                echo '&language=' . $language; ?><?php if (isset($city))
-                                                        echo '&city=' . $city; ?>"><i
+            <th>ID</th>
+            <th>Name <a
+                    href="sort-name-asc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-up"></i></a>
+                <a
+                    href="sort-name-desc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
                         class="fa-solid fa-sort-down"></i></a>
             </th>
-            <th>Name <a href="sort-name-asc?inp-search=<?php if (isset($value))
-                echo $value ?>&limit=<?php if (isset($limit))
-                echo $limit ?><?php if (isset($gender))
-                echo '&gender=' . $gender; ?><?php if (isset($language))
-                        echo '&language=' . $language; ?><?php if (isset($city))
-                                echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-up"></i></a>
-                <a href="sort-name-desc?inp-search=<?php if (isset($value))
-                    echo $value ?>&limit=<?php if (isset($limit))
-                    echo $limit ?><?php if (isset($gender))
-                    echo '&gender=' . $gender; ?><?php if (isset($language))
-                            echo '&language=' . $language; ?><?php if (isset($city))
-                                    echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-down"></i></a>
+            <th>Email <a
+                    href="sort-email-asc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-up"></i></a><a
+                    href="sort-email-desc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-down"></i></a>
             </th>
-            <th>Email <a href="sort-email-asc?inp-search=<?php if (isset($value))
-                echo $value ?>&limit=<?php if (isset($limit))
-                echo $limit ?><?php if (isset($gender))
-                echo '&gender=' . $gender; ?><?php if (isset($language))
-                        echo '&language=' . $language; ?><?php if (isset($city))
-                                echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-up"></i></a><a href="sort-email-desc?inp-search=<?php if (isset($value))
-                                        echo $value ?>&limit=<?php if (isset($limit))
-                                        echo $limit ?><?php if (isset($gender))
-                                        echo '&gender=' . $gender; ?><?php if (isset($language))
-                                                echo '&language=' . $language; ?><?php if (isset($city))
-                                                        echo '&city=' . $city; ?>"><i
-                        class="fa-solid fa-sort-down"></i></a></th>
             <th>Image </th>
-            <th>Gender <a href="sort-gender-asc?inp-search=<?php if (isset($value))
-                echo $value ?>&limit=<?php if (isset($limit))
-                echo $limit ?><?php if (isset($gender))
-                echo '&gender=' . $gender; ?><?php if (isset($language))
-                        echo '&language=' . $language; ?><?php if (isset($city))
-                                echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-up"></i></a><a href="sort-gender-desc?inp-search=<?php if (isset($value))
-                                        echo $value ?>&limit=<?php if (isset($limit))
-                                        echo $limit ?><?php if (isset($gender))
-                                        echo '&gender=' . $gender; ?><?php if (isset($language))
-                                                echo '&language=' . $language; ?><?php if (isset($city))
-                                                        echo '&city=' . $city; ?>"><i
-                        class="fa-solid fa-sort-down"></i></a></th>
-            <th>Language<a href="sort-lang-asc?inp-search=<?php if (isset($value))
-                echo $value ?>&limit=<?php if (isset($limit))
-                echo $limit ?><?php if (isset($gender))
-                echo '&gender=' . $gender; ?><?php if (isset($language))
-                        echo '&language=' . $language; ?><?php if (isset($city))
-                               echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-up"></i></a><a href="sort-lang-desc?inp-search=<?php if (isset($value))
-                                      echo $value ?>&limit=<?php if (isset($limit))
-                                      echo $limit ?><?php if (isset($gender))
-                                      echo '&gender=' . $gender; ?><?php if (isset($language))
-                                              echo '&language=' . $language; ?><?php if (isset($city))
-                                                     echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-down"></i></a></th>
-            <th>City <a href="sort-city-asc?inp-search=<?php if (isset($value))
-                echo $value ?>&limit=<?php if (isset($limit))
-                echo $limit ?><?php if (isset($gender))
-                echo '&gender=' . $gender; ?><?php if (isset($language))
-                        echo '&language=' . $language; ?><?php if (isset($city))
-                               echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-up"></i></a><a href="sort-city-desc?inp-search=<?php if (isset($value))
-                                      echo $value ?>&limit=<?php if (isset($limit))
-                                      echo $limit ?><?php if (isset($gender))
-                                      echo '&gender=' . $gender; ?><?php if (isset($language))
-                                              echo '&language=' . $language; ?><?php if (isset($city))
-                                                     echo '&city=' . $city; ?>"><i class="fa-solid fa-sort-down"></i></a></th>
+            <th>Gender <a
+                    href="sort-gender-asc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-up"></i></a><a
+                    href="sort-gender-desc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-down"></i></a>
+            </th>
+            <th>Language<a
+                    href="sort-lang-asc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-up"></i></a><a
+                    href="sort-lang-desc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-down"></i></a>
+            </th>
+            <th>City <a
+                    href="sort-city-asc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-up"></i></a><a
+                    href="sort-city-desc?inp-search=<?php if (isset($value))
+                        echo $value ?>&limit=<?php if (isset($limit))
+                        echo $limit ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?><?php if (isset($page))
+                                                echo '&page=' . $page; ?>"><i
+                        class="fa-solid fa-sort-down"></i></a>
+            </th>
             <th>Action</th>
         </tr>
         <?php
         if (!empty($product_arr)) {
+            $i = 1;
             foreach ($product_arr as $products) {
                 ?>
                 <tr>
-                    <td><?php echo $products->id; ?></td>
+                    <td><?php echo $i; ?></td>
                     <td><?php echo $products->name; ?></td>
                     <td><?php echo $products->email; ?></td>
                     <td><img src="image/<?php echo $products->image; ?>" height="30px" width="40px" style="border-radius: 5px">
@@ -194,6 +285,7 @@
                     </td>
                 </tr>
                 <?php
+                $i++;
             }
         } else {
             ?>
@@ -210,10 +302,14 @@
         if (isset($page)) {
             if ($page >= 2) {
                 ?>
-                <a href="pagination?page=<?php if (isset($page))
-                    echo $page - 1; ?>&limit=<?php if (isset($limit))
-                            echo $limit ?>&inp-search=<?php if (isset($value))
-                            echo $value; ?>">
+                <a
+                    href="pagination?page=<?php if (isset($page))
+                        echo $page - 1; ?>&limit=<?php if (isset($limit))
+                                echo $limit ?>&inp-search=<?php if (isset($value))
+                                echo $value; ?><?php if (isset($gender))
+                                      echo '&gender=' . $gender; ?><?php if (isset($language))
+                                              echo '&language=' . $language; ?><?php if (isset($city))
+                                                      echo '&city=' . $city; ?>">
                     <li><i class="fa-solid fa-backward"></i></li>
                 </a>
 
@@ -225,10 +321,20 @@
         if (isset($totalPage)) {
             for ($i = 1; $i <= $totalPage; $i++) {
                 ?>
-                <a href="pagination?page=<?php echo $i; ?>&limit=<?php if (isset($limit))
-                       echo $limit ?>&inp-search=<?php if (isset($value))
-                       echo $value; ?>">
-                    <li><?php echo $i; ?></li>
+                <a
+                    href="pagination?page=<?php echo $i; ?>&limit=<?php if (isset($limit))
+                           echo $limit ?>&inp-search=<?php if (isset($value))
+                           echo $value; ?><?php if (isset($gender))
+                                 echo '&gender=' . $gender; ?><?php if (isset($language))
+                                         echo '&language=' . $language; ?><?php if (isset($city))
+                                                 echo '&city=' . $city; ?>">
+                    <li <?php if (isset($page) && isset($i)) {
+                        if ($page == $i) {
+                            echo 'class=active';
+                        }
+                    }
+                    ?>><?php echo $i; ?>
+                    </li>
                 </a>
                 <?php
             }
@@ -236,9 +342,13 @@
         if (isset($page) && isset($totalPage)) {
             if ($page < $totalPage) {
                 ?>
-                <a href="pagination?page=<?php echo $page + 1; ?>&limit=<?php if (isset($limit))
-                         echo $limit ?>&inp-search=<?php if (isset($value))
-                         echo $value; ?>">
+                <a
+                    href="pagination?page=<?php echo $page + 1; ?>&limit=<?php if (isset($limit))
+                             echo $limit ?>&inp-search=<?php if (isset($value))
+                             echo $value; ?><?php if (isset($gender))
+                                   echo '&gender=' . $gender; ?><?php if (isset($language))
+                                           echo '&language=' . $language; ?><?php if (isset($city))
+                                                   echo '&city=' . $city; ?>">
                     <li><i class="fa-solid fa-forward"></i></li>
                 </a>
 
@@ -257,7 +367,9 @@
         <option value="15">15</option>
         <option value="20">20</option>
     </select>
-
+    <div class="inp-div">
+        <a href="pagination">Refresh Page</a>
+    </div>
 
 </body>
 <script>
@@ -265,18 +377,33 @@
         $("#limit").change(function () {
             var limit = $(this).val();
             window.location.href = "pagination?limit=" + limit + "&inp-search=<?php if (isset($value))
-                echo $value; ?>";
+                echo $value; ?><?php if (isset($gender))
+                      echo '&gender=' . $gender; ?><?php if (isset($language))
+                              echo '&language=' . $language; ?><?php if (isset($city))
+                                      echo '&city=' . $city; ?>";
         });
         $("#gender").change(function () {
             var gender = $(this).val();
-            $("#language").change(function () {
-                var language = $(this).val();
-                $("#city").change(function () {
-                    var city = $(this).val();
-                    window.location.href = "multi-search?gender=" + gender + "&language=" + language + "&city=" + city + "&inp-search=<?php if (isset($value))
-                        echo $value; ?>";
-                });
-            });
+            var language = $("#language").val();
+            var city = $("#city").val();
+            window.location.href = "multi-search?gender=" + gender + "&language=" + language + "&city=" + city + "&inp-search=<?php if (isset($value))
+                echo $value; ?>";
+
+        });
+        $("#language").change(function () {
+            var language = $(this).val();
+            var gender = $("#gender").val();
+            var city = $("#city").val();
+            window.location.href = "multi-search?language=" + language + "&gender=" + gender + "&city=" + city + "&inp-search=<?php if (isset($value))
+                echo $value; ?>";
+
+        });
+        $("#city").change(function () {
+            var city = $(this).val();
+            var gender = $("#gender").val();
+            var language = $("#language").val();
+            window.location.href = "multi-search?city=" + city + "&language=" + language + "&gender=" + gender + "&inp-search=<?php if (isset($value))
+                echo $value; ?>";
         });
     });
 </script>

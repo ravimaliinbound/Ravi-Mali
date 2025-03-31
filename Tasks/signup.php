@@ -15,17 +15,19 @@
         font-family: sans-serif;
     }
 
-    body{
+    body {
         background-color: aliceblue;
     }
+
     .form-div {
         margin: 150px auto;
         width: 40%;
         padding: 20px 5px;
-        border-radius: 5px;;
-        background-color:rgb(216, 252, 255);
+        border-radius: 5px;
+        ;
+        background-color: rgb(216, 252, 255);
         box-shadow: 2px 4px gray;
-        
+
     }
 
     .form-div h2 {
@@ -45,7 +47,8 @@
         margin-left: 40px;
         width: 80%;
     }
-    .inp-div button{
+
+    .inp-div button {
         background-color: aqua;
         width: 50%;
         padding: 5px;
@@ -53,10 +56,12 @@
         border-radius: 5px;
         margin-left: 25%;
     }
-    .inp-div p{
+
+    .inp-div p {
         margin-left: 30%;
     }
-    .inp-div a{
+
+    .inp-div a {
         text-decoration: none;
     }
 </style>
@@ -83,7 +88,7 @@
                 <input type="file" name="image" required style="margin-left: 35px;">
             </div>
             <div class="inp-div">
-               <button type="submit" name="signup">Signup</button>
+                <button type="submit" name="signup">Signup</button>
             </div>
             <div class="inp-div">
                 <p>Already have an account? <a href="login">Login</a></p>

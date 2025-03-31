@@ -21,6 +21,7 @@ class Control extends Model
 {
     public function __construct()
     {
+        session_start();
         Model::__construct();
         $path = $_SERVER['PATH_INFO'];
 
@@ -173,8 +174,6 @@ class Control extends Model
                                 </script>";
                         }
                     }
-
-
                 }
                 break;
 
@@ -193,16 +192,22 @@ class Control extends Model
                         $tmp = $_FILES['image']['tmp_name'];
                         move_uploaded_file($tmp, $path);
                         echo "<script>
-                        alert('Signup Success');
-                        window.location = 'pagination';
+                        alert('Signup Success, Now Please Login...!');
+                        window.location = 'login';
                         </script>";
                     }
                 }
                 include_once 'signup.php';
                 break;
-            case '/login':
-                include_once 'login.php';
-                break;
+            // case '/login':
+            //     if(isset($_REQUEST['login'])){
+            //         $email = $_REQUEST['email'];
+            //         $password = md5($_REQUEST['password']);
+            //         $data = array("email"=>$email, "password"=>$password);
+            //         $res = $this->login_check('customer', $data);
+            //     }
+            //     include_once 'login.php';
+            //     break;
 
             case '/sort-num-asc':
                 if (isset($_REQUEST['inp-search'])) {
@@ -221,7 +226,8 @@ class Control extends Model
                             $product_arr = $this->sort_where('product', 'id', 'asc', $value, $limit, $gender, $language, $city);
                         }
                     }
-                } else {
+                } 
+               else {
                     $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
@@ -245,7 +251,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'id', 'desc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -268,7 +274,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'name', 'asc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -291,7 +297,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'name', 'desc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -314,7 +320,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'email', 'asc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -337,7 +343,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'email', 'desc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -360,7 +366,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'gender', 'asc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -383,7 +389,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'gender', 'desc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -406,7 +412,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'language', 'asc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -429,7 +435,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'language', 'desc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -452,7 +458,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'city', 'asc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';
@@ -475,7 +481,7 @@ class Control extends Model
                         }
                     }
                 } else {
-                    $product_arr = $this->sort('product', 'id', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'city', 'desc', $value, $limit);
                 }
                 $totalPage = $this->totalpage('product', $limit, $value);
                 include_once 'dashboard.php';

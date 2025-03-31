@@ -68,6 +68,7 @@ class Model
     }
     public function sort($table, $column, $order, $value, $limit)
     {
+       
         $search = "SELECT * FROM $table  WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' ORDER BY $column $order LIMIT 0, $limit";
         $run = $this->conn->query($search);
         $arr = [];
@@ -125,6 +126,11 @@ class Model
         }
         return $arr;
     }
+    // public function login_check($table, $arr){
+    //     $column = array_keys($arr);
+    //     $value = array_values($arr);
+    //     $sel = "SELECT * FROM $table WHERE 1=1";
+    // }
 }
 $obj = new Model();
 ?>

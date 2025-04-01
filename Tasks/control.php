@@ -28,9 +28,13 @@ class Control extends Model
         switch ($path) {
             case '/pagination':
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 } else {
                     $value = '';
+                }
+                $current_page = '';
+                if (isset($_REQUEST['current_page'])) {
+                    $page = $_REQUEST['current_page'];
                 }
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
@@ -42,15 +46,13 @@ class Control extends Model
                 } else {
                     $limit = 5;
                 }
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
-                    $product_arr = $this->pagination_where('product', $page, $limit, $gender, $language, $city);
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
+                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
@@ -70,21 +72,16 @@ class Control extends Model
                 } else {
                     $limit = 5;
                 }
-                if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
-                }
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $value = isset($_REQUEST['inp-search']) ? trim($_REQUEST['inp-search']) : '';
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
-                }
-                 else {
+                } else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
@@ -93,27 +90,40 @@ class Control extends Model
                 break;
             case '/add_product':
                 if (isset($_REQUEST['submit'])) {
-                    $name = $_REQUEST['name'];
-                    $email = $_REQUEST['email'];
-                    $password = $_REQUEST['password'];
-                    $image = $_FILES['image']['name'];
+                    $name = trim($_REQUEST['name']);
+                    $email = trim($_REQUEST['email']);
+                    $password = md5(trim($_REQUEST['password']));
+                    $norm_pass = trim($_REQUEST['password']);
+                    $image = trim($_FILES['image']['name']);
+                    $img_ext = pathinfo($image, PATHINFO_EXTENSION);
+                    $img_name = pathinfo($image, PATHINFO_FILENAME);
+                    $final_image = $img_name . time() . "." . $img_ext;
                     $gender = $_REQUEST['gender'];
                     $language = $_REQUEST['language'];
+                    $language2 = $_REQUEST['language'];
                     $city = $_REQUEST['city'];
                     $language_str = implode(",", $language);
-                    $data = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city);
-                    $res = $this->insert('product', $data);
+                    $email_check = array("email" => $email);
+                    $email_res = $this->select_where('product', $email_check);
 
-                    if ($res) {
-                        $path = "image/" . $image;
-                        $tmp = $_FILES['image']['tmp_name'];
-                        move_uploaded_file($tmp, $path);
+                    if ($email_res->num_rows > 0) {
+                        $_SESSION['email'] = 'Email Already Exists...!';
 
-                        echo "<script>
-                        alert('Product Inserted Successfully');
-                        window.location = 'add_product';
-                        </script>";
+                    } else {
+                        $data = array("name" => $name, "email" => $email, "password" => $password, "image" => $final_image, "gender" => $gender, "language" => $language_str, "city" => $city, "norm_pass" => $norm_pass);
+                        $res = $this->insert('product', $data);
+                        if ($res) {
+                            $path = "image/" . $final_image;
+                            $tmp = $_FILES['image']['tmp_name'];
+                            move_uploaded_file($tmp, $path);
+
+                            $_SESSION['insert'] = 'Product Inserted Successfully...!';
+                            header('Location: pagination');
+                            exit;
+                        }
                     }
+
+
                 }
                 if (isset($_REQUEST['id'])) {
                     $id = $_REQUEST['id'];
@@ -127,6 +137,11 @@ class Control extends Model
                 break;
 
             case '/delete_product':
+                if (isset($_REQUEST['page'])) {
+                    $page = $_REQUEST['page'];
+                } else {
+                    $page = 1;
+                }
                 if (isset($_REQUEST['id'])) {
                     $id = $_REQUEST['id'];
                     $data = array("id" => $id);
@@ -137,10 +152,9 @@ class Control extends Model
 
                     if ($res) {
                         unlink("image/" . $img);
-                        echo "<script>
-                        alert('Product Deleted Successfully');
-                        window.location = 'pagination';
-                        </script>";
+                        $_SESSION['delete'] = 'Product Deleted Successfully...!';
+                        header('Location: pagination?&page=' . $page);
+                        exit;
                     }
                 }
                 break;
@@ -171,13 +185,14 @@ class Control extends Model
                             $tmp = $_FILES['image']['tmp_name'];
                             move_uploaded_file($tmp, $path);
                             unlink("image/" . $old_img);
+                            $_SESSION['upd_success'] = 'Product Updated Successfully...!';
                             echo "<script>
-                                alert('Product Updated Successfully');
                                 window.location = 'pagination';
                                 </script>";
                         } else {
+                            $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
+
                             echo "<script>
-                                alert('Product Update Failed');
                                 window.location = 'pagination';                          
                                 </script>";
                         }
@@ -186,13 +201,13 @@ class Control extends Model
                         $res = $this->update_product('product', $data_arr, $id);
 
                         if ($res) {
+                            $_SESSION['upd_success'] = 'Product Updated Successfully...!';
                             echo "<script>
-                                alert('Product Updated Successfully');
                                 window.location = 'pagination';
                                 </script>";
                         } else {
+                            $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
                             echo "<script>
-                                alert('Product Update Failed');
                                 window.location = 'pagination';                          
                                 </script>";
                         }
@@ -241,20 +256,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'name', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -264,26 +277,28 @@ class Control extends Model
                 include_once 'dashboard.php';
                 break;
             case '/sort-name-desc':
+                $current_page = '';
+                if (isset($_REQUEST['current_page'])) {
+                    $page = $_REQUEST['current_page'];
+                }
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'name', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -299,20 +314,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'email', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -328,20 +341,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'email', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -357,20 +368,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'gender', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -386,20 +395,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'gender', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -415,20 +422,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'language', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -444,20 +449,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'language', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -473,20 +476,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'city', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
@@ -502,20 +503,18 @@ class Control extends Model
                     $page = 1;
                 }
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = $_REQUEST['inp-search'];
+                    $value = trim($_REQUEST['inp-search']);
                 }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else
                     $limit = 5;
-                if (isset($_REQUEST['gender'])) {
-                    $gender = $_REQUEST['gender'];
-                }
-                if (isset($_REQUEST['language'])) {
-                    $language = $_REQUEST['language'];
-                }
-                if (isset($_REQUEST['city'])) {
-                    $city = $_REQUEST['city'];
+                $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
+
+                if ($city || $gender || $language) {
                     $product_arr = $this->sort_where('product', 'city', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {

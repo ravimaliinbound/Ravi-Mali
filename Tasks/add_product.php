@@ -7,6 +7,7 @@ if (isset($_GET["id"])) {
     $data = mysqli_fetch_assoc($res);
     $data['language'] = explode(",", $data['language']);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +20,41 @@ if (isset($_GET["id"])) {
     <link rel="stylesheet" href="insert.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+<style>
+    .form-div {
+        margin: 50px auto;
+    }
+
+    .session {
+        margin: 50px auto;
+        border: 1px solid green;
+        width: fit-content;
+        padding: 10px;
+        border-radius: 5px;
+        color: green;
+    }
+
+    .danger {
+        margin: 50px auto;
+        border: 1px solid red;
+        width: fit-content;
+        padding: 10px;
+        border-radius: 5px;
+        color: red;
+    }
+</style>
 
 <body>
+    <?php
+    if (isset($_SESSION['insert'])) {
+        ?>
+        <div class="session">
+            <p><?php echo $_SESSION['insert']; ?></p>
+        </div>
+        <?php
+        unset($_SESSION['insert']);
+    }
+    ?>
     <div class="form-div">
         <h2>Registration Form</h2>
         <form action="<?php
@@ -32,31 +66,60 @@ if (isset($_GET["id"])) {
         ?>" method="post" enctype="multipart/form-data" id="form">
             <div class="inp-div">
                 <label>Name :</label>
-                <input type="text" name="name" id="Name" placeholder="Enter Your Name" value="<?php if (isset($data['name']))
-                    echo $data['name']; ?>">
+                <input type="text" name="name" id="Name" placeholder="Enter Your Name" value="<?php
+                if (!isset($_SESSION['insert'])) {
+                    if (isset($name))
+                        echo $name;
+                    if (isset($data['name']))
+                        echo $data['name'];
+                }
+                ?>">
                 <span class="err" id="errName" style="margin-left: 105px;"></span>
             </div>
             <div class="inp-div">
                 <label>Email :</label>
                 <input type="email" name="email" id="Email" style="margin-left: 50px;" placeholder="Enter Your Email"
-                    value="<?php if (isset($data['email']))
-                        echo $data['email']; ?>">
-                <span class="err" style="margin-left: 105px;" id="errEmail"></span>
+                    value="<?php
+                    if (isset($email))
+                        echo $email;
+                    if (isset($data['email']))
+                        echo $data['email'];
+                    ?>">
+                <span class="err" style="margin-left: 105px;" id="errEmail">
+                    <?php
+                    if (isset($_SESSION['email'])) {
+                        ?>
+                        <span class="err">
+                            <?php echo $_SESSION['email']; ?>
+                        </span>
+                        <?php
+                        unset($_SESSION['email']);
+                    }
+                    ?>
+                </span>
 
             </div>
             <div class="inp-div">
                 <label>Password :</label>
                 <input type="text" name="password" id="Password" style="margin-left: 20px;" placeholder="Enter Password"
-                    value="<?php if (isset($data['password']))
-                        echo $data['password']; ?>">
+                    value="<?php
+                    if (isset($norm_pass))
+                        echo $norm_pass;
+                    if (isset($data['norm_pass']))
+                        echo $data['norm_pass'];
+                    ?>">
                 <span class="err" style="margin-left: 105px;" id="errPassword"></span>
 
             </div>
             <div class="inp-div">
                 <label>Confirm Password :</label>
                 <input type="text" name="password2" id="Confirm_Password" style="margin-left: 0px; width: 68%;"
-                    placeholder="Confirm Password" value="<?php if (isset($data['password']))
-                        echo $data['password']; ?>">
+                    placeholder="Confirm Password" value="<?php
+                    if (isset($norm_pass))
+                        echo $norm_pass;
+                    if (isset($data['norm_pass']))
+                        echo $data['norm_pass'];
+                    ?>">
                 <span class="err" style="margin-left: 105px;" id="errConfirm_Password"></span>
 
             </div>
@@ -69,55 +132,84 @@ if (isset($_GET["id"])) {
             </div>
             <div class="gender">
                 <label>Gender :</label>
-                <input type="radio" name="gender" value="Male" <?php
+                <input type="radio" name="gender" id="Male" value="Male" <?php
                 if (isset($data['gender'])) {
                     if ($data['gender'] == 'Male') {
                         echo 'checked';
                     }
                 }
-                ?>> Male
-                <input type="radio" name="gender" value="Female" <?php
+                if (isset($gender)) {
+                    if ($gender == 'Male') {
+                        echo 'checked';
+                    }
+                }
+                ?>> <label for="Male">Male</label>
+                <input type="radio" name="gender" id="Female" value="Female" <?php
                 if (isset($data['gender'])) {
                     if ($data['gender'] == 'Female') {
                         echo 'checked';
                     }
                 }
-                ?>> Female
-                <input type="radio" name="gender" value="Other" <?php
+                if (isset($gender)) {
+                    if ($gender == 'Female') {
+                        echo 'checked';
+                    }
+                }
+                ?>> <label for="Female">Female</label>
+                <input type="radio" name="gender" id="Other" value="Other" <?php
                 if (isset($data['gender'])) {
                     if ($data['gender'] == 'Other') {
                         echo 'checked';
                     }
                 }
-                ?>> Other
+                if (isset($gender)) {
+                    if ($gender == 'Other') {
+                        echo 'checked';
+                    }
+                }
+                ?>> <label for="Other">Other</label>
                 <span class="err" id="errGender"></span>
 
             </div>
             <div class="lang">
                 <label>Language :</label>
-                <input type="checkbox" name="language[]" value="Hindi" <?php
+                <input type="checkbox" name="language[]" id="Hindi" value="Hindi" <?php
                 if (isset($data['language'])) {
                     if (in_array("Hindi", $language)) {
                         echo 'checked';
                     }
                 }
-                ?>> Hindi
-                <input type="checkbox" name="language[]" value="English" <?php
+                if (isset($language2)) {
+                    if (in_array('Hindi', $language2)) {
+                        echo 'checked';
+                    }
+                }
+                ?>> <label for="Hindi" id="Hindi_lbl">Hindi</label>
+                <input type="checkbox" id="English" name="language[]" value="English" <?php
                 if (isset($data['language'])) {
                     if (in_array("English", $language)) {
                         echo 'checked';
                     }
                 }
-                ?>> English
-                <input type="checkbox" name="language[]" value="Gujrati" <?php
+                if (isset($language2)) {
+                    if (in_array('English', $language2)) {
+                        echo 'checked';
+                    }
+                }
+                ?>> <label for="English">English</label>
+                <input type="checkbox" id="Gujrati" name="language[]" value="Gujrati" <?php
                 if (isset($data['language'])) {
                     if (in_array("Gujrati", $language)) {
                         echo 'checked';
                     }
                 }
-                ?>> Gujrati
+                if (isset($language2)) {
+                    if (in_array('Gujrati', $language2)) {
+                        echo 'checked';
+                    }
+                }
+                ?>> <label for="Gujrati">Gujrati</label>
                 <span class="err" id="errLang"></span>
-
             </div>
             <div class="city">
                 <label>City :</label>
@@ -129,10 +221,20 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
+                    if (isset($city)) {
+                        if ($city == 'Ahmedabad') {
+                            echo 'selected';
+                        }
+                    }
                     ?>>Ahmedabad</option>
                     <option value="Mandar" <?php
                     if (isset($data['city'])) {
                         if ($data['city'] == 'Mandar') {
+                            echo 'selected';
+                        }
+                    }
+                    if (isset($city)) {
+                        if ($city == 'Mandar') {
                             echo 'selected';
                         }
                     }
@@ -143,10 +245,20 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
+                    if (isset($city)) {
+                        if ($city == 'Mumbai') {
+                            echo 'selected';
+                        }
+                    }
                     ?>>Mumbai</option>
                     <option value="Delhi" <?php
                     if (isset($data['city'])) {
                         if ($data['city'] == 'Delhi') {
+                            echo 'selected';
+                        }
+                    }
+                    if (isset($city)) {
+                        if ($city == 'Delhi') {
                             echo 'selected';
                         }
                     }
@@ -157,10 +269,20 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
+                    if (isset($city)) {
+                        if ($city == 'Malipura') {
+                            echo 'selected';
+                        }
+                    }
                     ?>>Malipura</option>
                     <option value="Surat" <?php
                     if (isset($data['city'])) {
                         if ($data['city'] == 'Surat') {
+                            echo 'selected';
+                        }
+                    }
+                    if (isset($city)) {
+                        if ($city == 'Surat') {
                             echo 'selected';
                         }
                     }
@@ -644,7 +766,8 @@ if (isset($_GET["id"])) {
             if (!isValid) {
                 obj.preventDefault();
             }
-        })
+           
+        });
     })
 </script>
 

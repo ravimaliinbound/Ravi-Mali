@@ -48,7 +48,7 @@ class Model
         $value_arr = array_values($arr);
         $value = implode("','", $value_arr);
 
-        $sel = "SELECT * FROM $table WHERE $column = $value";
+        $sel = "SELECT * FROM $table WHERE $column = '$value'";
         $run = $this->conn->query($sel);
         return $run;
     }
@@ -92,8 +92,19 @@ class Model
     }
     public function multi_search($table, $gender = null, $language = null, $city = null, $page, $limit)
     {
+        $where = [];
+        if($city){
+            $where[] = "city LIKE '%$city%'";
+        }
+        if($gender){
+            $where[] = "gender LIKE '$gender'";
+        }
+        if($language){
+            $where[] ="language LIKE '%$language%'";
+        }
+        $where = implode(" AND ",$where);
         $offset = ($page - 1) * $limit;
-        $sel = "SELECT * FROM $table WHERE gender LIKE '$gender'  AND language LIKE '%$language%' AND city LIKE '%$city%' LIMIT $offset, $limit";
+        $sel = "SELECT * FROM $table WHERE  $where LIMIT $offset, $limit";
         $run = $this->conn->query($sel);
         $arr = [];
         while ($fetch = $run->fetch_object()) {
@@ -136,7 +147,18 @@ class Model
     }
     public function totalpage_where($table, $limit, $gender, $language, $city)
     {
-        $sel = "SELECT * FROM $table WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%'";
+        $where = [];
+        if($city){
+            $where[] = "city LIKE '%$city%'";
+        }
+        if($gender){
+            $where[] = "gender LIKE '$gender'";
+        }
+        if($language){
+            $where[] ="language LIKE '%$language%'";
+        }
+        $where = implode(" AND ",$where);
+        $sel = "SELECT * FROM $table WHERE $where";
         $run = $this->conn->query($sel);
         $rows = $run->num_rows;
         $totalPage = ceil($rows / $limit);

@@ -22,7 +22,7 @@ if (isset($_GET["id"])) {
 </head>
 <style>
     .form-div {
-        margin: 50px auto;
+        margin: 150px auto;
     }
 
     .session {
@@ -57,9 +57,9 @@ if (isset($_GET["id"])) {
     ?>
     <div class="form-div">
         <h2>Registration Form</h2>
-        <form action="<?php
+        <form action="<?php 
         if (isset($_GET['id'])) {
-            echo "update_product?id=$_GET[id]";
+            echo "update_product?id=$_GET[id]&page=". $page;
         } else {
             echo 'add_product';
         }

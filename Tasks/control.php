@@ -32,10 +32,6 @@ class Control extends Model
                 } else {
                     $value = '';
                 }
-                $current_page = '';
-                if (isset($_REQUEST['current_page'])) {
-                    $page = $_REQUEST['current_page'];
-                }
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -52,7 +48,7 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit);
+                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
@@ -79,7 +75,7 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit);
+                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
@@ -89,6 +85,9 @@ class Control extends Model
                 include_once 'dashboard.php';
                 break;
             case '/add_product':
+                if (isset($_REQUEST['page'])) {
+                    $page = $_REQUEST['page'];
+                } 
                 if (isset($_REQUEST['submit'])) {
                     $name = trim($_REQUEST['name']);
                     $email = trim($_REQUEST['email']);
@@ -118,7 +117,7 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
 
                             $_SESSION['insert'] = 'Product Inserted Successfully...!';
-                            header('Location: pagination');
+                            header('Location: pagination?page='. $page);
                             exit;
                         }
                     }
@@ -153,14 +152,18 @@ class Control extends Model
                     if ($res) {
                         unlink("image/" . $img);
                         $_SESSION['delete'] = 'Product Deleted Successfully...!';
-                        header('Location: pagination?&page=' . $page);
+                        header('Location: pagination?page=' . $page);
                         exit;
                     }
                 }
                 break;
 
             case '/update_product':
-
+                if (isset($_REQUEST['page'])) {
+                    $page = $_REQUEST['page'];
+                } else {
+                    $page = 1;
+                }
                 if (isset($_REQUEST['submit'])) {
                     $id = $_REQUEST['id'];
                     $data = array("id" => $id);
@@ -186,15 +189,13 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
                             unlink("image/" . $old_img);
                             $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                            echo "<script>
-                                window.location = 'pagination';
-                                </script>";
+                            header('Location: pagination?page=' . $page);
+                            exit;
                         } else {
                             $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
 
-                            echo "<script>
-                                window.location = 'pagination';                          
-                                </script>";
+                            header('Location: pagination?page=' . $page);
+                        exit;
                         }
                     } else {
                         $data_arr = array("name" => $name, "email" => $email, "password" => $password, "gender" => $gender, "language" => $language_str, "city" => $city);
@@ -202,14 +203,12 @@ class Control extends Model
 
                         if ($res) {
                             $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                            echo "<script>
-                                window.location = 'pagination';
-                                </script>";
+                            header('Location: pagination?page=' . $page);
+                            exit;
                         } else {
                             $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
-                            echo "<script>
-                                window.location = 'pagination';                          
-                                </script>";
+                            header('Location: pagination?page=' . $page);
+                            exit;
                         }
                     }
                 }
@@ -271,7 +270,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'name', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'name', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'name', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -302,7 +301,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'name', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'name', 'desc', $value, $limit);
+                    $product_arr = $this->sort('product', 'name', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -329,7 +328,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'email', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'email', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'email', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -356,7 +355,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'email', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'email', 'desc', $value, $limit);
+                    $product_arr = $this->sort('product', 'email', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -383,7 +382,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'gender', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'gender', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'gender', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -410,7 +409,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'gender', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'gender', 'desc', $value, $limit);
+                    $product_arr = $this->sort('product', 'gender', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -437,7 +436,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'language', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'language', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'language', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -464,7 +463,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'language', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'language', 'desc', $value, $limit);
+                    $product_arr = $this->sort('product', 'language', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -491,7 +490,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'city', 'asc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'city', 'asc', $value, $limit);
+                    $product_arr = $this->sort('product', 'city', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -518,7 +517,7 @@ class Control extends Model
                     $product_arr = $this->sort_where('product', 'city', 'desc', $limit, $gender, $language, $city, $page);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
                 } else {
-                    $product_arr = $this->sort('product', 'city', 'desc', $value, $limit);
+                    $product_arr = $this->sort('product', 'city', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';

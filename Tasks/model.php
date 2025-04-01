@@ -66,9 +66,10 @@ class Model
         $run = $this->conn->query($upd);
         return $run;
     }
-    public function sort($table, $column, $order, $value = null, $limit)
+    public function sort($table, $column, $order, $value = null, $limit, $page)
     {
-        $search = "SELECT * FROM $table  WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' ORDER BY $column $order LIMIT 0, $limit";
+        $offset = ($page - 1) * $limit;
+        $search = "SELECT * FROM $table  WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' ORDER BY $column $order LIMIT $offset, $limit";
         $run = $this->conn->query($search);
         $arr = [];
         while ($fetch = $run->fetch_object()) {
@@ -80,8 +81,7 @@ class Model
     public function pagination($table, $page, $limit, $value)
     {
         $offset = ($page - 1) * $limit;
-
-        $query = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' LIMIT $offset, $limit";
+        $query = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%'  LIMIT $offset, $limit";
         $q_run = $this->conn->query($query);
 
         $arr = [];
@@ -90,7 +90,8 @@ class Model
         }
         return $arr;
     }
-    public function multi_search($table, $gender = null, $language = null, $city = null, $page, $limit)
+
+    public function multi_search($table, $gender = null, $language = null, $city = null, $page, $limit, $value)
     {
         $where = [];
         if($city){
@@ -102,6 +103,7 @@ class Model
         if($language){
             $where[] ="language LIKE '%$language%'";
         }
+        $where[] = "name LIKE '%$value%'";
         $where = implode(" AND ",$where);
         $offset = ($page - 1) * $limit;
         $sel = "SELECT * FROM $table WHERE  $where LIMIT $offset, $limit";
@@ -123,7 +125,7 @@ class Model
         }
         return $arr;
     }
-    public function pagination_where($table, $page, $limit, $gender = null, $language = null, $city = null)
+    public function pagination_where($table, $page, $limit, $gender = null, $language = null, $city = null, $value)
     {
         $offset = ($page - 1) * $limit;
 

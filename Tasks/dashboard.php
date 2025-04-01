@@ -322,7 +322,6 @@
         </tr>
         <?php
         if (!empty($product_arr)) {
-            $i = 1;
             foreach ($product_arr as $products) {
                 ?>
                 <tr>
@@ -335,13 +334,12 @@
                     <td><?php echo $products->language; ?></td>
                     <td><?php echo $products->city; ?></td>
                     <td>
-                        <a href="add_product?id=<?php echo $products->id; if(isset($page)) echo '&page='. $page; ?>" class="edit-product">Edit</a>
+                        <a href="add_product?id=<?php echo $products->id;?> <?php if(isset($page)) echo '&page='. $page; ?>" class="edit-product">Edit</a>
                         <a href="delete_product?id=<?php echo $products->id;?> <?php if(isset($page)) echo '&page='. $page; ?>"
                             onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
                     </td>
                 </tr>
                 <?php
-                $i++;
             }
         } else {
             ?>
@@ -415,10 +413,34 @@
 
     <select name="limit" id="limit">
         <option value="">Select Limit</option>
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="15">15</option>
-        <option value="20">20</option>
+        <option value="5" <?php
+         if (isset($limit)) {
+            if ($limit == 5) {
+                echo 'selected';
+            }
+        }
+        ?>>5</option>
+        <option value="10" <?php
+         if (isset($limit)) {
+            if ($limit == 10) {
+                echo 'selected';
+            }
+        }
+        ?>>10</option>
+        <option value="15" <?php
+         if (isset($limit)) {
+            if ($limit == 15) {
+                echo 'selected';
+            }
+        }
+        ?>>15</option>
+        <option value="20" <?php
+         if (isset($limit)) {
+            if ($limit == 20) {
+                echo 'selected';
+            }
+        }
+        ?>>20</option>
     </select>
     <div class="inp-div">
         <a href="pagination">Refresh Page</a>

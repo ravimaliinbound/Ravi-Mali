@@ -93,6 +93,11 @@ class Control extends Model
                 include_once 'dashboard.php';
                 break;
             case '/add_product':
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = trim($_REQUEST['inp-search']);
+                } else {
+                    $value = '';
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else {
@@ -130,7 +135,7 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
 
                             $_SESSION['insert'] = 'Product Inserted Successfully...!';
-                            header('Location: add_product?page=' . $page);
+                            header('Location: add_product?page=' . $page.'&inp-search='.$value);
                             exit;
                         }
                     }
@@ -149,6 +154,11 @@ class Control extends Model
                 break;
 
             case '/delete_product':
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = trim($_REQUEST['inp-search']);
+                } else {
+                    $value = '';
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else {
@@ -170,13 +180,18 @@ class Control extends Model
                     if ($res) {
                         unlink("image/" . $img);
                         $_SESSION['delete'] = 'Product Deleted Successfully...!';
-                        header('Location: pagination?page=' . $page.'&limit='. $limit);
+                        header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
                         exit;
                     }
                 }
                 break;
 
             case '/update_product':
+                if (isset($_REQUEST['inp-search'])) {
+                    $value = trim($_REQUEST['inp-search']);
+                } else {
+                    $value = '';
+                }
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -213,12 +228,12 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
                             unlink("image/" . $old_img);
                             $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                            header('Location: pagination?page=' . $page.'&limit='. $limit);
+                            header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
                             exit;
                         } else {
                             $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
 
-                            header('Location: pagination?page=' . $page.'&limit='. $limit);
+                            header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
                             exit;
                         }
                     } else {
@@ -227,11 +242,11 @@ class Control extends Model
 
                         if ($res) {
                             $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                            header('Location: pagination?page=' . $page.'&limit='. $limit);
+                            header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
                             exit;
                         } else {
                             $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
-                            header('Location: pagination?page=' . $page.'&limit='. $limit);
+                            header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
                             exit;
                         }
                     }

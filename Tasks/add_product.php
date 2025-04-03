@@ -59,7 +59,7 @@ if (isset($_GET["id"])) {
         <h2>Registration Form</h2>
         <form action="<?php 
         if (isset($_GET['id'])) {
-            echo "update_product?id=$_GET[id]&page=". $page."&limit=". $limit;
+            echo "update_product?id=".$_GET['id']."&page=". $page."&limit=". $limit.'&inp-search'.$value;
         } else {
             echo 'add_product';
         }

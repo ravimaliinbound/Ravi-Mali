@@ -99,13 +99,13 @@ if (!isset($_SESSION['login_done'])) {
             <a href="logout" class="logout-btn">Logout</a>
             <?php
 
-        } else {
+        }else{
             ?>
             <a href="login" class="logout-btn">Login</a>
             <?php
         }
         ?>
-
+        
     </div>
     <?php
     if (isset($_SESSION['delete'])) {
@@ -249,7 +249,7 @@ if (!isset($_SESSION['login_done'])) {
     </form>
 
     <form action="pagination?limit=<?php if (isset($limit))
-        echo $limit ?>&value=<?php if (isset($value))
+        echo $limit ?>&inp-search=<?php if (isset($value))
         echo $value; ?>" method="post">
         <div class="search">
             <input type="text" id="inp-search" name="inp-search" placeholder="Search Values..." value="<?php if (isset($value))
@@ -357,13 +357,10 @@ if (!isset($_SESSION['login_done'])) {
                     <td><?php echo $products->city; ?></td>
                     <td>
                         <a href="add_product?id=<?php echo $products->id; ?> <?php if (isset($page))
-                                echo '&page=' . $page; ?><?php if (isset($limit))
-                                        echo '&limit=' . $limit; ?>"
-                            class="edit-product">Edit</a>
+                                echo '&page=' . $page; ?><?php if(isset($limit)) echo '&limit='. $limit;?>" class="edit-product">Edit</a>
                         <a href="delete_product?id=<?php echo $products->id; ?> <?php if (isset($page))
-                                echo '&page=' . $page; ?><?php if (isset($limit))
-                                        echo '&limit=' . $limit; ?>"
-                            onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
+                                echo '&page=' . $page; ?><?php if(isset($limit)) echo '&limit='. $limit;?>" onclick="return confirm('Do You Really Want To Delete?')"
+                            class="delete-product">Delete</a>
                     </td>
                 </tr>
                 <?php

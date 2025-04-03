@@ -107,17 +107,17 @@ class Model
     public function multi_search($table, $gender = null, $language = null, $city = null, $page, $limit, $value, $column, $order)
     {
         $where = [];
-        if($city){
+        if ($city) {
             $where[] = "city LIKE '%$city%'";
         }
-        if($gender){
+        if ($gender) {
             $where[] = "gender LIKE '$gender'";
         }
-        if($language){
-            $where[] ="language LIKE '%$language%'";
+        if ($language) {
+            $where[] = "language LIKE '%$language%'";
         }
         $where[] = "name LIKE '%$value%'";
-        $where = implode(" AND ",$where);
+        $where = implode(" AND ", $where);
         $offset = ($page - 1) * $limit;
         $sel = "SELECT * FROM $table WHERE  $where ORDER BY $column $order LIMIT $offset, $limit";
         $run = $this->conn->query($sel);
@@ -130,17 +130,17 @@ class Model
     public function sort_where($table, $column, $order, $limit, $gender = null, $language = null, $city = null, $page, $value)
     {
         $where = [];
-        if($city){
+        if ($city) {
             $where[] = "city LIKE '%$city%'";
         }
-        if($gender){
+        if ($gender) {
             $where[] = "gender LIKE '$gender'";
         }
-        if($language){
-            $where[] ="language LIKE '%$language%'";
+        if ($language) {
+            $where[] = "language LIKE '%$language%'";
         }
         $where[] = "name LIKE '%$value%'";
-        $where = implode(" AND ",$where);
+        $where = implode(" AND ", $where);
 
         $offset = ($page - 1) * $limit;
         $search = "SELECT * FROM $table  WHERE $where ORDER BY $column $order LIMIT $offset, $limit";
@@ -151,7 +151,7 @@ class Model
         }
         return $arr;
     }
-  
+
 
     public function totalpage($table, $limit, $value)
     {
@@ -164,17 +164,17 @@ class Model
     public function totalpage_where($table, $limit, $gender, $language, $city, $value)
     {
         $where = [];
-        if($city){
+        if ($city) {
             $where[] = "city LIKE '%$city%'";
         }
-        if($gender){
+        if ($gender) {
             $where[] = "gender LIKE '$gender'";
         }
-        if($language){
-            $where[] ="language LIKE '%$language%'";
+        if ($language) {
+            $where[] = "language LIKE '%$language%'";
         }
         $where[] = "name LIKE '%$value%'";
-        $where = implode(" AND ",$where);
+        $where = implode(" AND ", $where);
         $sel = "SELECT * FROM $table WHERE $where";
         $run = $this->conn->query($sel);
         $rows = $run->num_rows;
@@ -192,11 +192,24 @@ class Model
         }
         return $arr;
     }
-    // public function login_check($table, $arr){
-    //     $column = array_keys($arr);
-    //     $value = array_values($arr);
-    //     $sel = "SELECT * FROM $table WHERE 1=1";
-    // }
+    public function login_check($table, $email, $password)
+    {
+        $sel = "SELECT * FROM $table WHERE email = '$email' AND password = '$password'";
+        $run = $this->conn->query($sel);
+        $email_check ='';
+        $password_check = '';
+        $res = '';
+        while ($fetch = $run->fetch_object()) {
+            $email_check = $fetch->email;
+            $password_check = $fetch->password;
+        }
+        if ($email == $email_check && $password == $password_check) {
+            $res = 'Success';
+        } else {
+            $res = 'Failed';
+        }
+        return $res;
+    }
 }
 $obj = new Model();
 ?>

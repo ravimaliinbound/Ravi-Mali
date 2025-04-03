@@ -59,7 +59,7 @@ if (isset($_GET["id"])) {
         <h2>Registration Form</h2>
         <form action="<?php 
         if (isset($_GET['id'])) {
-            echo "update_product?id=$_GET[id]&page=". $page;
+            echo "update_product?id=$_GET[id]&page=". $page."&limit=". $limit;
         } else {
             echo 'add_product';
         }
@@ -95,7 +95,7 @@ if (isset($_GET["id"])) {
                         <?php
                         unset($_SESSION['email']);
                     }
-                    ?>
+                    ?>  
                 </span>
 
             </div>
@@ -295,8 +295,12 @@ if (isset($_GET["id"])) {
                 <button type="submit" name="submit" id="submit">Submit</button>
             </div>
             <div class="inp-div">
+                <p>Already have an account? <a href="login">Login</a></p>
+            </div>
+            <div class="inp-div">
                 <a href="pagination">Back</a>
             </div>
+            
         </form>
     </div>
 </body>

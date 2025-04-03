@@ -1,3 +1,9 @@
+<?php
+if (!isset($_SESSION['login_done'])) {
+    $_SESSION['login_first'] = "Please Login First...!";
+    header('Location: login');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,8 +93,19 @@
 
     <div class="btn">
         <a href="add_product" class="add-product-btn">Add Product</a>
-        <!-- <a href="logout" class="logout-btn">Logout</a> -->
-        <a href="login" class="logout-btn">Login</a>
+        <?php
+        if (isset($_SESSION['login_done'])) {
+            ?>
+            <a href="logout" class="logout-btn">Logout</a>
+            <?php
+
+        } else {
+            ?>
+            <a href="login" class="logout-btn">Login</a>
+            <?php
+        }
+        ?>
+
     </div>
     <?php
     if (isset($_SESSION['delete'])) {
@@ -100,7 +117,7 @@
         unset($_SESSION['delete']);
     } elseif (isset($_SESSION['email'])) {
         ?>
-        <div class="dander">
+        <div class="danger">
             <p><?php echo $_SESSION['email']; ?></p>
         </div>
         <?php
@@ -126,6 +143,13 @@
         </div>
         <?php
         unset($_SESSION['insert']);
+    } elseif (isset($_SESSION['login'])) {
+        ?>
+        <div class="session">
+            <p><?php echo $_SESSION['login']; ?></p>
+        </div>
+        <?php
+        unset($_SESSION['login']);
     }
     ?>
     <form action="" method="post" id="multi-search">
@@ -333,10 +357,13 @@
                     <td><?php echo $products->city; ?></td>
                     <td>
                         <a href="add_product?id=<?php echo $products->id; ?> <?php if (isset($page))
-                                echo '&page=' . $page; ?>" class="edit-product">Edit</a>
+                                echo '&page=' . $page; ?><?php if (isset($limit))
+                                        echo '&limit=' . $limit; ?>"
+                            class="edit-product">Edit</a>
                         <a href="delete_product?id=<?php echo $products->id; ?> <?php if (isset($page))
-                                echo '&page=' . $page; ?>" onclick="return confirm('Do You Really Want To Delete?')"
-                            class="delete-product">Delete</a>
+                                echo '&page=' . $page; ?><?php if (isset($limit))
+                                        echo '&limit=' . $limit; ?>"
+                            onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
                     </td>
                 </tr>
                 <?php

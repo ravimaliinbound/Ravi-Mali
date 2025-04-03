@@ -50,16 +50,14 @@ class Control extends Model
                 $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
 
 
-                if ($city || $gender || $language ) {
+                if ($city || $gender || $language) {
                     $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value, $column, $order);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
-                } 
-                elseif($column && $order){
+                } elseif ($column && $order) {
                     $product_arr = $this->pagination_where('product', $page, $limit, $column, $order, $value);
                     $totalPage = $this->totalpage('product', $limit, $value);
 
-                }
-                else {
+                } else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
@@ -95,6 +93,11 @@ class Control extends Model
                 include_once 'dashboard.php';
                 break;
             case '/add_product':
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else {
+                    $limit = 5;
+                }
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 }
@@ -146,6 +149,11 @@ class Control extends Model
                 break;
 
             case '/delete_product':
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else {
+                    $limit = 5;
+                }
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -162,7 +170,7 @@ class Control extends Model
                     if ($res) {
                         unlink("image/" . $img);
                         $_SESSION['delete'] = 'Product Deleted Successfully...!';
-                        header('Location: pagination?page=' . $page);
+                        header('Location: pagination?page=' . $page.'&limit='. $limit);
                         exit;
                     }
                 }
@@ -173,13 +181,19 @@ class Control extends Model
                     $page = $_REQUEST['page'];
                 } else {
                     $page = 1;
+                } 
+                if (isset($_REQUEST['limit'])) {
+                    $limit = $_REQUEST['limit'];
+                } else {
+                    $limit = 5;
                 }
                 if (isset($_REQUEST['submit'])) {
-                    $id = $_REQUEST['id'];
+                    $id = trim($_REQUEST['id']);
                     $data = array("id" => $id);
-                    $name = $_REQUEST['name'];
-                    $email = $_REQUEST['email'];
-                    $password = $_REQUEST['password'];
+                    $name = trim($_REQUEST['name']);
+                    $email = trim($_REQUEST['email']);
+                    $password = md5(trim($_REQUEST['password']));
+                    $norm_pass = trim($_REQUEST['password']);
                     $gender = $_REQUEST['gender'];
                     $language = $_REQUEST['language'];
                     $city = $_REQUEST['city'];
@@ -190,7 +204,7 @@ class Control extends Model
                         $resdata = $this->select_where('product', $data);
                         $fetch = $resdata->fetch_object();
                         $old_img = $fetch->image;
-                        $data_arr = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city);
+                        $data_arr = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city, "norm_pass" => $norm_pass);
                         $res = $this->update_product('product', $data_arr, $id);
 
                         if ($res) {
@@ -199,12 +213,12 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
                             unlink("image/" . $old_img);
                             $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                            header('Location: pagination?page=' . $page);
+                            header('Location: pagination?page=' . $page.'&limit='. $limit);
                             exit;
                         } else {
                             $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
 
-                            header('Location: pagination?page=' . $page);
+                            header('Location: pagination?page=' . $page.'&limit='. $limit);
                             exit;
                         }
                     } else {
@@ -213,50 +227,47 @@ class Control extends Model
 
                         if ($res) {
                             $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                            header('Location: pagination?page=' . $page);
+                            header('Location: pagination?page=' . $page.'&limit='. $limit);
                             exit;
                         } else {
                             $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
-                            header('Location: pagination?page=' . $page);
+                            header('Location: pagination?page=' . $page.'&limit='. $limit);
                             exit;
                         }
                     }
                 }
                 break;
 
-            case '/signup':
-                if (isset($_REQUEST['signup'])) {
-                    $name = $_REQUEST['name'];
-                    $email = $_REQUEST['email'];
-                    $password = md5($_REQUEST['password']);
-                    $image = $_FILES['image']['name'];
-
-                    $data = array("name" => $name, "email" => $email, "password" => $password, "image" => $image);
-                    $res = $this->insert('customer', $data);
-
-                    if ($res) {
-                        $path = "customer_img/" . $image;
-                        $tmp = $_FILES['image']['tmp_name'];
-                        move_uploaded_file($tmp, $path);
-                        echo "<script>
-                        alert('Signup Success, Now Please Login...!');
-                        window.location = 'login';
-                        </script>";
+            case '/login':
+                $email = isset($_REQUEST['email']) ? trim($_REQUEST['email']) : '';
+                $norm_password = isset($_REQUEST['password']) ? trim($_REQUEST['password']) : '';
+                if (isset($_REQUEST['login'])) {
+                    $email = trim($_REQUEST['email']);
+                    $password = md5(trim($_REQUEST['password']));
+                    $norm_password = $_REQUEST['password'];
+                    $data = array("email" => $email, "password" => $password);
+                    $res = $this->login_check('product', $email, $password);
+                    if ($res == 'Success') {
+                        $_SESSION['login'] = 'Login Success...!';
+                        $_SESSION['login_done'] = 'Login Success...!';
+                        header('Location: pagination');
+                        exit;
+                    } else {
+                        $_SESSION['login_failed'] = ' Login Failed Due To Wrong Credentials...!';
+                        header('Location: login?email=' . $email . '&password=' . $norm_password);
+                        exit;
                     }
                 }
-                include_once 'signup.php';
+                session_destroy();
+                include_once 'login.php';
                 break;
-            // case '/login':
-            //     if(isset($_REQUEST['login'])){
-            //         $email = $_REQUEST['email'];
-            //         $password = md5($_REQUEST['password']);
-            //         $data = array("email"=>$email, "password"=>$password);
-            //         $res = $this->login_check('customer', $data);
-            //     }
-            //     include_once 'login.php';
-            //     break;
 
 
+            case '/logout':
+                unset($_SESSION['login_done']);
+                $_SESSION['logout'] = 'Logout Success...!';
+                header('Location: login');
+                exit;
 
             case '/sort-name-asc':
                 $column = 'name';
@@ -279,10 +290,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -309,10 +320,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order, $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', $column, $order,$value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -338,10 +349,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -366,11 +377,11 @@ class Control extends Model
                 $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
 
 
-                if ($city || $gender || $language ) {
-                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
+                if ($city || $gender || $language) {
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -396,10 +407,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -425,10 +436,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -454,10 +465,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -483,10 +494,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -512,10 +523,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column, $order, $value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
@@ -541,10 +552,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product',  $column, $order, $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product', $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product',  $column,  $order, $value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';

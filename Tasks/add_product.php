@@ -540,7 +540,7 @@ if (isset($_GET["id"])) {
                 $("#errName").text("");
             }
             else {
-                $("#errName").text("Name must contain alphabets only. Min = 4, Max = 15 Alphabets");
+                $("#errName").text("Name must contain alphabets only. Min = 3, Max = 15 Alphabets");
                 valid = false;
             }
             if ($("#Name").val() == "") {
@@ -658,7 +658,7 @@ if (isset($_GET["id"])) {
                 $("#errName").text("");
             }
             else {
-                $("#errName").text("Name must contain alphabets only. Min = 4, Max = 15 Alphabets");
+                $("#errName").text("Name must contain alphabets only. Min = 3, Max = 15 Alphabets");
                 isValid = false;
             }
             if ($("#Name").val() == "") {

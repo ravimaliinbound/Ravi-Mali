@@ -90,8 +90,21 @@ class Model
         }
         return $arr;
     }
+    public function pagination_where($table, $page, $limit, $column, $order, $value)
+    {
+        $offset = ($page - 1) * $limit;
 
-    public function multi_search($table, $gender = null, $language = null, $city = null, $page, $limit, $value)
+        $query = "SELECT * FROM $table  WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%' ORDER BY $column $order LIMIT $offset, $limit";
+        $q_run = $this->conn->query($query);
+
+        $arr = [];
+        while ($fetch = $q_run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        return $arr;
+    }
+
+    public function multi_search($table, $gender = null, $language = null, $city = null, $page, $limit, $value, $column, $order)
     {
         $where = [];
         if($city){
@@ -106,7 +119,7 @@ class Model
         $where[] = "name LIKE '%$value%'";
         $where = implode(" AND ",$where);
         $offset = ($page - 1) * $limit;
-        $sel = "SELECT * FROM $table WHERE  $where LIMIT $offset, $limit";
+        $sel = "SELECT * FROM $table WHERE  $where ORDER BY $column $order LIMIT $offset, $limit";
         $run = $this->conn->query($sel);
         $arr = [];
         while ($fetch = $run->fetch_object()) {
@@ -116,8 +129,21 @@ class Model
     }
     public function sort_where($table, $column, $order, $limit, $gender = null, $language = null, $city = null, $page, $value)
     {
+        $where = [];
+        if($city){
+            $where[] = "city LIKE '%$city%'";
+        }
+        if($gender){
+            $where[] = "gender LIKE '$gender'";
+        }
+        if($language){
+            $where[] ="language LIKE '%$language%'";
+        }
+        $where[] = "name LIKE '%$value%'";
+        $where = implode(" AND ",$where);
+
         $offset = ($page - 1) * $limit;
-        $search = "SELECT * FROM $table  WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' AND name LIKE '%$value%' ORDER BY $column $order LIMIT $offset, $limit";
+        $search = "SELECT * FROM $table  WHERE $where ORDER BY $column $order LIMIT $offset, $limit";
         $run = $this->conn->query($search);
         $arr = [];
         while ($fetch = $run->fetch_object()) {
@@ -125,19 +151,7 @@ class Model
         }
         return $arr;
     }
-    public function pagination_where($table, $page, $limit, $gender = null, $language = null, $city = null, $value)
-    {
-        $offset = ($page - 1) * $limit;
-
-        $query = "SELECT * FROM $table WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' LIMIT $offset, $limit";
-        $q_run = $this->conn->query($query);
-
-        $arr = [];
-        while ($fetch = $q_run->fetch_object()) {
-            $arr[] = $fetch;
-        }
-        return $arr;
-    }
+  
 
     public function totalpage($table, $limit, $value)
     {

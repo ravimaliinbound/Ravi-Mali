@@ -42,15 +42,24 @@ class Control extends Model
                 } else {
                     $limit = 5;
                 }
+                $column = isset($_REQUEST['column']) ? $_REQUEST['column'] : 'id';
+                $order = isset($_REQUEST['order']) ? $_REQUEST['order'] : 'asc';
+
                 $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
                 $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
                 $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
 
 
-                if ($city || $gender || $language) {
-                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value);
+                if ($city || $gender || $language ) {
+                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value, $column, $order);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
-                } else {
+                } 
+                elseif($column && $order){
+                    $product_arr = $this->pagination_where('product', $page, $limit, $column, $order, $value);
+                    $totalPage = $this->totalpage('product', $limit, $value);
+
+                }
+                else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
@@ -58,6 +67,8 @@ class Control extends Model
                 break;
 
             case '/multi-search':
+                $column = isset($_REQUEST['column']) ? $_REQUEST['column'] : 'id';
+                $order = isset($_REQUEST['order']) ? $_REQUEST['order'] : 'asc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -74,7 +85,7 @@ class Control extends Model
                 $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value);
+                    $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value, $column, $order);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
@@ -86,7 +97,7 @@ class Control extends Model
             case '/add_product':
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
-                } 
+                }
                 if (isset($_REQUEST['submit'])) {
                     $name = trim($_REQUEST['name']);
                     $email = trim($_REQUEST['email']);
@@ -116,7 +127,7 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
 
                             $_SESSION['insert'] = 'Product Inserted Successfully...!';
-                            header('Location: pagination?page='. $page);
+                            header('Location: add_product?page=' . $page);
                             exit;
                         }
                     }
@@ -194,7 +205,7 @@ class Control extends Model
                             $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
 
                             header('Location: pagination?page=' . $page);
-                        exit;
+                            exit;
                         }
                     } else {
                         $data_arr = array("name" => $name, "email" => $email, "password" => $password, "gender" => $gender, "language" => $language_str, "city" => $city);
@@ -248,6 +259,8 @@ class Control extends Model
 
 
             case '/sort-name-asc':
+                $column = 'name';
+                $order = 'asc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -266,19 +279,18 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'name', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'name', 'asc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-name-desc':
-                $current_page = '';
-                if (isset($_REQUEST['current_page'])) {
-                    $page = $_REQUEST['current_page'];
-                }
+                $column = 'name';
+                $order = 'desc';
+
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -297,15 +309,17 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'name', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'name', 'desc', $value, $limit, $page);
+                    $product_arr = $this->sort('product', $column, $order,$value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-email-asc':
+                $column = 'email';
+                $order = 'asc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -324,15 +338,17 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'email', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'email', 'asc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-email-desc':
+                $column = 'email';
+                $order = 'desc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -350,16 +366,18 @@ class Control extends Model
                 $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
 
 
-                if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'email', 'desc', $limit, $gender, $language, $city, $page, $value);
+                if ($city || $gender || $language ) {
+                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'email', 'desc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-gender-asc':
+                $column = 'gender';
+                $order = 'asc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -378,15 +396,17 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'gender', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'gender', 'asc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-gender-desc':
+                $column = 'gender';
+                $order = 'desc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -405,15 +425,17 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'gender', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'gender', 'desc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-lang-asc':
+                $column = 'language';
+                $order = 'asc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -432,15 +454,17 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'language', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'language', 'asc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-lang-desc':
+                $column = 'language';
+                $order = 'desc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -459,15 +483,17 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'language', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'language', 'desc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column, $order,$value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-city-asc':
+                $column = 'city';
+                $order = 'asc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -486,15 +512,17 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'city', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order,$limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'city', 'asc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column, $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';
                 break;
             case '/sort-city-desc':
+                $column = 'city';
+                $order = 'desc';
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 } else {
@@ -513,10 +541,10 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'city', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $product_arr = $this->sort_where('product',  $column, $order, $limit, $gender, $language, $city, $page, $value);
                     $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
-                    $product_arr = $this->sort('product', 'city', 'desc', $value, $limit, $page);
+                    $product_arr = $this->sort('product',  $column,  $order, $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
                 include_once 'dashboard.php';

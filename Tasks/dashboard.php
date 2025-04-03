@@ -67,6 +67,7 @@
         border-radius: 5px;
         color: green;
     }
+
     .danger {
         margin-left: 900px;
         border: 1px solid red;
@@ -75,7 +76,8 @@
         border-radius: 5px;
         color: red;
     }
-    #err_search{
+
+    #err_search {
         color: red;
     }
 </style>
@@ -96,32 +98,28 @@
         </div>
         <?php
         unset($_SESSION['delete']);
-    }
-    elseif (isset($_SESSION['email'])) {
+    } elseif (isset($_SESSION['email'])) {
         ?>
         <div class="dander">
             <p><?php echo $_SESSION['email']; ?></p>
         </div>
         <?php
         unset($_SESSION['email']);
-    }
-    elseif (isset($_SESSION['upd_success'])) {
+    } elseif (isset($_SESSION['upd_success'])) {
         ?>
         <div class="session">
             <p><?php echo $_SESSION['upd_success']; ?></p>
         </div>
         <?php
         unset($_SESSION['upd_success']);
-    }
-    elseif (isset($_SESSION['upd_failed'])) {
+    } elseif (isset($_SESSION['upd_failed'])) {
         ?>
         <div class="danger">
             <p><?php echo $_SESSION['upd_failed']; ?></p>
         </div>
         <?php
         unset($_SESSION['upd_failed']);
-    }
-    elseif (isset($_SESSION['insert'])) {
+    } elseif (isset($_SESSION['insert'])) {
         ?>
         <div class="session">
             <p><?php echo $_SESSION['insert']; ?></p>
@@ -334,9 +332,11 @@
                     <td><?php echo $products->language; ?></td>
                     <td><?php echo $products->city; ?></td>
                     <td>
-                        <a href="add_product?id=<?php echo $products->id;?> <?php if(isset($page)) echo '&page='. $page; ?>" class="edit-product">Edit</a>
-                        <a href="delete_product?id=<?php echo $products->id;?> <?php if(isset($page)) echo '&page='. $page; ?>"
-                            onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
+                        <a href="add_product?id=<?php echo $products->id; ?> <?php if (isset($page))
+                                echo '&page=' . $page; ?>" class="edit-product">Edit</a>
+                        <a href="delete_product?id=<?php echo $products->id; ?> <?php if (isset($page))
+                                echo '&page=' . $page; ?>" onclick="return confirm('Do You Really Want To Delete?')"
+                            class="delete-product">Delete</a>
                     </td>
                 </tr>
                 <?php
@@ -362,7 +362,9 @@
                             echo $value; ?><?php if (isset($gender))
                                   echo '&gender=' . $gender; ?><?php if (isset($language))
                                           echo '&language=' . $language; ?><?php if (isset($city))
-                                                  echo '&city=' . $city; ?>">
+                                                  echo '&city=' . $city; ?><?php if (isset($column))
+                                                          echo '&column=' . $column; ?><?php if (isset($order))
+                                                                  echo '&order=' . $order; ?>">
                     <li><i class="fa-solid fa-backward"></i></li>
                 </a>
 
@@ -379,7 +381,9 @@
                        echo $value; ?><?php if (isset($gender))
                              echo '&gender=' . $gender; ?><?php if (isset($language))
                                      echo '&language=' . $language; ?><?php if (isset($city))
-                                             echo '&city=' . $city; ?>">
+                                             echo '&city=' . $city; ?><?php if (isset($column))
+                                                     echo '&column=' . $column; ?><?php if (isset($order))
+                                                             echo '&order=' . $order; ?>">
                     <li <?php if (isset($page) && isset($i)) {
                         if ($page == $i) {
                             echo 'class=active';
@@ -399,7 +403,9 @@
                          echo $value; ?><?php if (isset($gender))
                                echo '&gender=' . $gender; ?><?php if (isset($language))
                                        echo '&language=' . $language; ?><?php if (isset($city))
-                                               echo '&city=' . $city; ?>">
+                                               echo '&city=' . $city; ?><?php if (isset($column))
+                                                       echo '&column=' . $column; ?><?php if (isset($order))
+                                                               echo '&order=' . $order; ?>">
                     <li><i class="fa-solid fa-forward"></i></li>
                 </a>
 
@@ -413,28 +419,28 @@
 
     <select name="limit" id="limit">
         <option value="5" <?php
-         if (isset($limit)) {
+        if (isset($limit)) {
             if ($limit == 5) {
                 echo 'selected';
             }
         }
         ?>>5</option>
         <option value="10" <?php
-         if (isset($limit)) {
+        if (isset($limit)) {
             if ($limit == 10) {
                 echo 'selected';
             }
         }
         ?>>10</option>
         <option value="15" <?php
-         if (isset($limit)) {
+        if (isset($limit)) {
             if ($limit == 15) {
                 echo 'selected';
             }
         }
         ?>>15</option>
         <option value="20" <?php
-         if (isset($limit)) {
+        if (isset($limit)) {
             if ($limit == 20) {
                 echo 'selected';
             }
@@ -448,17 +454,17 @@
 </body>
 <script>
     $(document).ready(function () {
-        $("#search-btn").click(function(e){
+        $("#search-btn").click(function (e) {
             var valid = true;
             if ($("#inp-search").val() == "") {
                 $("#err_search").text("This field can't be empty");
-                valid =  false;
+                valid = false;
             }
             if (!valid) {
                 e.preventDefault();
             }
         });
-        $("#inp-search").focus(function(){
+        $("#inp-search").focus(function () {
             $("#err_search").text("");
 
         })
@@ -468,14 +474,18 @@
                 echo $value; ?><?php if (isset($gender))
                       echo '&gender=' . $gender; ?><?php if (isset($language))
                               echo '&language=' . $language; ?><?php if (isset($city))
-                                      echo '&city=' . $city; ?>";
+                                      echo '&city=' . $city; ?><?php if (isset($column))
+                                              echo '&column=' . $column; ?><?php if (isset($order))
+                                                      echo '&order=' . $order; ?>";
         });
         $("#gender").change(function () {
             var gender = $(this).val();
             var language = $("#language").val();
             var city = $("#city").val();
             window.location.href = "multi-search?gender=" + gender + "&language=" + language + "&city=" + city + "&inp-search=<?php if (isset($value))
-                echo $value; ?>";
+                echo $value; ?><?php if (isset($column))
+                      echo '&column=' . $column; ?><?php if (isset($order))
+                              echo '&order=' . $order; ?>";
 
         });
         $("#language").change(function () {
@@ -483,7 +493,9 @@
             var gender = $("#gender").val();
             var city = $("#city").val();
             window.location.href = "multi-search?language=" + language + "&gender=" + gender + "&city=" + city + "&inp-search=<?php if (isset($value))
-                echo $value; ?>";
+                echo $value; ?><?php if (isset($column))
+                      echo '&column=' . $column; ?><?php if (isset($order))
+                              echo '&order=' . $order; ?>";
 
         });
         $("#city").change(function () {
@@ -491,7 +503,9 @@
             var gender = $("#gender").val();
             var language = $("#language").val();
             window.location.href = "multi-search?city=" + city + "&language=" + language + "&gender=" + gender + "&inp-search=<?php if (isset($value))
-                echo $value; ?>";
+                echo $value; ?><?php if (isset($column))
+                      echo '&column=' . $column; ?><?php if (isset($order))
+                              echo '&order=' . $order; ?>";
         });
         setTimeout(function () {
             $('.session').fadeOut('slow');

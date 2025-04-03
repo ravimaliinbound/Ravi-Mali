@@ -49,7 +49,7 @@ class Control extends Model
 
                 if ($city || $gender || $language) {
                     $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -73,10 +73,9 @@ class Control extends Model
                 $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
                 $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
 
-
                 if ($city || $gender || $language) {
                     $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->pagination('product', $page, $limit, $value);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -267,8 +266,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'name', 'asc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'name', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'name', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -298,8 +297,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'name', 'desc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'name', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'name', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -325,8 +324,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'email', 'asc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'email', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'email', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -352,8 +351,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'email', 'desc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'email', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'email', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -379,8 +378,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'gender', 'asc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'gender', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'gender', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -406,8 +405,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'gender', 'desc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'gender', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'gender', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -433,8 +432,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'language', 'asc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'language', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'language', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -460,8 +459,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'language', 'desc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'language', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'language', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -487,8 +486,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'city', 'asc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'city', 'asc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'city', 'asc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);
@@ -514,8 +513,8 @@ class Control extends Model
 
 
                 if ($city || $gender || $language) {
-                    $product_arr = $this->sort_where('product', 'city', 'desc', $limit, $gender, $language, $city, $page);
-                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city);
+                    $product_arr = $this->sort_where('product', 'city', 'desc', $limit, $gender, $language, $city, $page, $value);
+                    $totalPage = $this->totalpage_where('product', $limit, $gender, $language, $city, $value);
                 } else {
                     $product_arr = $this->sort('product', 'city', 'desc', $value, $limit, $page);
                     $totalPage = $this->totalpage('product', $limit, $value);

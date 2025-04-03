@@ -114,10 +114,10 @@ class Model
         }
         return $arr;
     }
-    public function sort_where($table, $column, $order, $limit, $gender = null, $language = null, $city = null, $page)
+    public function sort_where($table, $column, $order, $limit, $gender = null, $language = null, $city = null, $page, $value)
     {
         $offset = ($page - 1) * $limit;
-        $search = "SELECT * FROM $table  WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' ORDER BY $column $order LIMIT $offset, $limit";
+        $search = "SELECT * FROM $table  WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' AND name LIKE '%$value%' ORDER BY $column $order LIMIT $offset, $limit";
         $run = $this->conn->query($search);
         $arr = [];
         while ($fetch = $run->fetch_object()) {
@@ -147,7 +147,7 @@ class Model
         $totalPage = ceil($rows / $limit);
         return $totalPage;
     }
-    public function totalpage_where($table, $limit, $gender, $language, $city)
+    public function totalpage_where($table, $limit, $gender, $language, $city, $value)
     {
         $where = [];
         if($city){
@@ -159,6 +159,7 @@ class Model
         if($language){
             $where[] ="language LIKE '%$language%'";
         }
+        $where[] = "name LIKE '%$value%'";
         $where = implode(" AND ",$where);
         $sel = "SELECT * FROM $table WHERE $where";
         $run = $this->conn->query($sel);

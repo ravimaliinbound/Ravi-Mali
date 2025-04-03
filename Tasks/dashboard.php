@@ -412,7 +412,6 @@
     </ul>
 
     <select name="limit" id="limit">
-        <option value="">Select Limit</option>
         <option value="5" <?php
          if (isset($limit)) {
             if ($limit == 5) {

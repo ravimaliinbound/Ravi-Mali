@@ -318,8 +318,21 @@ if (isset($_GET["id"])) {
                 <p>Already have an account? <a href="login">Login</a></p>
             </div>
             <div class="inp-div">
-                <a href="pagination">Back</a>
-            </div>
+               <?php
+               if(isset($_REQUEST['id'])){
+                ?>
+                 <a href="pagination?page=<?php echo $page;?>&limit=<?php if (isset($limit))
+                       echo $limit?>&inp-search=<?php if (isset($value))
+                        echo $value; ?>">Back</a>
+                <?php
+               }
+               else{
+                ?>
+                 <a href="pagination?page=<?php if(isset($page)) echo $page;?>&limit=<?php if(isset($limit)) echo $limit;?>">Back</a>
+                <?php
+               }
+               ?>
+            </div>  
             
         </form>
     </div>
@@ -327,9 +340,6 @@ if (isset($_GET["id"])) {
 
 <script>
     $(document).ready(function () {
-
-
-
         $("input").blur(function (e) {
             var valid = true;
             var inp_id = $(this).attr('id');

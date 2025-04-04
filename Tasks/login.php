@@ -178,7 +178,6 @@
                 e.preventDefault();
             }
         });
-
         $("#email").focus(function () {
             $("#err_email").text("");
         });

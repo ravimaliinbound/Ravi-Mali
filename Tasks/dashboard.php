@@ -83,6 +83,14 @@ if (!isset($_SESSION['login_done'])) {
         color: red;
     }
 
+    .dangers {
+        margin-left: 10px;
+        width: fit-content;
+        padding: 10px;
+        border-radius: 5px;
+        color: red;
+    }
+
     #err_search {
         color: red;
     }
@@ -92,7 +100,9 @@ if (!isset($_SESSION['login_done'])) {
     <h1 class="heading">Dashboard</h1>
 
     <div class="btn">
-        <a href="add_product" class="add-product-btn">Add Product</a>
+        <a href="add_product?page=<?php if (isset($page))
+            echo $page; ?>&limit=<?php if (isset($limit))
+                  echo $limit; ?>" class="add-product-btn">Add Product</a>
         <?php
         if (isset($_SESSION['login_done'])) {
             ?>
@@ -105,7 +115,6 @@ if (!isset($_SESSION['login_done'])) {
             <?php
         }
         ?>
-
     </div>
     <?php
     if (isset($_SESSION['delete'])) {
@@ -136,7 +145,7 @@ if (!isset($_SESSION['login_done'])) {
         </div>
         <?php
         unset($_SESSION['upd_failed']);
-    }  elseif (isset($_SESSION['login'])) {
+    } elseif (isset($_SESSION['login'])) {
         ?>
         <div class="session">
             <p><?php echo $_SESSION['login']; ?></p>
@@ -240,7 +249,6 @@ if (!isset($_SESSION['login_done'])) {
             ?>>Surat</option>
         </select>
     </form>
-
     <form action="pagination?limit=<?php if (isset($limit))
         echo $limit ?><?php if (isset($value))
         echo '&inp-search=' . $value; ?>" method="post">
@@ -350,14 +358,13 @@ if (!isset($_SESSION['login_done'])) {
                     <td><?php echo $products->city; ?></td>
                     <td>
                         <a href="add_product?id=<?php echo $products->id; ?><?php if (isset($page))
-                              echo '&page=' . $page; ?><?php if (isset($limit))
-                                      echo '&limit=' . $limit; ?><?php if (isset($value))
-                                            echo '&inp-search=' . $value; ?>"
-                            class="edit-product">Edit</a>
-                        <a href="delete_product?id=<?php echo $products->id;?><?php if (isset($page))
-                                echo '&page=' . $page; ?><?php if (isset($limit))
-                                        echo '&limit=' . $limit; ?><?php if (isset($value))
-                                              echo '&inp-search=' . $value; ?>"
+                               echo '&page=' . $page; ?><?php if (isset($limit))
+                                       echo '&limit=' . $limit; ?><?php if (isset($value))
+                                               echo '&inp-search=' . $value; ?>" class="edit-product">Edit</a>
+                        <a href="delete_product?id=<?php echo $products->id; ?><?php if (isset($page))
+                               echo '&page=' . $page; ?><?php if (isset($limit))
+                                       echo '&limit=' . $limit; ?><?php if (isset($value))
+                                               echo '&inp-search=' . $value; ?>"
                             onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
                     </td>
                 </tr>
@@ -472,12 +479,12 @@ if (!isset($_SESSION['login_done'])) {
     <div class="inp-div">
         <a href="pagination">Refresh Page</a>
     </div>
-
 </body>
 <script>
     $(document).ready(function () {
         $("#search-btn").click(function (e) {
             var valid = true;
+
             if ($("#inp-search").val() == "") {
                 $("#err_search").text("This field can't be empty");
                 valid = false;
@@ -486,6 +493,7 @@ if (!isset($_SESSION['login_done'])) {
                 e.preventDefault();
             }
         });
+
         $("#inp-search").focus(function () {
             $("#err_search").text("");
 
@@ -537,4 +545,5 @@ if (!isset($_SESSION['login_done'])) {
         }, 2000);
     });
 </script>
+
 </html>

@@ -6,17 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
 </head>
-
 <body>
-
 </body>
-
 </html>
 <?php
 include_once 'model.php';
-
 class Control extends Model
 {
     public function __construct()
@@ -48,7 +43,6 @@ class Control extends Model
                 $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
                 $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
                 $city = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
-
 
                 if ($city || $gender || $language) {
                     $product_arr = $this->multi_search('product', $gender, $language, $city, $page, $limit, $value, $column, $order);
@@ -107,6 +101,9 @@ class Control extends Model
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
                 }
+                else{
+                    $page =1;
+                }
                 if (isset($_REQUEST['submit'])) {
                     $name = trim($_REQUEST['name']);
                     $email = trim($_REQUEST['email']);
@@ -140,8 +137,6 @@ class Control extends Model
                             exit;
                         }
                     }
-
-
                 }
                 if (isset($_REQUEST['id'])) {
                     $id = $_REQUEST['id'];
@@ -187,7 +182,6 @@ class Control extends Model
                     }
                 }
                 break;
-
             case '/update_product':
                 if (isset($_REQUEST['inp-search'])) {
                     $value = $_REQUEST['inp-search'];
@@ -263,7 +257,6 @@ class Control extends Model
                     }
                 }
                 break;
-
             case '/login':
                 $email = isset($_REQUEST['email']) ? trim($_REQUEST['email']) : '';
                 $norm_password = isset($_REQUEST['password']) ? trim($_REQUEST['password']) : '';
@@ -586,11 +579,8 @@ class Control extends Model
                 }
                 include_once 'dashboard.php';
                 break;
-
-
         }
     }
-
 }
 $obj = new Control();
 ?>

@@ -18,16 +18,6 @@ class Model
         $run = $this->conn->query($ins);
         return $run;
     }
-    public function select($table)
-    {
-        $sel = "SELECT * FROM $table";
-        $run = $this->conn->query($sel);
-        $arr = [];
-        while ($fetch = $run->fetch_object()) {
-            $arr[] = $fetch;
-        }
-        return $arr;
-    }
     public function delete_product($table, $arr)
     {
         $column_arr = array_keys($arr);
@@ -89,7 +79,6 @@ class Model
         }
         return $arr;
     }
-
     public function pagination($table, $page, $limit, $value)
     {
         $offset = ($page - 1) * $limit;
@@ -163,8 +152,6 @@ class Model
         }
         return $arr;
     }
-
-
     public function totalpage($table, $limit, $value)
     {
         $sel = "SELECT * FROM $table WHERE name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%'";
@@ -193,22 +180,11 @@ class Model
         $totalPage = ceil($rows / $limit);
         return $totalPage;
     }
-
-    public function multi_sort($table, $column, $order, $gender = null, $language = null, $city = null)
-    {
-        $sel = "SELECT * FROM $table WHERE gender LIKE '$gender' AND language LIKE '%$language%' AND city LIKE '%$city%' ORDER BY $column $order";
-        $run = $this->conn->query($sel);
-        $arr = [];
-        while ($fetch = $run->fetch_object()) {
-            $arr[] = $fetch;
-        }
-        return $arr;
-    }
     public function login_check($table, $email, $password)
     {
         $sel = "SELECT * FROM $table WHERE email = '$email' AND password = '$password'";
         $run = $this->conn->query($sel);
-        $email_check ='';
+        $email_check = '';
         $password_check = '';
         $res = '';
         while ($fetch = $run->fetch_object()) {
@@ -222,7 +198,8 @@ class Model
         }
         return $res;
     }
-    public function select_id($table, $id){
+    public function select_id($table, $id)
+    {
         $sel = "SELECT * FROM $table WHERE id = $id";
         $run = $this->conn->query($sel);
         $arr = [];

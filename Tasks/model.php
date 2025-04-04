@@ -128,7 +128,7 @@ class Model
         if ($language) {
             $where[] = "language LIKE '%$language%'";
         }
-        $where[] = "name LIKE '%$value%' ";
+        $where[] = "name LIKE '%$value%'";
         $where = implode(" AND ", $where);
         $offset = ($page - 1) * $limit;
         $sel = "SELECT * FROM $table WHERE  $where ORDER BY $column $order LIMIT $offset, $limit";

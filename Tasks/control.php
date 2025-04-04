@@ -228,10 +228,13 @@ class Control extends Model
                             $resdata = $this->select_where('product', $data);
                             $fetch = $resdata->fetch_object();
                             $old_img = $fetch->image;
-                            $data_arr = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city, "norm_pass" => $norm_pass);
+                            $img_ext = pathinfo($image, PATHINFO_EXTENSION);
+                            $img_name = pathinfo($image, PATHINFO_FILENAME);
+                            $final_image = $img_name . time() . "." . $img_ext;
+                            $data_arr = array("name" => $name, "email" => $email, "password" => $password, "image" => $final_image, "gender" => $gender, "language" => $language_str, "city" => $city, "norm_pass" => $norm_pass);
                             $res = $this->update_product('product', $data_arr, $id);
                             if ($res) {
-                                $path = "image/" . $image;
+                                $path = "image/" . $final_image;
                                 $tmp = $_FILES['image']['tmp_name'];
                                 move_uploaded_file($tmp, $path);
                                 unlink("image/" . $old_img);
@@ -240,7 +243,7 @@ class Control extends Model
                                 exit;
                             } else {
                                 $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
-                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                                header(header: 'Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
                                 exit;
                             }
                         } else {
@@ -258,7 +261,6 @@ class Control extends Model
                             }
                         }
                     }
-
                 }
                 break;
 

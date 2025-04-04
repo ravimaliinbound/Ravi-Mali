@@ -59,7 +59,7 @@ if (isset($_GET["id"])) {
         <h2>Registration Form</h2>
         <form action="<?php 
         if (isset($_GET['id'])) {
-            echo "update_product?id=".$_GET['id']."&page=". $page."&limit=". $limit.'&inp-search'.$value;
+            echo "update_product?id=".$_GET['id']."&page=".$page."&limit=". $limit.'&inp-search='.$value;
         } else {
             echo 'add_product';
         }
@@ -291,6 +291,26 @@ if (isset($_GET["id"])) {
                 <span class="err" id="errCity"></span>
 
             </div>
+          
+             <div class="inp-div">
+              <?php
+             if(!empty($product_arr)){
+                foreach($product_arr as $products){
+                     if(isset($_REQUEST['id']))
+                     {
+                    ?>
+                    <img src="image/<?php echo $products->image;?>" height="80px" width="80px" style="border-radius: 5px; margin-left: 100px;">
+                    <?php
+                    }
+             }
+            }
+
+             else{
+                echo 'Hello';
+             }
+              ?>  
+            </div>
+           
             <div class="inp-div">
                 <button type="submit" name="submit" id="submit">Submit</button>
             </div>
@@ -333,6 +353,9 @@ if (isset($_GET["id"])) {
             }
         })
 
+        $("#Email").focus(function(){
+                $("#errEmail").text("");
+            });
 
         //----------------IMAGE EDIT----------------->>
 
@@ -654,6 +677,9 @@ if (isset($_GET["id"])) {
                 $("#errConfirm_Password").text("Confirm_Password field is Required...!");
                 isValid = false;
             }
+            $("#Email").focus(function(){
+                $("#errEmail").text("");
+            });
 
 
             var name = $("#Name").val();

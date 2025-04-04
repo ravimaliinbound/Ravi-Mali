@@ -52,6 +52,18 @@ class Model
         $run = $this->conn->query($sel);
         return $run;
     }
+    public function select_where_id($table, $arr, $id)
+    {
+        $column_arr = array_keys($arr);
+        $column = implode(",", $column_arr);
+
+        $value_arr = array_values($arr);
+        $value = implode("','", $value_arr);
+
+        $sel = "SELECT * FROM $table WHERE $column = '$value' AND id != $id";
+        $run = $this->conn->query($sel);
+        return $run;
+    }
     public function update_product($table, $arr, $id)
     {
         $column_arr = array_keys($arr);
@@ -116,7 +128,7 @@ class Model
         if ($language) {
             $where[] = "language LIKE '%$language%'";
         }
-        $where[] = "name LIKE '%$value%'";
+        $where[] = "name LIKE '%$value%' ";
         $where = implode(" AND ", $where);
         $offset = ($page - 1) * $limit;
         $sel = "SELECT * FROM $table WHERE  $where ORDER BY $column $order LIMIT $offset, $limit";
@@ -209,6 +221,15 @@ class Model
             $res = 'Failed';
         }
         return $res;
+    }
+    public function select_id($table, $id){
+        $sel = "SELECT * FROM $table WHERE id = $id";
+        $run = $this->conn->query($sel);
+        $arr = [];
+        while ($fetch = $run->fetch_object()) {
+            $arr[] = $fetch;
+        }
+        return $arr;
     }
 }
 $obj = new Model();

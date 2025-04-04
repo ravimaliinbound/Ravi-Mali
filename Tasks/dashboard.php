@@ -99,13 +99,13 @@ if (!isset($_SESSION['login_done'])) {
             <a href="logout" class="logout-btn">Logout</a>
             <?php
 
-        }else{
+        } else {
             ?>
             <a href="login" class="logout-btn">Login</a>
             <?php
         }
         ?>
-        
+
     </div>
     <?php
     if (isset($_SESSION['delete'])) {
@@ -115,13 +115,13 @@ if (!isset($_SESSION['login_done'])) {
         </div>
         <?php
         unset($_SESSION['delete']);
-    } elseif (isset($_SESSION['email'])) {
+    } elseif (isset($_SESSION['email_copy'])) {
         ?>
         <div class="danger">
-            <p><?php echo $_SESSION['email']; ?></p>
+            <p><?php echo $_SESSION['email_copy']; ?></p>
         </div>
         <?php
-        unset($_SESSION['email']);
+        unset($_SESSION['email_copy']);
     } elseif (isset($_SESSION['upd_success'])) {
         ?>
         <div class="session">
@@ -136,14 +136,7 @@ if (!isset($_SESSION['login_done'])) {
         </div>
         <?php
         unset($_SESSION['upd_failed']);
-    } elseif (isset($_SESSION['insert'])) {
-        ?>
-        <div class="session">
-            <p><?php echo $_SESSION['insert']; ?></p>
-        </div>
-        <?php
-        unset($_SESSION['insert']);
-    } elseif (isset($_SESSION['login'])) {
+    }  elseif (isset($_SESSION['login'])) {
         ?>
         <div class="session">
             <p><?php echo $_SESSION['login']; ?></p>
@@ -249,8 +242,8 @@ if (!isset($_SESSION['login_done'])) {
     </form>
 
     <form action="pagination?limit=<?php if (isset($limit))
-        echo $limit ?>&inp-search=<?php if (isset($value))
-        echo $value; ?>" method="post">
+        echo $limit ?><?php if (isset($value))
+        echo '&inp-search=' . $value; ?>" method="post">
         <div class="search">
             <input type="text" id="inp-search" name="inp-search" placeholder="Search Values..." value="<?php if (isset($value))
                 echo $value; ?>">
@@ -356,11 +349,16 @@ if (!isset($_SESSION['login_done'])) {
                     <td><?php echo $products->language; ?></td>
                     <td><?php echo $products->city; ?></td>
                     <td>
-                        <a href="add_product?id=<?php echo $products->id; ?> <?php if (isset($page))
-                                echo '&page=' . $page; ?><?php if(isset($limit)) echo '&limit='. $limit;?>" class="edit-product">Edit</a>
-                        <a href="delete_product?id=<?php echo $products->id; ?> <?php if (isset($page))
-                                echo '&page=' . $page; ?><?php if(isset($limit)) echo '&limit='. $limit;?>" onclick="return confirm('Do You Really Want To Delete?')"
-                            class="delete-product">Delete</a>
+                        <a href="add_product?id=<?php echo $products->id; ?><?php if (isset($page))
+                              echo '&page=' . $page; ?><?php if (isset($limit))
+                                      echo '&limit=' . $limit; ?><?php if (isset($value))
+                                            echo '&inp-search=' . $value; ?>"
+                            class="edit-product">Edit</a>
+                        <a href="delete_product?id=<?php echo $products->id;?><?php if (isset($page))
+                                echo '&page=' . $page; ?><?php if (isset($limit))
+                                        echo '&limit=' . $limit; ?><?php if (isset($value))
+                                              echo '&inp-search=' . $value; ?>"
+                            onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
                     </td>
                 </tr>
                 <?php
@@ -539,5 +537,4 @@ if (!isset($_SESSION['login_done'])) {
         }, 2000);
     });
 </script>
-
 </html>

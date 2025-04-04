@@ -93,6 +93,7 @@ class Control extends Model
                 include_once 'dashboard.php';
                 break;
             case '/add_product':
+
                 if (isset($_REQUEST['inp-search'])) {
                     $value = trim($_REQUEST['inp-search']);
                 } else {
@@ -135,7 +136,7 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
 
                             $_SESSION['insert'] = 'Product Inserted Successfully...!';
-                            header('Location: add_product?page=' . $page.'&inp-search='.$value);
+                            header('Location: add_product?page=' . $page . '&inp-search=' . $value);
                             exit;
                         }
                     }
@@ -148,6 +149,7 @@ class Control extends Model
                     $resdata = $this->select_where('product', $data);
                     $fetch = $resdata->fetch_object();
                     $language = explode(",", $fetch->language);
+                    $product_arr = $this->select_id('product', $id);
                 }
 
                 include_once 'add_product.php';
@@ -180,7 +182,7 @@ class Control extends Model
                     if ($res) {
                         unlink("image/" . $img);
                         $_SESSION['delete'] = 'Product Deleted Successfully...!';
-                        header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
+                        header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
                         exit;
                     }
                 }
@@ -188,7 +190,7 @@ class Control extends Model
 
             case '/update_product':
                 if (isset($_REQUEST['inp-search'])) {
-                    $value = trim($_REQUEST['inp-search']);
+                    $value = $_REQUEST['inp-search'];
                 } else {
                     $value = '';
                 }
@@ -196,7 +198,7 @@ class Control extends Model
                     $page = $_REQUEST['page'];
                 } else {
                     $page = 1;
-                } 
+                }
                 if (isset($_REQUEST['limit'])) {
                     $limit = $_REQUEST['limit'];
                 } else {
@@ -214,42 +216,49 @@ class Control extends Model
                     $city = $_REQUEST['city'];
                     $language_str = implode(",", $language);
 
-                    if ($_FILES['image']['name'] > 0) {
-                        $image = $_FILES['image']['name'];
-                        $resdata = $this->select_where('product', $data);
-                        $fetch = $resdata->fetch_object();
-                        $old_img = $fetch->image;
-                        $data_arr = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city, "norm_pass" => $norm_pass);
-                        $res = $this->update_product('product', $data_arr, $id);
+                    $email_check = array("email" => $email);
+                    $email_res = $this->select_where_id('product', $email_check, $id);
 
-                        if ($res) {
-                            $path = "image/" . $image;
-                            $tmp = $_FILES['image']['tmp_name'];
-                            move_uploaded_file($tmp, $path);
-                            unlink("image/" . $old_img);
-                            $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                            header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
-                            exit;
-                        } else {
-                            $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
-
-                            header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
-                            exit;
-                        }
+                    if ($email_res->num_rows > 0) {
+                        $_SESSION['email_copy'] = 'Could Not Updated Due To Duplicate Email...!';
+                        header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
                     } else {
-                        $data_arr = array("name" => $name, "email" => $email, "password" => $password, "gender" => $gender, "language" => $language_str, "city" => $city);
-                        $res = $this->update_product('product', $data_arr, $id);
-
-                        if ($res) {
-                            $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                            header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
-                            exit;
+                        if ($_FILES['image']['name'] > 0) {
+                            $image = $_FILES['image']['name'];
+                            $resdata = $this->select_where('product', $data);
+                            $fetch = $resdata->fetch_object();
+                            $old_img = $fetch->image;
+                            $data_arr = array("name" => $name, "email" => $email, "password" => $password, "image" => $image, "gender" => $gender, "language" => $language_str, "city" => $city, "norm_pass" => $norm_pass);
+                            $res = $this->update_product('product', $data_arr, $id);
+                            if ($res) {
+                                $path = "image/" . $image;
+                                $tmp = $_FILES['image']['tmp_name'];
+                                move_uploaded_file($tmp, $path);
+                                unlink("image/" . $old_img);
+                                $_SESSION['upd_success'] = 'Product Updated Successfully...!';
+                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                                exit;
+                            } else {
+                                $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
+                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                                exit;
+                            }
                         } else {
-                            $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
-                            header('Location: pagination?page=' . $page.'&limit='. $limit.'&inp-search='. $value);
-                            exit;
+                            $data_arr = array("name" => $name, "email" => $email, "password" => $password, "gender" => $gender, "language" => $language_str, "city" => $city);
+                            $res = $this->update_product('product', $data_arr, $id);
+
+                            if ($res) {
+                                $_SESSION['upd_success'] = 'Product Updated Successfully...!';
+                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                                exit;
+                            } else {
+                                $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
+                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                                exit;
+                            }
                         }
                     }
+
                 }
                 break;
 

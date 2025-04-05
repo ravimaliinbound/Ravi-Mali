@@ -102,7 +102,9 @@ if (!isset($_SESSION['login_done'])) {
     <div class="btn">
         <a href="add_product?page=<?php if (isset($page))
             echo $page; ?>&limit=<?php if (isset($limit))
-                  echo $limit; ?>&inp-search=<?php if(isset($value)) echo $value;?>" class="add-product-btn">Add Product</a>
+                  echo $limit; ?>&inp-search=<?php if (isset($value))
+                        echo $value; ?>" class="add-product-btn">Add
+            Product</a>
         <?php
         if (isset($_SESSION['login_done'])) {
             ?>
@@ -374,7 +376,6 @@ if (!isset($_SESSION['login_done'])) {
             ?>
             <tr>
                 <th id="no-data" colspan="8">No Data Found At This Moment..!</th>
-
             </tr>
             <?php
         }
@@ -445,7 +446,6 @@ if (!isset($_SESSION['login_done'])) {
 
         ?>
     </ul>
-
     <select name="limit" id="limit">
         <option value="5" <?php
         if (isset($limit)) {
@@ -516,7 +516,7 @@ if (!isset($_SESSION['login_done'])) {
                 echo $value; ?><?php if (isset($column))
                       echo '&column=' . $column; ?><?php if (isset($order))
                               echo '&order=' . $order; ?><?php if (isset($limit))
-                              echo '&limit=' . $limit; ?>";
+                                      echo '&limit=' . $limit; ?>";
 
         });
         $("#language").change(function () {
@@ -527,7 +527,7 @@ if (!isset($_SESSION['login_done'])) {
                 echo $value; ?><?php if (isset($column))
                       echo '&column=' . $column; ?><?php if (isset($order))
                               echo '&order=' . $order; ?><?php if (isset($limit))
-                              echo '&limit=' . $limit; ?>";
+                                      echo '&limit=' . $limit; ?>";
 
         });
         $("#city").change(function () {
@@ -538,7 +538,7 @@ if (!isset($_SESSION['login_done'])) {
                 echo $value; ?><?php if (isset($column))
                       echo '&column=' . $column; ?><?php if (isset($order))
                               echo '&order=' . $order; ?><?php if (isset($limit))
-                              echo '&limit=' . $limit; ?>";
+                                      echo '&limit=' . $limit; ?>";
         });
         setTimeout(function () {
             $('.session').fadeOut('slow');

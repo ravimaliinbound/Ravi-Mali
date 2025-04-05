@@ -135,7 +135,7 @@ class Model
             $arr[] = $fetch;
         }
         return $arr;
-    }
+    } 
     public function sort_where($table, $column, $order, $limit, $gender = null, $language = null, $city = null, $page, $value)
     {
         $search_conditon =
@@ -152,13 +152,12 @@ class Model
             $where[] = "city LIKE '%$city%'";
         }
         if ($gender) {
-            $where[] = "gender LIKE '$gender'";
+            $where[] = "gender LIKE '$gender'"; 
         }
         if ($language) {
             $where[] = "language LIKE '%$language%'";
         }
         $where = implode(" AND ", $where);
-
         $offset = ($page - 1) * $limit;
         $search = "SELECT * FROM $table  WHERE $where ORDER BY $column $order LIMIT $offset, $limit";
         $run = $this->conn->query($search);

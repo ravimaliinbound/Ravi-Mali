@@ -116,7 +116,7 @@ class Control extends Model
                     $final_image = $img_name . time() . "." . $img_ext;
                     $gender = $_REQUEST['gender'];
                     $language = $_REQUEST['language'];
-                    $language2 = $_REQUEST['language'];
+                    $language2 = $_REQUEST['language']; 
                     $city = $_REQUEST['city'];
                     $language_str = implode(",", $language);
                     $email_check = array("email" => $email);

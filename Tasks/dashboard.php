@@ -103,7 +103,10 @@ if (!isset($_SESSION['login_done'])) {
         <a href="add_product?page=<?php if (isset($page))
             echo $page; ?>&limit=<?php if (isset($limit))
                   echo $limit; ?>&inp-search=<?php if (isset($value))
-                        echo $value; ?>" class="add-product-btn">Add
+                        echo $value; ?><?php if (isset($gender))
+                        echo '&gender=' . $gender; ?><?php if (isset($language))
+                                echo '&language=' . $language; ?><?php if (isset($city))
+                                        echo '&city=' . $city; ?>" class="add-product-btn">Add
             Product</a>
         <?php
         if (isset($_SESSION['login_done'])) {

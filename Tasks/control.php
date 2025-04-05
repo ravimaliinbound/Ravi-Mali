@@ -104,6 +104,10 @@ class Control extends Model
                 } else {
                     $page = 1;
                 }
+                $genders = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $languages = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $cities = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
                 if (isset($_REQUEST['submit'])) {
                     $name = trim($_REQUEST['name']);
                     $email = trim($_REQUEST['email']);
@@ -115,7 +119,6 @@ class Control extends Model
                     $final_image = $img_name . time() . "." . $img_ext;
                     $gender = $_REQUEST['gender'];
                     $language = $_REQUEST['language'];
-                    $language2 = $_REQUEST['language'];
                     $city = $_REQUEST['city'];
                     $language_str = implode(",", $language);
                     $email_check = array("email" => $email);
@@ -133,7 +136,7 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
 
                             $_SESSION['insert'] = 'Product Inserted Successfully...!';
-                            header('Location: add_product?page=' . $page . '&inp-search=' . $value . '&limit=' . $limit);
+                            header('Location: add_product?page=' . $page . '&inp-search=' . $value . '&limit=' . $limit.'&gender='.$gender.'&language='.$language.'&city='.$city);
                             exit;
                         }
                     }
@@ -166,6 +169,10 @@ class Control extends Model
                 } else {
                     $page = 1;
                 }
+                $genders = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $languages = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $cities = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
                 if (isset($_REQUEST['id'])) {
                     $id = $_REQUEST['id'];
                     $data = array("id" => $id);
@@ -178,7 +185,7 @@ class Control extends Model
                         unlink("image/" . $img);
                         $_SESSION['delete'] = 'Product Deleted Successfully...!';
                         $totalPage = $this->totalpage('product', $limit, $value);
-                        header('Location: pagination?page=' . $totalPage . '&limit=' . $limit . '&inp-search=' . $value);
+                        header('Location: pagination?page=' . $totalPage . '&limit=' . $limit . '&inp-search=' . $value.'&gender='.$genders.'&language='.$languages.'&city='.$cities);
                         exit;
                     }
                 }
@@ -199,6 +206,10 @@ class Control extends Model
                 } else {
                     $limit = 5;
                 }
+                $genders = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+                $languages = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
+                $cities = isset($_REQUEST['city']) ? $_REQUEST['city'] : '';
+
                 if (isset($_REQUEST['submit'])) {
                     $id = trim($_REQUEST['id']);
                     $data = array("id" => $id);
@@ -233,7 +244,7 @@ class Control extends Model
                                 move_uploaded_file($tmp, $path);
                                 unlink("image/" . $old_img);
                                 $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value.'&gender='.$genders.'&language='.$languages.'&city='.$cities);
                                 exit;
                             } else {
                                 $_SESSION['upd_failed'] = 'Product Updatation Failed...!';
@@ -246,7 +257,7 @@ class Control extends Model
 
                             if ($res) {
                                 $_SESSION['upd_success'] = 'Product Updated Successfully...!';
-                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                                header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value.'&gender='.$genders.'&language='.$languages.'&city='.$cities);
                                 exit;
                             } else {
                                 $_SESSION['upd_failed'] = 'Product Updatation Failed...!';

@@ -59,9 +59,9 @@ if (isset($_GET["id"])) {
         <h2>Registration Form</h2>
         <form action="<?php 
         if (isset($_GET['id'])) {
-            echo "update_product?id=".$_GET['id']."&page=".$page."&limit=". $limit.'&inp-search='.$value;
+            echo "update_product?id=".$_GET['id']."&page=".$page."&limit=". $limit.'&inp-search='.$value.'&gender='.$gender.'&language='.$language.'&city='.$city;
         } else {
-            echo 'add_product?page='. $page.'&inp-search='.$value.'&limit='.$limit;
+            echo 'add_product?page='. $page.'&inp-search='.$value.'&limit='.$limit.'&gender='.$gender.'&language='.$language.'&city='.$city;
         }
         ?>" method="post" enctype="multipart/form-data" id="form">
             <div class="inp-div">
@@ -321,14 +321,20 @@ if (isset($_GET["id"])) {
                 ?>
                  <a href="pagination?page=<?php echo $page;?>&limit=<?php if (isset($limit))
                        echo $limit?>&inp-search=<?php if (isset($value))
-                        echo $value; ?>">Back</a>
+                        echo $value; ?><?php if (isset($genders))
+                        echo '&gender=' . $genders; ?><?php if (isset($languages))
+                                echo '&language=' . $languages; ?><?php if (isset($cities))
+                                        echo '&city=' . $cities; ?>">Back</a>
                 <?php
                }
                else{
                 ?>
                  <a href="pagination?page=<?php if(isset($page)) echo $page;?>&limit=<?php if(isset($limit)) 
                         echo $limit;?>&inp-search=<?php if(isset($value)) 
-                          echo $value;?>">Back</a>
+                          echo $value;?><?php if (isset($genders))
+                          echo '&gender=' . $genders; ?><?php if (isset($languages))
+                                  echo '&language=' . $languages; ?><?php if (isset($cities))
+                                          echo '&city=' . $cities; ?>">Back</a>
                 <?php
                }
                ?>

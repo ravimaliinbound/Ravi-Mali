@@ -102,7 +102,7 @@ if (!isset($_SESSION['login_done'])) {
     <div class="btn">
         <a href="add_product?page=<?php if (isset($page))
             echo $page; ?>&limit=<?php if (isset($limit))
-                  echo $limit; ?>" class="add-product-btn">Add Product</a>
+                  echo $limit; ?>&inp-search=<?php if(isset($value)) echo $value;?>" class="add-product-btn">Add Product</a>
         <?php
         if (isset($_SESSION['login_done'])) {
             ?>
@@ -515,7 +515,8 @@ if (!isset($_SESSION['login_done'])) {
             window.location.href = "multi-search?gender=" + gender + "&language=" + language + "&city=" + city + "&inp-search=<?php if (isset($value))
                 echo $value; ?><?php if (isset($column))
                       echo '&column=' . $column; ?><?php if (isset($order))
-                              echo '&order=' . $order; ?>";
+                              echo '&order=' . $order; ?><?php if (isset($limit))
+                              echo '&limit=' . $limit; ?>";
 
         });
         $("#language").change(function () {
@@ -525,7 +526,8 @@ if (!isset($_SESSION['login_done'])) {
             window.location.href = "multi-search?language=" + language + "&gender=" + gender + "&city=" + city + "&inp-search=<?php if (isset($value))
                 echo $value; ?><?php if (isset($column))
                       echo '&column=' . $column; ?><?php if (isset($order))
-                              echo '&order=' . $order; ?>";
+                              echo '&order=' . $order; ?><?php if (isset($limit))
+                              echo '&limit=' . $limit; ?>";
 
         });
         $("#city").change(function () {
@@ -535,7 +537,8 @@ if (!isset($_SESSION['login_done'])) {
             window.location.href = "multi-search?city=" + city + "&language=" + language + "&gender=" + gender + "&inp-search=<?php if (isset($value))
                 echo $value; ?><?php if (isset($column))
                       echo '&column=' . $column; ?><?php if (isset($order))
-                              echo '&order=' . $order; ?>";
+                              echo '&order=' . $order; ?><?php if (isset($limit))
+                              echo '&limit=' . $limit; ?>";
         });
         setTimeout(function () {
             $('.session').fadeOut('slow');

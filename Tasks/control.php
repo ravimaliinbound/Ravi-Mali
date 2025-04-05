@@ -7,8 +7,10 @@
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body>
 </body>
+
 </html>
 <?php
 include_once 'model.php';
@@ -100,9 +102,8 @@ class Control extends Model
                 }
                 if (isset($_REQUEST['page'])) {
                     $page = $_REQUEST['page'];
-                }
-                else{
-                    $page =1;
+                } else {
+                    $page = 1;
                 }
                 if (isset($_REQUEST['submit'])) {
                     $name = trim($_REQUEST['name']);
@@ -133,7 +134,7 @@ class Control extends Model
                             move_uploaded_file($tmp, $path);
 
                             $_SESSION['insert'] = 'Product Inserted Successfully...!';
-                            header('Location: add_product?page=' . $page . '&inp-search=' . $value);
+                            header('Location: add_product?page=' . $page . '&inp-search=' . $value . '&limit=' . $limit);
                             exit;
                         }
                     }

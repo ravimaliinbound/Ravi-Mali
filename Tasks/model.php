@@ -107,7 +107,16 @@ class Model
 
     public function multi_search($table, $gender = null, $language = null, $city = null, $page, $limit, $value, $column, $order)
     {
+        $search_conditon =
+            "(name LIKE '%$value%' OR 
+            email LIKE '%$value%' OR 
+            gender LIKE '$value' OR 
+            language LIKE '%$value%' OR 
+            city LIKE '%$value%')";
         $where = [];
+        if (!empty($value)) {
+            $where[] = $search_conditon;
+        }
         if ($city) {
             $where[] = "city LIKE '%$city%'";
         }
@@ -117,7 +126,6 @@ class Model
         if ($language) {
             $where[] = "language LIKE '%$language%'";
         }
-        $where[] = "name LIKE '%$value%'";
         $where = implode(" AND ", $where);
         $offset = ($page - 1) * $limit;
         $sel = "SELECT * FROM $table WHERE  $where ORDER BY $column $order LIMIT $offset, $limit";
@@ -130,7 +138,16 @@ class Model
     }
     public function sort_where($table, $column, $order, $limit, $gender = null, $language = null, $city = null, $page, $value)
     {
+        $search_conditon =
+            "(name LIKE '%$value%' OR 
+            email LIKE '%$value%' OR 
+            gender LIKE '$value' OR 
+            language LIKE '%$value%' OR 
+            city LIKE '%$value%')";
         $where = [];
+        if (!empty($value)) {
+            $where[] = $search_conditon;
+        }
         if ($city) {
             $where[] = "city LIKE '%$city%'";
         }
@@ -140,7 +157,6 @@ class Model
         if ($language) {
             $where[] = "language LIKE '%$language%'";
         }
-        $where[] = "name LIKE '%$value%'";
         $where = implode(" AND ", $where);
 
         $offset = ($page - 1) * $limit;
@@ -162,7 +178,16 @@ class Model
     }
     public function totalpage_where($table, $limit, $gender, $language, $city, $value)
     {
+        $search_conditon =
+            "(name LIKE '%$value%' OR 
+            email LIKE '%$value%' OR 
+            gender LIKE '$value' OR 
+            language LIKE '%$value%' OR 
+            city LIKE '%$value%')";
         $where = [];
+        if (!empty($value)) {
+            $where[] = $search_conditon;
+        }
         if ($city) {
             $where[] = "city LIKE '%$city%'";
         }
@@ -172,7 +197,6 @@ class Model
         if ($language) {
             $where[] = "language LIKE '%$language%'";
         }
-        $where[] = "name LIKE '%$value%'";
         $where = implode(" AND ", $where);
         $sel = "SELECT * FROM $table WHERE $where";
         $run = $this->conn->query($sel);

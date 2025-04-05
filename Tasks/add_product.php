@@ -61,7 +61,7 @@ if (isset($_GET["id"])) {
         if (isset($_GET['id'])) {
             echo "update_product?id=".$_GET['id']."&page=".$page."&limit=". $limit.'&inp-search='.$value;
         } else {
-            echo 'add_product';
+            echo 'add_product?page='. $page.'&inp-search='.$value.'&limit='.$limit;
         }
         ?>" method="post" enctype="multipart/form-data" id="form">
             <div class="inp-div">
@@ -328,7 +328,9 @@ if (isset($_GET["id"])) {
                }
                else{
                 ?>
-                 <a href="pagination?page=<?php if(isset($page)) echo $page;?>&limit=<?php if(isset($limit)) echo $limit;?>">Back</a>
+                 <a href="pagination?page=<?php if(isset($page)) echo $page;?>&limit=<?php if(isset($limit)) 
+                        echo $limit;?>&inp-search=<?php if(isset($value)) 
+                          echo $value;?>">Back</a>
                 <?php
                }
                ?>

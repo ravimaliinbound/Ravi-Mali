@@ -362,15 +362,21 @@ if (!isset($_SESSION['login_done'])) {
                         <a href="add_product?id=<?php echo $products->id; ?><?php if (isset($page))
                                echo '&page=' . $page; ?><?php if (isset($limit))
                                        echo '&limit=' . $limit; ?><?php if (isset($value))
-                                               echo '&inp-search=' . $value; ?>" class="edit-product">Edit</a>
+                                               echo '&inp-search=' . $value; ?><?php if (isset($gender))
+                                                       echo '&gender=' . $gender; ?><?php if (isset($language))
+                                                               echo '&language=' . $language; ?><?php if (isset($city))
+                                                                       echo '&city=' . $city; ?>" class="edit-product">Edit</a>
                         <a href="delete_product?id=<?php echo $products->id; ?><?php if (isset($page))
                                echo '&page=' . $page; ?><?php if (isset($limit))
                                        echo '&limit=' . $limit; ?><?php if (isset($value))
-                                               echo '&inp-search=' . $value; ?>"
+                                               echo '&inp-search=' . $value; ?><?php if (isset($gender))
+                                                       echo '&gender=' . $gender; ?><?php if (isset($language))
+                                                               echo '&language=' . $language; ?><?php if (isset($city))
+                                                                       echo '&city=' . $city; ?>"
                             onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
                     </td>
                 </tr>
-                <?php
+            <?php
             }
         } else {
             ?>

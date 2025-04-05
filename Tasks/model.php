@@ -117,7 +117,7 @@ class Model
         if (!empty($value)) {
             $where[] = $search_conditon;
         }
-        if ($city) {
+        if ($city) { 
             $where[] = "city LIKE '%$city%'";
         }
         if ($gender) {

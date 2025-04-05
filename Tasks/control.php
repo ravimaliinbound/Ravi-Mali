@@ -85,7 +85,6 @@ class Control extends Model
                     $product_arr = $this->pagination('product', $page, $limit, $value);
                     $totalPage = $this->totalpage('product', $limit, $value);
                 }
-
                 include_once 'dashboard.php';
                 break;
             case '/add_product':
@@ -116,7 +115,7 @@ class Control extends Model
                     $final_image = $img_name . time() . "." . $img_ext;
                     $gender = $_REQUEST['gender'];
                     $language = $_REQUEST['language'];
-                    $language2 = $_REQUEST['language']; 
+                    $language2 = $_REQUEST['language'];
                     $city = $_REQUEST['city'];
                     $language_str = implode(",", $language);
                     $email_check = array("email" => $email);
@@ -178,7 +177,8 @@ class Control extends Model
                     if ($res) {
                         unlink("image/" . $img);
                         $_SESSION['delete'] = 'Product Deleted Successfully...!';
-                        header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                        $totalPage = $this->totalpage('product', $limit, $value);
+                        header('Location: pagination?page=' . $totalPage . '&limit=' . $limit . '&inp-search=' . $value);
                         exit;
                     }
                 }
@@ -215,8 +215,7 @@ class Control extends Model
                     $email_res = $this->select_where_id('product', $email_check, $id);
 
                     if ($email_res->num_rows > 0) {
-                        $_SESSION['email_copy'] = 'Could Not Updated Due To Duplicate Email...!';
-                        header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value);
+                        $_SESSION['email'] = 'Email Already Exists...!';
                     } else {
                         if ($_FILES['image']['name'] > 0) {
                             $image = $_FILES['image']['name'];
@@ -257,6 +256,9 @@ class Control extends Model
                         }
                     }
                 }
+                $product_arr = $this->select_id('product', $id);
+
+                include_once 'add_product.php';
                 break;
             case '/login':
                 $email = isset($_REQUEST['email']) ? trim($_REQUEST['email']) : '';

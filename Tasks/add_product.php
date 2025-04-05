@@ -70,8 +70,8 @@ if (isset($_GET["id"])) {
                 if (!isset($_SESSION['insert'])) {
                     if (isset($name))
                         echo $name;
-                    if (isset($data['name']))
-                        echo $data['name'];
+                    elseif (isset($data['name']))
+                        echo $data['name']; 
                 }
                 ?>">
                 <span class="err" id="errName" style="margin-left: 105px;"></span>
@@ -82,7 +82,7 @@ if (isset($_GET["id"])) {
                     value="<?php
                     if (isset($email))
                         echo $email;
-                    if (isset($data['email']))
+                        elseif (isset($data['email']))
                         echo $data['email'];
                     ?>">
                 <span class="err" style="margin-left: 105px;" id="errEmail">
@@ -105,7 +105,7 @@ if (isset($_GET["id"])) {
                     value="<?php
                     if (isset($norm_pass))
                         echo $norm_pass;
-                    if (isset($data['norm_pass']))
+                        elseif (isset($data['norm_pass']))
                         echo $data['norm_pass'];
                     ?>">
                 <span class="err" style="margin-left: 105px;" id="errPassword"></span>
@@ -117,7 +117,7 @@ if (isset($_GET["id"])) {
                     placeholder="Confirm Password" value="<?php
                     if (isset($norm_pass))
                         echo $norm_pass;
-                    if (isset($data['norm_pass']))
+                        elseif (isset($data['norm_pass']))
                         echo $data['norm_pass'];
                     ?>">
                 <span class="err" style="margin-left: 105px;" id="errConfirm_Password"></span>
@@ -138,7 +138,7 @@ if (isset($_GET["id"])) {
                         echo 'checked';
                     }
                 }
-                if (isset($gender)) {
+                elseif (isset($gender)) {
                     if ($gender == 'Male') {
                         echo 'checked';
                     }
@@ -150,7 +150,7 @@ if (isset($_GET["id"])) {
                         echo 'checked';
                     }
                 }
-                if (isset($gender)) {
+                elseif (isset($gender)) {
                     if ($gender == 'Female') {
                         echo 'checked';
                     }
@@ -162,7 +162,7 @@ if (isset($_GET["id"])) {
                         echo 'checked';
                     }
                 }
-                if (isset($gender)) {
+                elseif (isset($gender)) {
                     if ($gender == 'Other') {
                         echo 'checked';
                     }
@@ -221,7 +221,7 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
-                    if (isset($city)) {
+                    elseif (isset($city)) {
                         if ($city == 'Ahmedabad') {
                             echo 'selected';
                         }
@@ -233,7 +233,7 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
-                    if (isset($city)) {
+                    elseif (isset($city)) {
                         if ($city == 'Mandar') {
                             echo 'selected';
                         }
@@ -245,7 +245,7 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
-                    if (isset($city)) {
+                    elseif (isset($city)) {
                         if ($city == 'Mumbai') {
                             echo 'selected';
                         }
@@ -257,7 +257,7 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
-                    if (isset($city)) {
+                    elseif (isset($city)) {
                         if ($city == 'Delhi') {
                             echo 'selected';
                         }
@@ -269,7 +269,7 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
-                    if (isset($city)) {
+                    elseif (isset($city)) {
                         if ($city == 'Malipura') {
                             echo 'selected';
                         }
@@ -281,7 +281,7 @@ if (isset($_GET["id"])) {
                             echo 'selected';
                         }
                     }
-                    if (isset($city)) {
+                    elseif (isset($city)) {
                         if ($city == 'Surat') {
                             echo 'selected';
                         }
@@ -305,9 +305,7 @@ if (isset($_GET["id"])) {
              }
             }
 
-             else{
-                echo 'Hello';
-             }
+            
               ?>  
             </div>
            
@@ -624,6 +622,7 @@ if (isset($_GET["id"])) {
         $("#Password").blur(function (e) {
             var valid = true;
             var pass = $("#Password").val();
+            var pass2 = $("#Confirm_Password").val();
             var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
             if (passPatern.test(pass)) {
                 $("#errPassword").text("");
@@ -634,6 +633,10 @@ if (isset($_GET["id"])) {
             }
             if ($("#Password").val() == "") {
                 $("#errPassword").text("Password field is required...!");
+                valid = false;
+            }
+            if (pass != pass2 && pass2!='') {
+                $("#errPassword").text("Password Does Not Match...!");
                 valid = false;
             }
             if (!valid) {
@@ -655,7 +658,10 @@ if (isset($_GET["id"])) {
             }
             if (pass != pass2) {
                 $("#errConfirm_Password").text("Password Does Not Match...!");
+                $("#errPassword").text("Password Does Not Match...!");
                 valid = false;
+            }else{
+                $("#errPassword").text("");
             }
             if ($("#Confirm_Password").val() == "") {
                 $("#errConfirm_Password").text("Confirm_Password field is required...!");

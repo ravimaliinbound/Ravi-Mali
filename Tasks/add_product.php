@@ -59,9 +59,9 @@ if (isset($_GET["id"])) {
         <h2>Registration Form</h2>
         <form action="<?php 
         if (isset($_GET['id'])) {
-            echo "update_product?id=".$_GET['id']."&page=".$page."&limit=". $limit.'&inp-search='.$value.'&gender='.$gender.'&language='.$language.'&city='.$city;
+            echo "update_product?id=".$_GET['id']."&page=".$page."&limit=". $limit.'&inp-search='.$value.'&genders='.$genders.'&languages='.$languages.'&cities='.$cities;
         } else {
-            echo 'add_product?page='. $page.'&inp-search='.$value.'&limit='.$limit.'&gender='.$gender.'&language='.$language.'&city='.$city;
+            echo 'add_product?page='. $page.'&inp-search='.$value.'&limit='.$limit.'&genders='.$genders.'&languages='.$languages.'&cities='.$cities;
         }
         ?>" method="post" enctype="multipart/form-data" id="form">
             <div class="inp-div">
@@ -322,9 +322,9 @@ if (isset($_GET["id"])) {
                  <a href="pagination?page=<?php echo $page;?>&limit=<?php if (isset($limit))
                        echo $limit?>&inp-search=<?php if (isset($value))
                         echo $value; ?><?php if (isset($genders))
-                        echo '&gender=' . $genders; ?><?php if (isset($languages))
-                                echo '&language=' . $languages; ?><?php if (isset($cities))
-                                        echo '&city=' . $cities; ?>">Back</a>
+                        echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                        echo '&cities=' . $cities; ?>">Back</a>
                 <?php
                }
                else{
@@ -332,9 +332,9 @@ if (isset($_GET["id"])) {
                  <a href="pagination?page=<?php if(isset($page)) echo $page;?>&limit=<?php if(isset($limit)) 
                         echo $limit;?>&inp-search=<?php if(isset($value)) 
                           echo $value;?><?php if (isset($genders))
-                          echo '&gender=' . $genders; ?><?php if (isset($languages))
-                                  echo '&language=' . $languages; ?><?php if (isset($cities))
-                                          echo '&city=' . $cities; ?>">Back</a>
+                          echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                  echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                          echo '&cities=' . $cities; ?>">Back</a>
                 <?php
                }
                ?>
@@ -343,7 +343,6 @@ if (isset($_GET["id"])) {
         </form>
     </div>
 </body>
-
 <script>
     $(document).ready(function () {
         $("input").blur(function (e) {
@@ -371,6 +370,10 @@ if (isset($_GET["id"])) {
 
         $("#Email").focus(function(){
                 $("#errEmail").text("");
+            });
+            
+            $("#Name").focus(function(){
+                $("#errName").text("");
             });
 
         //----------------IMAGE EDIT----------------->>
@@ -578,7 +581,7 @@ if (isset($_GET["id"])) {
         $("#Name").blur(function (e) {
             var valid = true;
             var name = $("#Name").val();
-            var namePattern = /^[a-zA-Z ]{3,15}$/;
+            var namePattern = /^[a-zA-Z]{3,15}$/;
             if (namePattern.test(name)) {
                 $("#errName").text("");
             }
@@ -625,8 +628,8 @@ if (isset($_GET["id"])) {
 
         //----------------------- Password Validation----------------------->>
 
-        $("#Password").blur(function (e) {
-            var valid = true;
+        $("#Password, #Confirm_Password").blur(function (e) {
+            var isValid = true; 
             var pass = $("#Password").val();
             var pass2 = $("#Confirm_Password").val();
             var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
@@ -635,48 +638,45 @@ if (isset($_GET["id"])) {
             }
             else {
                 $("#errPassword").text("Password length must be between 8-15 characters");
-                valid = false;
+                isValid = false;
             }
-            if ($("#Password").val() == "") {
-                $("#errPassword").text("Password field is required...!");
-                valid = false;
+            if (passPatern.test(pass)) {
+                $("#errPassword").text("");
             }
-            if (pass != pass2 && pass2!='') {
-                $("#errPassword").text("Password Does Not Match...!");
-                valid = false;
+            else {
+                $("#errPassword").text("Password length must be between 8-15 characters");
+                isValid = false;
             }
-            if (!valid) {
-                e.preventDefault();
-            }
-        });
-        $("#Confirm_Password").blur(function (e) {
-            var valid = true;
-            var pass = $("#Password").val();
-            var pass2 = $("#Confirm_Password").val();
-            var passPattern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
-            var a = passPattern.test(pass);
-            if (a == true) {
+            if (passPatern.test(pass2)) {
                 $("#errConfirm_Password").text("");
             }
             else {
                 $("#errConfirm_Password").text("Password length must be between 8-15 characters");
-                valid = false;
+                isValid = false;
             }
-            if (pass != pass2) {
-                $("#errConfirm_Password").text("Password Does Not Match...!");
+            if (pass != pass2 && pass !='' && pass2 !='') {
                 $("#errPassword").text("Password Does Not Match...!");
-                valid = false;
-            }else{
-                $("#errPassword").text("");
+                $("#errConfirm_Password").text("Password Does Not Match...!");
+                isValid = false;
+            }
+            if ($("#Password").val() == "") {
+                $("#errPassword").text("Password field is required");
+                isValid = false;
             }
             if ($("#Confirm_Password").val() == "") {
-                $("#errConfirm_Password").text("Confirm_Password field is required...!");
-                valid = false;
+                $("#errConfirm_Password").text("Confirm_Password field is required");
+                isValid = false;
             }
-            if (!valid) {
+            if (!isValid) {
                 e.preventDefault();
             }
         });
+        $("#Password").focus(function(){
+            $("#errPassword").text("");
+        })
+        $("#Confirm_Password").focus(function(){
+            $("#errConfirm_Password").text("");
+        })
 
 
 
@@ -707,7 +707,7 @@ if (isset($_GET["id"])) {
 
 
             var name = $("#Name").val();
-            var namePattern = /^[a-zA-Z ]{3,15}$/;
+            var namePattern = /^[a-zA-Z]{3,15}$/;
             if (namePattern.test(name)) {
                 $("#errName").text("");
             }
@@ -748,6 +748,13 @@ if (isset($_GET["id"])) {
                 $("#errPassword").text("Password length must be between 8-15 characters");
                 isValid = false;
             }
+            if (passPatern.test(pass)) {
+                $("#errPassword").text("");
+            }
+            else {
+                $("#errPassword").text("Password length must be between 8-15 characters");
+                isValid = false;
+            }
             if (passPatern.test(pass2)) {
                 $("#errConfirm_Password").text("");
             }
@@ -755,11 +762,16 @@ if (isset($_GET["id"])) {
                 $("#errConfirm_Password").text("Password length must be between 8-15 characters");
                 isValid = false;
             }
-            if (pass != pass2) {
+            if (pass != pass2 && pass!='' && pass2!='') {
+                $("#errPassword").text("Password Does Not Match...!");
                 $("#errConfirm_Password").text("Password Does Not Match...!");
                 isValid = false;
             }
             if ($("#Password").val() == "") {
+                $("#errPassword").text("Password field is required");
+                isValid = false;
+            }
+            if ($("#Confirm_Password").val() == "") {
                 $("#errConfirm_Password").text("Confirm_Password field is required");
                 isValid = false;
             }
@@ -822,6 +834,9 @@ if (isset($_GET["id"])) {
             }
            
         });
+        setTimeout(function () {
+            $('.session').fadeOut('slow');
+        }, 2000);
     })
 </script>
 

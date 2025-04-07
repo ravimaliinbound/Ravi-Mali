@@ -104,9 +104,13 @@ if (!isset($_SESSION['login_done'])) {
             echo $page; ?>&limit=<?php if (isset($limit))
                   echo $limit; ?>&inp-search=<?php if (isset($value))
                         echo $value; ?><?php if (isset($gender))
-                        echo '&gender=' . $gender; ?><?php if (isset($language))
-                                echo '&language=' . $language; ?><?php if (isset($city))
-                                        echo '&city=' . $city; ?>" class="add-product-btn">Add
+                              echo '&gender=' . $gender; ?><?php if (isset($language))
+                                      echo '&language=' . $language; ?><?php if (isset($city))
+                                              echo '&city=' . $city; ?><?php if (isset($genders))
+                                                      echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                                              echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                                                      echo '&cities=' . $cities; ?>"
+            class="add-product-btn">Add
             Product</a>
         <?php
         if (isset($_SESSION['login_done'])) {
@@ -158,6 +162,14 @@ if (!isset($_SESSION['login_done'])) {
         <?php
         unset($_SESSION['login']);
     }
+    elseif (isset($_SESSION['already_login'])) {
+        ?>
+        <div class="session">
+            <p><?php echo $_SESSION['already_login']; ?></p>
+        </div>
+        <?php
+        unset($_SESSION['already_login']);
+    }
     ?>
     <form action="" method="post" id="multi-search">
         <select name="gender" id="gender">
@@ -168,6 +180,11 @@ if (!isset($_SESSION['login_done'])) {
                     echo 'selected';
                 }
             }
+            if (isset($_REQUEST['genders'])) {
+                if ($_REQUEST['genders'] == 'Male') {
+                    echo 'selected';
+                }
+            }
             ?>>Male</option>
             <option value="Female" <?php
             if (isset($_REQUEST['gender'])) {
@@ -175,10 +192,20 @@ if (!isset($_SESSION['login_done'])) {
                     echo 'selected';
                 }
             }
+            if (isset($_REQUEST['genders'])) {
+                if ($_REQUEST['genders'] == 'Female') {
+                    echo 'selected';
+                }
+            }
             ?>>Female</option>
             <option value="Other" <?php
             if (isset($_REQUEST['gender'])) {
                 if ($_REQUEST['gender'] == 'Other') {
+                    echo 'selected';
+                }
+            }
+            if (isset($_REQUEST['genders'])) {
+                if ($_REQUEST['genders'] == 'Other') {
                     echo 'selected';
                 }
             }
@@ -192,6 +219,11 @@ if (!isset($_SESSION['login_done'])) {
                     echo 'selected';
                 }
             }
+            if (isset($_REQUEST['languages'])) {
+                if ($_REQUEST['languages'] == 'Hindi') {
+                    echo 'selected';
+                }
+            }
             ?>>Hindi</option>
             <option value="English" <?php
             if (isset($_REQUEST['language'])) {
@@ -199,10 +231,20 @@ if (!isset($_SESSION['login_done'])) {
                     echo 'selected';
                 }
             }
+            if (isset($_REQUEST['languages'])) {
+                if ($_REQUEST['languages'] == 'English') {
+                    echo 'selected';
+                }
+            }
             ?>>English</option>
             <option value="Gujrati" <?php
             if (isset($_REQUEST['language'])) {
                 if ($_REQUEST['language'] == 'Gujrati') {
+                    echo 'selected';
+                }
+            }
+            if (isset($_REQUEST['languages'])) {
+                if ($_REQUEST['languages'] == 'Gujrati') {
                     echo 'selected';
                 }
             }
@@ -216,10 +258,20 @@ if (!isset($_SESSION['login_done'])) {
                     echo 'selected';
                 }
             }
+            if (isset($_REQUEST['cities'])) {
+                if ($_REQUEST['cities'] == 'Ahmedabad') {
+                    echo 'selected';
+                }
+            }
             ?>>Ahmedabad</option>
             <option value="Mandar" <?php
             if (isset($_REQUEST['city'])) {
                 if ($_REQUEST['city'] == 'Mandar') {
+                    echo 'selected';
+                }
+            }
+            if (isset($_REQUEST['cities'])) {
+                if ($_REQUEST['cities'] == 'Mandar') {
                     echo 'selected';
                 }
             }
@@ -230,10 +282,20 @@ if (!isset($_SESSION['login_done'])) {
                     echo 'selected';
                 }
             }
+            if (isset($_REQUEST['cities'])) {
+                if ($_REQUEST['cities'] == 'Mumbai') {
+                    echo 'selected';
+                }
+            }
             ?>>Mumbai</option>
             <option value="Delhi" <?php
             if (isset($_REQUEST['city'])) {
                 if ($_REQUEST['city'] == 'Delhi') {
+                    echo 'selected';
+                }
+            }
+            if (isset($_REQUEST['cities'])) {
+                if ($_REQUEST['cities'] == 'Delhi') {
                     echo 'selected';
                 }
             }
@@ -244,10 +306,20 @@ if (!isset($_SESSION['login_done'])) {
                     echo 'selected';
                 }
             }
+            if (isset($_REQUEST['cities'])) {
+                if ($_REQUEST['cities'] == 'Malipura') {
+                    echo 'selected';
+                }
+            }
             ?>>Malipura</option>
             <option value="Surat" <?php
             if (isset($_REQUEST['city'])) {
                 if ($_REQUEST['city'] == 'Surat') {
+                    echo 'selected';
+                }
+            }
+            if (isset($_REQUEST['cities'])) {
+                if ($_REQUEST['cities'] == 'Surat') {
                     echo 'selected';
                 }
             }
@@ -366,20 +438,27 @@ if (!isset($_SESSION['login_done'])) {
                                echo '&page=' . $page; ?><?php if (isset($limit))
                                        echo '&limit=' . $limit; ?><?php if (isset($value))
                                                echo '&inp-search=' . $value; ?><?php if (isset($gender))
-                                                       echo '&gender=' . $gender; ?><?php if (isset($language))
-                                                               echo '&language=' . $language; ?><?php if (isset($city))
-                                                                       echo '&city=' . $city; ?>" class="edit-product">Edit</a>
+                                                       echo '&genders=' . $gender; ?><?php if (isset($language))
+                                                               echo '&languages=' . $language; ?><?php if (isset($city))
+                                                                       echo '&cities=' . $city; ?><?php if (isset($genders))
+                                                                               echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                                                                       echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                                                                               echo '&cities=' . $cities; ?>"
+                            class="edit-product">Edit</a>
                         <a href="delete_product?id=<?php echo $products->id; ?><?php if (isset($page))
                                echo '&page=' . $page; ?><?php if (isset($limit))
                                        echo '&limit=' . $limit; ?><?php if (isset($value))
                                                echo '&inp-search=' . $value; ?><?php if (isset($gender))
                                                        echo '&gender=' . $gender; ?><?php if (isset($language))
                                                                echo '&language=' . $language; ?><?php if (isset($city))
-                                                                       echo '&city=' . $city; ?>"
+                                                                       echo '&city=' . $city; ?><?php if (isset($genders))
+                                                                               echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                                                                       echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                                                                               echo '&cities=' . $cities; ?>"
                             onclick="return confirm('Do You Really Want To Delete?')" class="delete-product">Delete</a>
                     </td>
                 </tr>
-            <?php
+                <?php
             }
         } else {
             ?>
@@ -401,9 +480,12 @@ if (!isset($_SESSION['login_done'])) {
                             echo $value; ?><?php if (isset($gender))
                                   echo '&gender=' . $gender; ?><?php if (isset($language))
                                           echo '&language=' . $language; ?><?php if (isset($city))
-                                                  echo '&city=' . $city; ?><?php if (isset($column))
-                                                          echo '&column=' . $column; ?><?php if (isset($order))
-                                                                  echo '&order=' . $order; ?>">
+                                                  echo '&city=' . $city; ?><?php if (isset($genders))
+                                                          echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                                                  echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                                                          echo '&cities=' . $cities; ?><?php if (isset($column))
+                                                                                  echo '&column=' . $column; ?><?php if (isset($order))
+                                                                                          echo '&order=' . $order; ?>">
                     <li><i class="fa-solid fa-backward"></i></li>
                 </a>
 
@@ -420,9 +502,12 @@ if (!isset($_SESSION['login_done'])) {
                        echo $value; ?><?php if (isset($gender))
                              echo '&gender=' . $gender; ?><?php if (isset($language))
                                      echo '&language=' . $language; ?><?php if (isset($city))
-                                             echo '&city=' . $city; ?><?php if (isset($column))
-                                                     echo '&column=' . $column; ?><?php if (isset($order))
-                                                             echo '&order=' . $order; ?>">
+                                             echo '&city=' . $city; ?><?php if (isset($genders))
+                                                     echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                                             echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                                                     echo '&cities=' . $cities; ?><?php if (isset($column))
+                                                                             echo '&column=' . $column; ?><?php if (isset($order))
+                                                                                     echo '&order=' . $order; ?>">
                     <li <?php if (isset($page) && isset($i)) {
                         if ($page == $i) {
                             echo 'class=active';
@@ -442,9 +527,12 @@ if (!isset($_SESSION['login_done'])) {
                          echo $value; ?><?php if (isset($gender))
                                echo '&gender=' . $gender; ?><?php if (isset($language))
                                        echo '&language=' . $language; ?><?php if (isset($city))
-                                               echo '&city=' . $city; ?><?php if (isset($column))
-                                                       echo '&column=' . $column; ?><?php if (isset($order))
-                                                               echo '&order=' . $order; ?>">
+                                               echo '&city=' . $city; ?><?php if (isset($genders))
+                                                       echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                                               echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                                                       echo '&cities=' . $cities; ?><?php if (isset($column))
+                                                                               echo '&column=' . $column; ?><?php if (isset($order))
+                                                                                       echo '&order=' . $order; ?>">
                     <li><i class="fa-solid fa-forward"></i></li>
                 </a>
 
@@ -513,9 +601,12 @@ if (!isset($_SESSION['login_done'])) {
                 echo $value; ?><?php if (isset($gender))
                       echo '&gender=' . $gender; ?><?php if (isset($language))
                               echo '&language=' . $language; ?><?php if (isset($city))
-                                      echo '&city=' . $city; ?><?php if (isset($column))
-                                              echo '&column=' . $column; ?><?php if (isset($order))
-                                                      echo '&order=' . $order; ?>";
+                                      echo '&city=' . $city; ?><?php if (isset($genders))
+                                              echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                                      echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                                              echo '&cities=' . $cities; ?><?php if (isset($column))
+                                                                      echo '&column=' . $column; ?><?php if (isset($order))
+                                                                              echo '&order=' . $order; ?>";
         });
         $("#gender").change(function () {
             var gender = $(this).val();

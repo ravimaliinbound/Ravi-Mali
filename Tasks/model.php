@@ -130,7 +130,7 @@ class Model
         $offset = ($page - 1) * $limit;
         $sel = "SELECT * FROM $table WHERE  $where ORDER BY $column $order LIMIT $offset, $limit";
         $run = $this->conn->query($sel);
-        $arr = [];
+        $arr = [];  
         while ($fetch = $run->fetch_object()) {
             $arr[] = $fetch;
         }

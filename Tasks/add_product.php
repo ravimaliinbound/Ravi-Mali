@@ -313,7 +313,12 @@ if (isset($_GET["id"])) {
                 <button type="submit" name="submit" id="submit">Submit</button>
             </div>
             <div class="inp-div">
-                <p>Already have an account? <a href="login">Login</a></p>
+                <p>Already have an account? <a href="login?page=<?php echo $page;?>&limit=<?php if (isset($limit))
+                       echo $limit?>&inp-search=<?php if (isset($value))
+                        echo $value; ?><?php if (isset($genders))
+                        echo '&genders=' . $genders; ?><?php if (isset($languages))
+                                echo '&languages=' . $languages; ?><?php if (isset($cities))
+                                        echo '&cities=' . $cities; ?>">Login</a></p>
             </div>
             <div class="inp-div">
                <?php

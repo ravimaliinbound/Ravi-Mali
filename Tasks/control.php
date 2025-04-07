@@ -299,9 +299,15 @@ class Control extends Model
                 break;
             case '/login':
 
+                $value = isset($_REQUEST['inp-search']) ? $_REQUEST['inp-search'] :'';
+                $page = isset($_REQUEST['page']) ? $_REQUEST['page'] :'';
+                $genders = isset($_REQUEST['genders']) ? $_REQUEST['genders'] :'';
+                $languages = isset($_REQUEST['languages']) ? $_REQUEST['languages'] :'';
+                $cities = isset($_REQUEST['cities']) ? $_REQUEST['cities'] :'';
+                $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] :'';
                 if (isset($_SESSION['login_done'])) {
                     $_SESSION['already_login'] = 'Already Logged In...!';
-                    header('Location: pagination');
+                    header('Location: pagination?page=' . $page . '&limit=' . $limit . '&inp-search=' . $value . '&genders=' . $genders . '&languages=' . $languages . '&cities=' . $cities);
                     exit;
                 }
 

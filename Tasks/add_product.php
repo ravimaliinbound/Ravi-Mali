@@ -42,6 +42,15 @@ if (isset($_GET["id"])) {
         border-radius: 5px;
         color: red;
     }
+    .submit-btn{
+        background-color: aqua;
+        width : fit-content; 
+        padding: 7px 10px; 
+        font-size: 16px;  
+        text-align: center; 
+        border: none; 
+        border-radius: 5px;
+    }
 </style>
 
 <body>
@@ -57,11 +66,11 @@ if (isset($_GET["id"])) {
     ?>
     <div class="form-div">
         <h2>Registration Form</h2>
-        <form action="<?php 
+        <form action="<?php
         if (isset($_GET['id'])) {
-            echo "update_product?id=".$_GET['id']."&page=".$page."&limit=". $limit.'&inp-search='.$value.'&genders='.$genders.'&languages='.$languages.'&cities='.$cities;
+            echo "update_product?id=" . $_GET['id'] . "&page=" . $page . "&limit=" . $limit . '&inp-search=' . $value . '&genders=' . $genders . '&languages=' . $languages . '&cities=' . $cities . '&theme=' . $theme;
         } else {
-            echo 'add_product?page='. $page.'&inp-search='.$value.'&limit='.$limit.'&genders='.$genders.'&languages='.$languages.'&cities='.$cities;
+            echo 'add_product?page=' . $page . '&inp-search=' . $value . '&limit=' . $limit . '&genders=' . $genders . '&languages=' . $languages . '&cities=' . $cities . '&theme=' . $theme;
         }
         ?>" method="post" enctype="multipart/form-data" id="form">
             <div class="inp-div">
@@ -71,7 +80,7 @@ if (isset($_GET["id"])) {
                     if (isset($name))
                         echo $name;
                     elseif (isset($data['name']))
-                        echo $data['name']; 
+                        echo $data['name'];
                 }
                 ?>">
                 <span class="err" id="errName" style="margin-left: 105px;"></span>
@@ -82,7 +91,7 @@ if (isset($_GET["id"])) {
                     value="<?php
                     if (isset($email))
                         echo $email;
-                        elseif (isset($data['email']))
+                    elseif (isset($data['email']))
                         echo $data['email'];
                     ?>">
                 <span class="err" style="margin-left: 105px;" id="errEmail">
@@ -95,9 +104,9 @@ if (isset($_GET["id"])) {
                         <?php
                         unset($_SESSION['email']);
                     }
-                    ?>  
+                    ?>
                 </span>
-                    
+
             </div>
             <div class="inp-div">
                 <label>Password :</label>
@@ -105,7 +114,7 @@ if (isset($_GET["id"])) {
                     value="<?php
                     if (isset($norm_pass))
                         echo $norm_pass;
-                        elseif (isset($data['norm_pass']))
+                    elseif (isset($data['norm_pass']))
                         echo $data['norm_pass'];
                     ?>">
                 <span class="err" style="margin-left: 105px;" id="errPassword"></span>
@@ -117,7 +126,7 @@ if (isset($_GET["id"])) {
                     placeholder="Confirm Password" value="<?php
                     if (isset($norm_pass))
                         echo $norm_pass;
-                        elseif (isset($data['norm_pass']))
+                    elseif (isset($data['norm_pass']))
                         echo $data['norm_pass'];
                     ?>">
                 <span class="err" style="margin-left: 105px;" id="errConfirm_Password"></span>
@@ -137,8 +146,7 @@ if (isset($_GET["id"])) {
                     if ($data['gender'] == 'Male') {
                         echo 'checked';
                     }
-                }
-                elseif (isset($gender)) {
+                } elseif (isset($gender)) {
                     if ($gender == 'Male') {
                         echo 'checked';
                     }
@@ -149,8 +157,7 @@ if (isset($_GET["id"])) {
                     if ($data['gender'] == 'Female') {
                         echo 'checked';
                     }
-                }
-                elseif (isset($gender)) {
+                } elseif (isset($gender)) {
                     if ($gender == 'Female') {
                         echo 'checked';
                     }
@@ -161,8 +168,7 @@ if (isset($_GET["id"])) {
                     if ($data['gender'] == 'Other') {
                         echo 'checked';
                     }
-                }
-                elseif (isset($gender)) {
+                } elseif (isset($gender)) {
                     if ($gender == 'Other') {
                         echo 'checked';
                     }
@@ -184,7 +190,8 @@ if (isset($_GET["id"])) {
                         echo 'checked';
                     }
                 }
-                ?>> <label for="Hindi" id="Hindi_lbl">Hindi</label>
+                ?>> <label for="Hindi"
+                    id="Hindi_lbl">Hindi</label>
                 <input type="checkbox" id="English" name="language[]" value="English" <?php
                 if (isset($data['language'])) {
                     if (in_array("English", $language)) {
@@ -220,8 +227,7 @@ if (isset($_GET["id"])) {
                         if ($data['city'] == 'Ahmedabad') {
                             echo 'selected';
                         }
-                    }
-                    elseif (isset($city)) {
+                    } elseif (isset($city)) {
                         if ($city == 'Ahmedabad') {
                             echo 'selected';
                         }
@@ -232,8 +238,7 @@ if (isset($_GET["id"])) {
                         if ($data['city'] == 'Mandar') {
                             echo 'selected';
                         }
-                    }
-                    elseif (isset($city)) {
+                    } elseif (isset($city)) {
                         if ($city == 'Mandar') {
                             echo 'selected';
                         }
@@ -244,8 +249,7 @@ if (isset($_GET["id"])) {
                         if ($data['city'] == 'Mumbai') {
                             echo 'selected';
                         }
-                    }
-                    elseif (isset($city)) {
+                    } elseif (isset($city)) {
                         if ($city == 'Mumbai') {
                             echo 'selected';
                         }
@@ -256,8 +260,7 @@ if (isset($_GET["id"])) {
                         if ($data['city'] == 'Delhi') {
                             echo 'selected';
                         }
-                    }
-                    elseif (isset($city)) {
+                    } elseif (isset($city)) {
                         if ($city == 'Delhi') {
                             echo 'selected';
                         }
@@ -268,8 +271,7 @@ if (isset($_GET["id"])) {
                         if ($data['city'] == 'Malipura') {
                             echo 'selected';
                         }
-                    }
-                    elseif (isset($city)) {
+                    } elseif (isset($city)) {
                         if ($city == 'Malipura') {
                             echo 'selected';
                         }
@@ -280,8 +282,7 @@ if (isset($_GET["id"])) {
                         if ($data['city'] == 'Surat') {
                             echo 'selected';
                         }
-                    }
-                    elseif (isset($city)) {
+                    } elseif (isset($city)) {
                         if ($city == 'Surat') {
                             echo 'selected';
                         }
@@ -291,60 +292,101 @@ if (isset($_GET["id"])) {
                 <span class="err" id="errCity"></span>
 
             </div>
-          
-             <div class="inp-div">
-              <?php
-             if(!empty($product_arr)){
-                foreach($product_arr as $products){
-                     if(isset($_REQUEST['id']))
-                     {
-                    ?>
-                    <img src="image/<?php echo $products->image;?>" height="80px" width="80px" style="border-radius: 5px; margin-left: 100px;">
-                    <?php
-                    }
-             }
-            }
 
-            
-              ?>  
-            </div>
-           
             <div class="inp-div">
-                <button type="submit" name="submit" id="submit">Submit</button>
-            </div>
-            <div class="inp-div">
-                <p>Already have an account? <a href="login?page=<?php echo $page;?>&limit=<?php if (isset($limit))
-                       echo $limit?>&inp-search=<?php if (isset($value))
-                        echo $value; ?><?php if (isset($genders))
-                        echo '&genders=' . $genders; ?><?php if (isset($languages))
-                                echo '&languages=' . $languages; ?><?php if (isset($cities))
-                                        echo '&cities=' . $cities; ?>">Login</a></p>
-            </div>
-            <div class="inp-div">
-               <?php
-               if(isset($_REQUEST['id'])){
-                ?>
-                 <a href="pagination?page=<?php echo $page;?>&limit=<?php if (isset($limit))
-                       echo $limit?>&inp-search=<?php if (isset($value))
-                        echo $value; ?><?php if (isset($genders))
-                        echo '&genders=' . $genders; ?><?php if (isset($languages))
-                                echo '&languages=' . $languages; ?><?php if (isset($cities))
-                                        echo '&cities=' . $cities; ?>">Back</a>
                 <?php
-               }
-               else{
+                if (!empty($product_arr)) {
+                    foreach ($product_arr as $products) {
+                        if (isset($_REQUEST['id'])) {
+                            ?>
+                            <img src="image/<?php echo $products->image; ?>" height="80px" width="80px"
+                                style="border-radius: 5px; margin-left: 100px;">
+                            <?php
+                        }
+                    }
+                }
+
+
                 ?>
-                 <a href="pagination?page=<?php if(isset($page)) echo $page;?>&limit=<?php if(isset($limit)) 
-                        echo $limit;?>&inp-search=<?php if(isset($value)) 
-                          echo $value;?><?php if (isset($genders))
-                          echo '&genders=' . $genders; ?><?php if (isset($languages))
-                                  echo '&languages=' . $languages; ?><?php if (isset($cities))
-                                          echo '&cities=' . $cities; ?>">Back</a>
-                <?php
-               }
-               ?>
-            </div>  
+            </div>
+
+        <div style="display: flex; margin-left: 100px;">
+        
+            <div>
+                <button type="submit" name="submit" id="submit" class="submit-btn">Save</button>
+            </div>
             
+                <?php
+                if (!isset($_REQUEST['id'])) {
+                    ?>
+            <div style="margin-left: 10px;">
+                <div>
+                    <button type="submit" name="save" id="submit" class="submit-btn">Save And Create New</button>
+                </div>
+            </div>
+
+                    <?php
+                } 
+                ?>
+             <div class="inp-div">
+                <?php
+                if (isset($_REQUEST['id'])) {
+                    ?>
+                    <a href="pagination?page=<?php echo $page;
+                    if (isset($limit))
+                        echo '&limit=' . $limit;
+                    if (isset($value))
+                        echo '&inp-search=' . $value;
+                    if (isset($genders))
+                        echo '&genders=' . $genders;
+                    if (isset($languages))
+                        echo '&languages=' . $languages;
+                    if (isset($cities))
+                        echo '&cities=' . $cities;
+                    if (isset($theme))
+                        echo '&theme=' . $theme;
+                    ?>">Cancel</a>
+                    <?php
+                } else {
+                    ?>
+                    <a href="pagination?page=<?php if (isset($page))
+                        echo $page;
+                    if (isset($limit))
+                        echo '&limit=' . $limit;
+                    if (isset($value))
+                        echo '&inp-search=' . $value;
+                    if (isset($genders))
+                        echo '&genders=' . $genders;
+                    if (isset($languages))
+                        echo '&languages=' . $languages;
+                    if (isset($cities))
+                        echo '&cities=' . $cities;
+                    if (isset($theme))
+                        echo '&theme=' . $theme;
+                    ?>">Cancel</a>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+            <div class="inp-div">
+                <p>Already have an account? <a href="login?page=<?php echo $page;
+                if (isset($limit))
+                    echo '&limit=' . $limit;
+                if (isset($value))
+                    echo '&inp-search=' . $value;
+                if (isset($genders))
+                    echo '&genders=' . $genders;
+                if (isset($languages))
+                    echo '&languages=' . $languages;
+                if (isset($cities))
+                    echo '&cities=' . $cities;
+                if (isset($theme))
+                    echo '&theme=' . $theme;
+                ?>">Login</a></p>
+            </div>
+
+
         </form>
     </div>
 </body>
@@ -373,13 +415,13 @@ if (isset($_GET["id"])) {
             }
         })
 
-        $("#Email").focus(function(){
-                $("#errEmail").text("");
-            });
-            
-            $("#Name").focus(function(){
-                $("#errName").text("");
-            });
+        $("#Email").focus(function () {
+            $("#errEmail").text("");
+        });
+
+        $("#Name").focus(function () {
+            $("#errName").text("");
+        });
 
         //----------------IMAGE EDIT----------------->>
 
@@ -634,7 +676,7 @@ if (isset($_GET["id"])) {
         //----------------------- Password Validation----------------------->>
 
         $("#Password, #Confirm_Password").blur(function (e) {
-            var isValid = true; 
+            var isValid = true;
             var pass = $("#Password").val();
             var pass2 = $("#Confirm_Password").val();
             var passPatern = /^[a-zA-Z0-9!@#$%^&*()_+-=]{8,15}$/;
@@ -659,7 +701,7 @@ if (isset($_GET["id"])) {
                 $("#errConfirm_Password").text("Password length must be between 8-15 characters");
                 isValid = false;
             }
-            if (pass != pass2 && pass !='' && pass2 !='') {
+            if (pass != pass2 && pass != '' && pass2 != '') {
                 $("#errPassword").text("Password Does Not Match...!");
                 $("#errConfirm_Password").text("Password Does Not Match...!");
                 isValid = false;
@@ -676,10 +718,10 @@ if (isset($_GET["id"])) {
                 e.preventDefault();
             }
         });
-        $("#Password").focus(function(){
+        $("#Password").focus(function () {
             $("#errPassword").text("");
         })
-        $("#Confirm_Password").focus(function(){
+        $("#Confirm_Password").focus(function () {
             $("#errConfirm_Password").text("");
         })
 
@@ -706,7 +748,7 @@ if (isset($_GET["id"])) {
                 $("#errConfirm_Password").text("Confirm_Password field is Required...!");
                 isValid = false;
             }
-            $("#Email").focus(function(){
+            $("#Email").focus(function () {
                 $("#errEmail").text("");
             });
 
@@ -767,7 +809,7 @@ if (isset($_GET["id"])) {
                 $("#errConfirm_Password").text("Password length must be between 8-15 characters");
                 isValid = false;
             }
-            if (pass != pass2 && pass!='' && pass2!='') {
+            if (pass != pass2 && pass != '' && pass2 != '') {
                 $("#errPassword").text("Password Does Not Match...!");
                 $("#errConfirm_Password").text("Password Does Not Match...!");
                 isValid = false;
@@ -837,7 +879,7 @@ if (isset($_GET["id"])) {
             if (!isValid) {
                 obj.preventDefault();
             }
-           
+
         });
         setTimeout(function () {
             $('.session').fadeOut('slow');

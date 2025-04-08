@@ -183,6 +183,14 @@ if (!isset($_SESSION['login_done'])) {
         <?php
         unset($_SESSION['already_login']);
     }
+    elseif (isset($_SESSION['insert'])) {
+        ?>
+        <div class="session">
+            <p><?php echo $_SESSION['insert']; ?></p>
+        </div>
+        <?php
+        unset($_SESSION['insert']);
+    }
     ?>
     <form action="" method="post" id="multi-search">
         <select name="gender" id="gender">

@@ -1,6 +1,5 @@
-<?php
-include_once('C:\xampp\htdocs\Ravi-Kumar\jQuery\header.php');   
-?>
+<script src="/ravi-kumar/jQuery/jquery-3.7.1.js"></script>
+
 <body>
     Name : <input type="text"><br><br>
     Email : <input type="Emial">

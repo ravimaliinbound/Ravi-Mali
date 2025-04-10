@@ -628,13 +628,17 @@ if (isset($_GET["id"])) {
         $("#Name").blur(function (e) {
             var valid = true;
             var name = $("#Name").val();
-            var namePattern = /^[a-zA-Z]{3,15}$/;
+            var name_val = $("#Name").val().trim();
+            var namePattern = /^[a-zA-Z ]{3,15}$/;
             if (namePattern.test(name)) {
                 $("#errName").text("");
             }
             else {
-                $("#errName").text("Name must contain alphabets only. Min = 3, Max = 15 Alphabets");
-                valid = false;
+                $("#errName").text("Minimum 3 And Maximum 15 Characters Allowed...!");
+                isValid = false;
+            }
+            if(name_val == ""){
+                $("#errName").text("Only spaces not allowed...!");
             }
             if ($("#Name").val() == "") {
                 $("#errName").text("Name field is required...!");
@@ -754,13 +758,17 @@ if (isset($_GET["id"])) {
 
 
             var name = $("#Name").val();
-            var namePattern = /^[a-zA-Z]{3,15}$/;
+            var namePattern = /^[a-zA-Z ]{3,15}$/;
+            var name_val = $("#Name").val().trim();
             if (namePattern.test(name)) {
                 $("#errName").text("");
             }
             else {
-                $("#errName").text("Name must contain alphabets only. Min = 3, Max = 15 Alphabets");
+                $("#errName").text("Minimum 3 And Maximum 15 Characters Allowed...!");
                 isValid = false;
+            }
+            if(name_val == ""){
+                $("#errName").text("Only spaces not allowed...!");
             }
             if ($("#Name").val() == "") {
                 $("#errName").text("Name field is required...!");

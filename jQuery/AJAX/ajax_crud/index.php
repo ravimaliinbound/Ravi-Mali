@@ -3,9 +3,10 @@ $conn = new mysqli("localhost", "root", "", "ajax_crud") or die("Connection Fail
 
 $select = "SELECT * FROM employee";
 $run = $conn->query($select);
-$limit = 5;
+$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;
 $row = $run->num_rows;
-$page = ceil($row / $limit);
+
+$totalPage = ceil($row / $limit);
 ?>
 
 <!doctype html>
@@ -34,6 +35,10 @@ $page = ceil($row / $limit);
         border: 1px solid;
         padding: 5px 10px;
         display: inline;
+    }
+
+    .active {
+        background-color: red;
     }
 </style>
 
@@ -183,22 +188,90 @@ $page = ceil($row / $limit);
             </button>
         </div>
         <h2 class="text-danger">All Records</h2>
+
+        <div style="display: flex;" class="d-flex justify-content-center">
+            <div>
+                <input type="text" class="form-control" id="keywords" placeholder="Search here..."
+                    onkeyup="searchFilter();">
+            </div>
+
+            <div style="margin-left: 10px;">
+                <select class="form-control" id="genderfilter" onchange="searchFilter();">
+                    <option value="">Filter by Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div style="margin-left: 10px;">
+                <select class="form-control" id="cityfilter" onchange="searchFilter();">
+                    <option value="">Filter by City</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mandar">Mandar</option>
+                    <option value="Surat">Surat</option>
+                </select>
+            </div>
+            <div style="margin-left: 10px;">
+                <select class="form-control" id="languagefilter" onchange="searchFilter();">
+                    <option value="">Filter by Language</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="English">English</option>
+                    <option value="Gujrati">Gujrati</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <select name="limit" id="limit" class="p-1 m-4" onchange="searchFilter();">
+                <option value="5" <?php
+                if (isset($limit)) {
+                    if ($limit == 5)
+                        echo 'selected';
+                }
+                ?>>5</option>
+                <option value="10" <?php
+                if (isset($limit)) {
+                    if ($limit == 10)
+                        echo 'selected';
+                }
+                ?>>10</option>
+                <option value="15" <?php
+                if (isset($limit)) {
+                    if ($limit == 15)
+                        echo 'selected';
+                }
+                ?>>15</option>
+                <option value="20" <?php
+                if (isset($limit)) {
+                    if ($limit == 20)
+                        echo 'selected';
+                }
+                ?>>20</option>
+            </select>
+        </div>
         <div id="show_records" class="d-flex justify-content-center">
 
         </div>
         <div class="d-flex justify-content-center mt-3">
             <ul style="list-style: none;">
                 <?php
-                for ($i = 1; $i <= $page; $i++) {
+                for ($i = 1; $i <= $totalPage; $i++) {
+                    $page = "";
                     ?>
                     <a href="#">
-                        <li onclick="pagination(<?php echo $i;?>)"><?php echo $i;?></li>
+                        <li onclick="showRecords(<?php echo $i; ?>) "><?php echo $i; ?></li>
                     </a>
                     <?php
+
                 }
                 ?>
             </ul>
         </div>
+
+
     </div>
     <div class="hello"></div>
 

@@ -1,14 +1,5 @@
 
-function showRecords() {
-    $.ajax({
-        url: "action.php",
-        type: "POST",
-        data: { "show": "show" },
-        success: function (data) {
-            $("#show_records").html(data);
-        }
-    });
-}
+//-----Insert Data---------//
 function insertEmployee() {
     var name = $("#name").val();
     var email = $("#email").val();
@@ -25,12 +16,14 @@ function insertEmployee() {
             "name": name, "email": email, "gender": gender, "language": language, "city": city, action: "insert"
         },
         success: function (data) {
+            totalPage();
             showRecords();
             $('#form')[0].reset();
         }
     });
 }
 
+//----------Fetch Data For Edit------//
 function editUser(id) {
     $.ajax({
         url: "action.php",
@@ -63,6 +56,8 @@ function editUser(id) {
     });
     $("#editEmployee").modal("show");
 }
+
+//---------------Delete Data---------------//
 function deleteUser(id) {
     var conf = confirm("Are You Sure..?");
     if (conf == true) {
@@ -71,11 +66,13 @@ function deleteUser(id) {
             type: "POST",
             data: { "id": id, "action": "delete" },
             success: function () {
+                totalPage();
                 showRecords();
             }
         });
     }
 }
+//-------------------Update Data--------------------//
 function editEmployee() {
     var id = $("#userid").val();
     var name = $("#edit-name").val();
@@ -99,8 +96,36 @@ function editEmployee() {
     });
 }
 
-function pagination(id){
-    alert(id);
+//----------Show Data----------------//
+function showRecords(page = 1) {
+    $.ajax({
+        url: "action.php",
+        type: "POST",
+        data: { "page": page, "show": "show" },
+        success: function (data) {
+            $("#show_records").html(data);
+        }
+    });
+}
+//-------------Filter Data------------//
+function searchFilter() {
+
+    var keywords = $('#keywords').val();
+    var gender = $('#genderfilter').val();
+    var language = $('#languagefilter').val();
+    var city = $('#cityfilter').val();
+    var limit = $('#limit').val();
+
+    console.log(city);
+
+    $.ajax({
+        type: 'POST',
+        url: 'action.php',
+        data: { "keywords": keywords, "gender": gender, "language": language, "city": city, "filter": "filter", "limit" : limit },
+        success: function (data) {
+            $("#show_records").html(data);
+        }
+    });
 }
 
 $(document).ready(function () {
@@ -111,27 +136,39 @@ $(document).ready(function () {
     $(".remove-btn").click(function () {
         $('.remove').text("");
         $('#form')[0].reset();
-
     });
+
+    // $("#limit").change(function () {
+    //     var limit = $(this).val();
+    //     $.ajax({
+    //         url : "index.php",
+    //         type  : "post",
+    //         data :{"limit" : limit},
+    //         success: function(data){
+    //             console.log(data);
+    //         }
+    //     })
+    // });
+
+
 
     $(document).on("click", ".column", function () {
         var column = $(this).attr("id");
         var order = $(this).data("order");
-        if(order == 'desc')  
-            {  
-                 arrow = '&nbsp;<i class="fa-solid fa-arrow-down"></i>';  
-            }  
-            else  
-            {  
-                 arrow = '&nbsp;<i class="fa-solid fa-arrow-up"></i>';  
-            }  
+        var limit = $("#limit").val();
+        if (order == 'desc') {
+            arrow = '&nbsp;<i class="fa-solid fa-arrow-down"></i>';
+        }
+        else {
+            arrow = '&nbsp;<i class="fa-solid fa-arrow-up"></i>';
+        }
         $.ajax({
             url: "action.php",
             type: "post",
-            data: { "column": column, "order": order },
+            data: { "column": column, "order": order, "limit" : limit },
             success: function (data) {
                 $("#show_records").html(data);
-                $('.column').append(arrow); 
+                $('.column').append(arrow);
             }
         });
     })

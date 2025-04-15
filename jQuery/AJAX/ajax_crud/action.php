@@ -1,49 +1,6 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "ajax_crud") or die("Connection Failed");
 
-//--------------->> Show Data-------------------->>//
-
-if (isset($_POST['show'])) {
-    $select = "SELECT * FROM employee";
-    $result = $conn->query($select);
-
-    $output = "<table border = '1' cellspacing = '0' cellpadding = '6' >";
-    $output .= "  <tr style= 'border:1px solid;' class='text-center'>
-    <th>No.</th>
-    <th style= 'border:1px solid;' class='column' id='name' data-order='asc'>Name</i></th>
-    <th style= 'border:1px solid;' class='column' id='email' data-order='asc'>Email</th>
-    <th style= 'border:1px solid' class='column' id='gender' data-order='asc'>Gender</th>
-    <th style= 'border:1px solid' class='column' id='language' data-order='asc'>Language</th>
-    <th style= 'border:1px solid' class='column' id='city' data-order='asc'>City</th>
-    <th>Action</th>
-</tr>";
-    if ($result->num_rows > 0) {
-        $i = 1;
-        while ($data = $result->fetch_object()) {
-            $output .= "<tr style= 'border:1px solid'>
-       <td>$i</td>
-       <td style= 'border:1px solid'>$data->name</td>
-       <td style= 'border:1px solid'>$data->email</td>
-       <td style= 'border:1px solid' >$data->gender</td>
-       <td style= 'border:1px solid'>$data->language</td>
-       <td style= 'border:1px solid'>$data->city</td>
-       <td >
-            <a class='btn btn-success' onclick='editUser($data->id)'>Edit</a>
-            <a class='btn btn-danger' onclick='deleteUser($data->id)'>Delete</a>
-       </td>
-       </tr>";
-            $i++;
-        }
-        $output .= "</table>";
-        echo $output;
-    } else {
-        $output .= "<tr>
-                <th colspan='7' class='text-center'>No Data Found At This Moment..!</th>
-            </tr>";
-        echo $output;
-    }
-}
-//
 //----------------------->> Insert data------------------>>//
 
 if (isset($_POST['action']) && $_POST['action'] == "insert") {
@@ -116,8 +73,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'update') {
 if (isset($_POST['column'])) {
     $column = $_POST['column'];
     $order = $_POST['order'];
+    $limit = $_POST['limit'];
 
-    $select = "SELECT * FROM employee ORDER BY $column $order";
+    $select = "SELECT * FROM employee ORDER BY $column $order LIMIT $limit";
     $result = $conn->query($select);
     if ($order == 'asc') {
         $order = 'desc';
@@ -161,18 +119,90 @@ if (isset($_POST['column'])) {
     }
 }
 
-//--------------------->> Pagination <<-------------------------//
 
-if (isset($_POST['pagination'])) {
-    $select = "SELECT * FROM employee";
-    $run = $conn->query($select);
-    $limit = 5;
-    $row = $run->num_rows;
-    $page = ceil($row / $limit);
+//------------------------>> Paggination <<--------------------------------//
 
-    $offset = ($page - 2) * $limit;
+if (isset($_POST['show'])) {
+    $page = $_POST['page'];
+    $limit = isset($_POST['limit']) ? $_POST['limit'] : 5;
+    $offset = ($page - 1) * $limit;
+
     $sel = "SELECT * FROM employee LIMIT $offset, $limit";
     $res = $conn->query($sel);
+    $row = $res->num_rows;
+    $output = "<table border = '1' cellspacing = '0' cellpadding = '6' >";
+    $output .= "  <tr style= 'border:1px solid;' class='text-center'>
+    <th>No.</th>
+    <th style= 'border:1px solid;' class='column' id='name' data-order='asc'>Name</i></th>
+    <th style= 'border:1px solid;' class='column' id='email' data-order='asc'>Email</th>
+    <th style= 'border:1px solid' class='column' id='gender' data-order='asc'>Gender</th>
+    <th style= 'border:1px solid' class='column' id='language' data-order='asc'>Language</th>
+    <th style= 'border:1px solid' class='column' id='city' data-order='asc'>City</th>
+    <th>Action</th>
+</tr>";
+    if ($res->num_rows > 0) {
+        $i = $offset + 1;
+        while ($data = $res->fetch_object()) {
+            $output .= "<tr style= 'border:1px solid'>
+       <td>$i</td>
+       <td style= 'border:1px solid'>$data->name</td>
+       <td style= 'border:1px solid'>$data->email</td>
+       <td style= 'border:1px solid' >$data->gender</td>
+       <td style= 'border:1px solid'>$data->language</td>
+       <td style= 'border:1px solid'>$data->city</td>
+       <td >
+            <a class='btn btn-success' onclick='editUser($data->id)'>Edit</a>
+            <a class='btn btn-danger' onclick='deleteUser($data->id)'>Delete</a>
+       </td>
+       </tr>";
+            $i++;
+        }
+        $output .= "</table>";
+        echo $output;
+    } else {
+        $output .= "<tr>
+                <th colspan='7' class='text-center'>No Data Found At This Moment..!</th>
+            </tr>";
+        echo $output;
+    }
+}
+//----------Filter--------------//
+if (isset($_POST['filter'])) {
+    $value = isset($_POST['keywords']) ? trim($_POST['keywords']) : '';
+    $gender = isset($_POST['gender']) ? trim($_POST['gender']) : '';
+    $language = isset($_POST['language']) ? trim($_POST['language']) : '';
+    $city = isset($_POST['city']) ? trim($_POST['city']) : '';
+    $limit = isset($_POST['limit']) ? trim($_POST['limit']) : '';
+
+    $search_conditon =
+        "(name LIKE '%$value%' OR 
+    email LIKE '%$value%' OR 
+    gender LIKE '$value' OR 
+    language LIKE '%$value%' OR 
+    city LIKE '%$value%')";
+    $where = [];
+    if (!empty($value)) {
+        $where[] = $search_conditon;
+    }
+    if (!empty($city)) {
+        $where[] = "city LIKE '%$city%'";
+    }
+
+    if (!empty($gender)) {
+        $where[] = "gender LIKE '$gender'";
+    }
+
+    if (!empty($language)) {
+        $where[] = "language LIKE '%$language%'";
+    }
+    if (count($where) > 0) {
+        $where = implode(" AND ", $where);
+        $sel = "SELECT * FROM employee WHERE $where LIMIT $limit";
+    } else {
+        $sel = "SELECT * FROM employee LIMIT $limit";
+    }
+    $res = $conn->query($sel);
+    $row = $res->num_rows;
     $output = "<table border = '1' cellspacing = '0' cellpadding = '6' >";
     $output .= "  <tr style= 'border:1px solid;' class='text-center'>
     <th>No.</th>

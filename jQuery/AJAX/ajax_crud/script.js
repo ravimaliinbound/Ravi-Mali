@@ -9,14 +9,15 @@ function insertEmployee() {
         language[i] = $(this).val();
     });
     var city = $("#city").val();
+    var image = $("#image").val();
+    console.log(image)
     $.ajax({
         url: "action.php",
-        type: "POST",
         data: {
-            "name": name, "email": email, "gender": gender, "language": language, "city": city, action: "insert"
+            "name": name, "email": email, "gender": gender, "language": language, "city": city, "image": image, "action": "insert"
         },
         success: function (data) {
-            alert("Success")
+            console.log(data)
             searchFilter();
             $('#form')[0].reset();
         }
@@ -24,7 +25,7 @@ function insertEmployee() {
 }
 
 //----------Fetch Data For Edit------//
-function editUser(id) {
+function editUser(id, page) {
     $.ajax({
         url: "action.php",
         type: "POST",
@@ -32,6 +33,8 @@ function editUser(id) {
         success: function (data) {
             var allData = JSON.parse(data);
             $("#userid").val(allData.id);
+            $("#page").val(page);
+            $("#page").val(page);
             $("#edit-name").val(allData.name);
             $("#edit-email").val(allData.email);
             $('input[name="gender"][value=' + allData.gender + '].gender').prop('checked', true);
@@ -58,7 +61,8 @@ function editUser(id) {
 }
 
 //---------------Delete Data---------------//
-function deleteUser(id) {
+function deleteUser(id, page, limit) {
+
     var conf = confirm("Are You Sure..?");
     if (conf == true) {
         $.ajax({
@@ -66,7 +70,7 @@ function deleteUser(id) {
             type: "POST",
             data: { "id": id, "action": "delete" },
             success: function () {
-                searchFilter();
+                searchFilter(page, limit);
             }
         });
     }
@@ -74,6 +78,7 @@ function deleteUser(id) {
 //-------------------Update Data--------------------//
 function editEmployee() {
     var id = $("#userid").val();
+    var page = $("#page").val();
     var name = $("#edit-name").val();
     var email = $("#edit-email").val();
     var gender = $("input[name='gender']:checked").val();
@@ -86,30 +91,43 @@ function editEmployee() {
         url: "action.php",
         type: "POST",
         data: {
-            "id": id, "name": name, "email": email, "gender": gender, "language": language, "city": city, action: "update"
+            "id": id, "name": name, "email": email, "gender": gender, "language": language, "city": city, "action": "update"
         },
         success: function (data) {
-            searchFilter();
+            searchFilter(page);
             $('#edit-form')[0].reset();
         }
     });
 }
 
+setTimeout(function () {
+    $('.msg').fadeOut('slow');
+}, 5000);
+
 
 //-------------Show Data with Filter And without filter------------//
-function searchFilter(page=1, limit) {
+function searchFilter(page = 1, limit, column = 'id', order = 'asc') {
     var keywords = $('#keywords').val();
     var gender = $('#genderfilter').val();
     var language = $('#languagefilter').val();
     var city = $('#cityfilter').val();
     var limit = $('#limit').val();
-
+    if (order == 'desc') {
+        arrow = '&nbsp;<i class="fa-solid fa-arrow-down"></i>';
+    }
+    else {
+        arrow = '&nbsp;<i class="fa-solid fa-arrow-up"></i>';
+    }
     $.ajax({
         type: 'POST',
         url: 'action.php',
-        data: { "keywords": keywords, "gender": gender, "language": language, "city": city, "filter": "filter", "limit": limit, "page" : page },
+        data: {
+            "keywords": keywords, "gender": gender, "language": language, "city": city, "filter": "filter",
+            "limit": limit, "page": page, "column": column, "order": order
+        },
         success: function (data) {
             $("#show_records").html(data);
+            $('.column').append(arrow);
         }
     });
 }
@@ -138,7 +156,7 @@ $(document).ready(function () {
         $.ajax({
             url: "action.php",
             type: "post",
-            data: { "column": column, "order": order, "limit": limit, "filter" : "filter" },
+            data: { "column": column, "order": order, "limit": limit, "filter": "filter" },
             success: function (data) {
                 $("#show_records").html(data);
                 $('.column').append(arrow);

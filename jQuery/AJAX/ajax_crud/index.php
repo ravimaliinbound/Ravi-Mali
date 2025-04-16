@@ -1,5 +1,6 @@
-
-
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -34,7 +35,7 @@
 </style>
 
 <body>
-    <div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -91,12 +92,17 @@
                             <p><span class="text-danger remove" id="errcity"></span></p>
 
                         </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Upload Image :</label>
+                            <input type="file" class="form-control" id="image" name="image">
+                            <p><span class="text-danger remove" id="errimage"></span></p>
+                        </div>
 
 
                     </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save"
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="save"
                             onclick="insertEmployee()">Submit</button>
                     </div>
                 </div>
@@ -105,7 +111,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editEmployee" tabindex="-1" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -116,6 +122,7 @@
                     <form action="" id="edit-form">
                         <div class="mb-3">
                             <input type="hidden" id="userid">
+                            <input type="hidden" id="page">
                             <label for="edit-name" class="form-label">Name :</label>
                             <input type="text" class="form-control" id="edit-name" aria-describedby="emailHelp"
                                 placeholder="Enter Name">
@@ -217,43 +224,47 @@
 
         <div class="d-flex justify-content-center">
             <select name="limit" id="limit" class="p-1 m-4" onchange="searchFilter();">
-                <option value="5" <?php
-                if (isset($limit)) {
-                    if ($limit == 5)
-                        echo 'selected';
-                }
-                ?>>5</option>
-                <option value="10" <?php
-                if (isset($limit)) {
-                    if ($limit == 10)
-                        echo 'selected';
-                }
-                ?>>10</option>
-                <option value="15" <?php
-                if (isset($limit)) {
-                    if ($limit == 15)
-                        echo 'selected';
-                }
-                ?>>15</option>
-                <option value="20" <?php
-                if (isset($limit)) {
-                    if ($limit == 20)
-                        echo 'selected';
-                }
-                ?>>20</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
             </select>
+        </div>
+        <div class="d-flex justify-content-center" id="msg">
+            <?php
+            if (isset($_SESSION['update'])) {
+                ?>
+                <p class="text-success border border-success p-2 rounded msg"><?php echo $_SESSION['update']; ?></p>
+                <?php
+                unset($_SESSION['update']);
+            }
+
+            if (isset($_SESSION['delete'])) {
+                ?>
+                <p class="text-danger border border-danger p-2 rounded msg"><?php echo $_SESSION['delete']; ?></p>
+                <?php
+                unset($_SESSION['delete']);
+            }
+            if (isset($_SESSION['insert'])) {
+                ?>
+                <p class="text-success border border-success p-2 rounded msg"><?php echo $_SESSION['insert']; ?></p>
+                <?php
+                unset($_SESSION['insert']);
+            }
+            ?>
         </div>
         <div id="show_records" class="d-flex justify-content-center">
 
-       
 
 
-    </div>
-    <div class="hello"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+        </div>
+
+        <div class="hello"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
 </body>
 

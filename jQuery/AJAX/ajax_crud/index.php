@@ -1,13 +1,4 @@
-<?php
-$conn = new mysqli("localhost", "root", "", "ajax_crud") or die("Connection Failed");
 
-$select = "SELECT * FROM employee";
-$run = $conn->query($select);
-$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;
-$row = $run->num_rows;
-
-$totalPage = ceil($row / $limit);
-?>
 
 <!doctype html>
 <html lang="en">
@@ -254,22 +245,7 @@ $totalPage = ceil($row / $limit);
         </div>
         <div id="show_records" class="d-flex justify-content-center">
 
-        </div>
-        <div class="d-flex justify-content-center mt-3">
-            <ul style="list-style: none;">
-                <?php
-                for ($i = 1; $i <= $totalPage; $i++) {
-                    $page = "";
-                    ?>
-                    <a href="#">
-                        <li onclick="showRecords(<?php echo $i; ?>) "><?php echo $i; ?></li>
-                    </a>
-                    <?php
-
-                }
-                ?>
-            </ul>
-        </div>
+       
 
 
     </div>

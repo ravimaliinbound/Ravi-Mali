@@ -16,8 +16,8 @@ function insertEmployee() {
             "name": name, "email": email, "gender": gender, "language": language, "city": city, action: "insert"
         },
         success: function (data) {
-            totalPage();
-            showRecords();
+            alert("Success")
+            searchFilter();
             $('#form')[0].reset();
         }
     });
@@ -66,8 +66,7 @@ function deleteUser(id) {
             type: "POST",
             data: { "id": id, "action": "delete" },
             success: function () {
-                totalPage();
-                showRecords();
+                searchFilter();
             }
         });
     }
@@ -90,38 +89,25 @@ function editEmployee() {
             "id": id, "name": name, "email": email, "gender": gender, "language": language, "city": city, action: "update"
         },
         success: function (data) {
-            showRecords();
+            searchFilter();
             $('#edit-form')[0].reset();
         }
     });
 }
 
-//----------Show Data----------------//
-function showRecords(page = 1) {
-    $.ajax({
-        url: "action.php",
-        type: "POST",
-        data: { "page": page, "show": "show" },
-        success: function (data) {
-            $("#show_records").html(data);
-        }
-    });
-}
-//-------------Filter Data------------//
-function searchFilter() {
 
+//-------------Show Data with Filter And without filter------------//
+function searchFilter(page=1, limit) {
     var keywords = $('#keywords').val();
     var gender = $('#genderfilter').val();
     var language = $('#languagefilter').val();
     var city = $('#cityfilter').val();
     var limit = $('#limit').val();
 
-    console.log(city);
-
     $.ajax({
         type: 'POST',
         url: 'action.php',
-        data: { "keywords": keywords, "gender": gender, "language": language, "city": city, "filter": "filter", "limit" : limit },
+        data: { "keywords": keywords, "gender": gender, "language": language, "city": city, "filter": "filter", "limit": limit, "page" : page },
         success: function (data) {
             $("#show_records").html(data);
         }
@@ -129,7 +115,7 @@ function searchFilter() {
 }
 
 $(document).ready(function () {
-    showRecords();
+    searchFilter();
     $("#cancel").click(function () {
         $('#edit-form')[0].reset();
     });
@@ -137,19 +123,6 @@ $(document).ready(function () {
         $('.remove').text("");
         $('#form')[0].reset();
     });
-
-    // $("#limit").change(function () {
-    //     var limit = $(this).val();
-    //     $.ajax({
-    //         url : "index.php",
-    //         type  : "post",
-    //         data :{"limit" : limit},
-    //         success: function(data){
-    //             console.log(data);
-    //         }
-    //     })
-    // });
-
 
 
     $(document).on("click", ".column", function () {
@@ -165,7 +138,7 @@ $(document).ready(function () {
         $.ajax({
             url: "action.php",
             type: "post",
-            data: { "column": column, "order": order, "limit" : limit },
+            data: { "column": column, "order": order, "limit": limit, "filter" : "filter" },
             success: function (data) {
                 $("#show_records").html(data);
                 $('.column').append(arrow);

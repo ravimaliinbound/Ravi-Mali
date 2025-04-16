@@ -70,13 +70,39 @@ if (isset($_POST['action']) && $_POST['action'] == 'update') {
 
 //-------------------->> Sorting <<---------------------//
 
-if (isset($_POST['column'])) {
-    $column = $_POST['column'];
-    $order = $_POST['order'];
-    $limit = $_POST['limit'];
+if (isset($_POST['filter'])) {
+    $value = isset($_POST['keywords']) ? trim($_POST['keywords']) : '';
+    $gender = isset($_POST['gender']) ? trim($_POST['gender']) : '';
+    $language = isset($_POST['language']) ? trim($_POST['language']) : '';
+    $city = isset($_POST['city']) ? trim($_POST['city']) : '';
+    $limit = isset($_POST['limit']) ? (int) $_POST['limit'] : 5;
+    $column = isset($_POST['column']) ? $_POST['column'] : 'id';
+    $order = isset($_POST['order']) ? $_POST['order'] : 'asc';
 
-    $select = "SELECT * FROM employee ORDER BY $column $order LIMIT $limit";
-    $result = $conn->query($select);
+    $page = isset($_POST['page']) ? (int) $_POST['page'] : 1;
+    $offset = ($page - 1) * $limit;
+
+    $search_condition = "(name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%')";
+    $where = [];
+
+    if (!empty($value))
+        $where[] = $search_condition;
+    if (!empty($city))
+        $where[] = "city LIKE '%$city%'";
+    if (!empty($gender))
+        $where[] = "gender LIKE '$gender'";
+    if (!empty($language))
+        $where[] = "language LIKE '%$language%'";
+
+    $where_sql = count($where) > 0 ? implode(" AND ", $where) : "1";
+
+    $query = "SELECT * FROM employee WHERE $where_sql ORDER BY $column $order LIMIT $offset, $limit";
+    $res = $conn->query($query);
+
+    $count_query = "SELECT COUNT(*) as total FROM employee WHERE $where_sql ORDER BY $column $order";
+    $total_res = $conn->query($count_query);
+    $total_rows = $total_res->fetch_assoc()['total'];
+    $total_pages = ceil($total_rows / $limit);
     if ($order == 'asc') {
         $order = 'desc';
     } else {
@@ -92,127 +118,6 @@ if (isset($_POST['column'])) {
     <th style= 'border:1px solid' class='column' id='city' data-order='$order'>City</th>
     <th>Action</th>
     </tr>";
-    if ($result->num_rows > 0) {
-        $i = 1;
-        while ($data = $result->fetch_object()) {
-            $output .= "<tr style= 'border:1px solid'>
-       <td>$i</td>
-       <td style= 'border:1px solid'>$data->name</td>
-       <td style= 'border:1px solid'>$data->email</td>
-       <td style= 'border:1px solid' >$data->gender</td>
-       <td style= 'border:1px solid'>$data->language</td>
-       <td style= 'border:1px solid'>$data->city</td>
-       <td >
-            <a class='btn btn-success' onclick='editUser($data->id)'>Edit</a>
-            <a class='btn btn-danger' onclick='deleteUser($data->id)'>Delete</a>
-       </td>
-       </tr>";
-            $i++;
-        }
-        $output .= "</table>";
-        echo $output;
-    } else {
-        $output .= "<tr>
-                <th colspan='7' class='text-center'>No Data Found At This Moment..!</th>
-            </tr>";
-        echo $output;
-    }
-}
-
-
-//------------------------>> Paggination <<--------------------------------//
-
-if (isset($_POST['show'])) {
-    $page = $_POST['page'];
-    $limit = isset($_POST['limit']) ? $_POST['limit'] : 5;
-    $offset = ($page - 1) * $limit;
-
-    $sel = "SELECT * FROM employee LIMIT $offset, $limit";
-    $res = $conn->query($sel);
-    $row = $res->num_rows;
-    $output = "<table border = '1' cellspacing = '0' cellpadding = '6' >";
-    $output .= "  <tr style= 'border:1px solid;' class='text-center'>
-    <th>No.</th>
-    <th style= 'border:1px solid;' class='column' id='name' data-order='asc'>Name</i></th>
-    <th style= 'border:1px solid;' class='column' id='email' data-order='asc'>Email</th>
-    <th style= 'border:1px solid' class='column' id='gender' data-order='asc'>Gender</th>
-    <th style= 'border:1px solid' class='column' id='language' data-order='asc'>Language</th>
-    <th style= 'border:1px solid' class='column' id='city' data-order='asc'>City</th>
-    <th>Action</th>
-</tr>";
-    if ($res->num_rows > 0) {
-        $i = $offset + 1;
-        while ($data = $res->fetch_object()) {
-            $output .= "<tr style= 'border:1px solid'>
-       <td>$i</td>
-       <td style= 'border:1px solid'>$data->name</td>
-       <td style= 'border:1px solid'>$data->email</td>
-       <td style= 'border:1px solid' >$data->gender</td>
-       <td style= 'border:1px solid'>$data->language</td>
-       <td style= 'border:1px solid'>$data->city</td>
-       <td >
-            <a class='btn btn-success' onclick='editUser($data->id)'>Edit</a>
-            <a class='btn btn-danger' onclick='deleteUser($data->id)'>Delete</a>
-       </td>
-       </tr>";
-            $i++;
-        }
-        $output .= "</table>";
-        echo $output;
-    } else {
-        $output .= "<tr>
-                <th colspan='7' class='text-center'>No Data Found At This Moment..!</th>
-            </tr>";
-        echo $output;
-    }
-}
-//----------Filter--------------//
-if (isset($_POST['filter'])) {
-    $value = isset($_POST['keywords']) ? trim($_POST['keywords']) : '';
-    $gender = isset($_POST['gender']) ? trim($_POST['gender']) : '';
-    $language = isset($_POST['language']) ? trim($_POST['language']) : '';
-    $city = isset($_POST['city']) ? trim($_POST['city']) : '';
-    $limit = isset($_POST['limit']) ? trim($_POST['limit']) : '';
-
-    $search_conditon =
-        "(name LIKE '%$value%' OR 
-    email LIKE '%$value%' OR 
-    gender LIKE '$value' OR 
-    language LIKE '%$value%' OR 
-    city LIKE '%$value%')";
-    $where = [];
-    if (!empty($value)) {
-        $where[] = $search_conditon;
-    }
-    if (!empty($city)) {
-        $where[] = "city LIKE '%$city%'";
-    }
-
-    if (!empty($gender)) {
-        $where[] = "gender LIKE '$gender'";
-    }
-
-    if (!empty($language)) {
-        $where[] = "language LIKE '%$language%'";
-    }
-    if (count($where) > 0) {
-        $where = implode(" AND ", $where);
-        $sel = "SELECT * FROM employee WHERE $where LIMIT $limit";
-    } else {
-        $sel = "SELECT * FROM employee LIMIT $limit";
-    }
-    $res = $conn->query($sel);
-    $row = $res->num_rows;
-    $output = "<table border = '1' cellspacing = '0' cellpadding = '6' >";
-    $output .= "  <tr style= 'border:1px solid;' class='text-center'>
-    <th>No.</th>
-    <th style= 'border:1px solid;' class='column' id='name' data-order='asc'>Name</i></th>
-    <th style= 'border:1px solid;' class='column' id='email' data-order='asc'>Email</th>
-    <th style= 'border:1px solid' class='column' id='gender' data-order='asc'>Gender</th>
-    <th style= 'border:1px solid' class='column' id='language' data-order='asc'>Language</th>
-    <th style= 'border:1px solid' class='column' id='city' data-order='asc'>City</th>
-    <th>Action</th>
-</tr>";
     if ($res->num_rows > 0) {
         $i = 1;
         while ($data = $res->fetch_object()) {
@@ -231,12 +136,116 @@ if (isset($_POST['filter'])) {
             $i++;
         }
         $output .= "</table>";
+        // Pagination using <ul><li>
+        $output .= "<div class='pagination-wrapper' style='margin-top: 15px; text-align: center;'>";
+        $output .= "<ul class='pagination' style='list-style: none; padding: 0; display: inline-flex;'>";
+
+        for ($p = 1; $p <= $total_pages; $p++) {
+            $output .= "<a style='margin: 0 5px; background-color: aqua'>
+                 <li class='page-btn' style=' border: none;  cursor: pointer; background-color:aqua' onclick='searchFilter($p, $limit)'>$p</li>
+             </a>";
+
+        }
+
+
+        $output .= "</ul>";
+        $output .= "</div>";
+
         echo $output;
+
     } else {
-        $output .= "<tr>
-                <th colspan='7' class='text-center'>No Data Found At This Moment..!</th>
-            </tr>";
+        $output .= "<tr><td colspan='7' class='text-center'>No Data Found</td></tr></table>";
         echo $output;
     }
 }
+//----------- Display Data with or without filter------------------//
+
+// if (isset($_POST['filter'])) {
+//     $value = isset($_POST['keywords']) ? trim($_POST['keywords']) : '';
+//     $gender = isset($_POST['gender']) ? trim($_POST['gender']) : '';
+//     $language = isset($_POST['language']) ? trim($_POST['language']) : '';
+//     $city = isset($_POST['city']) ? trim($_POST['city']) : '';
+//     $limit = isset($_POST['limit']) ? (int) $_POST['limit'] : 5;
+//     $column = isset($_POST['column']) ?  $_POST['column'] : 'id';
+//     $order = isset($_POST['order']) ?  $_POST['order'] : 'asc';
+
+//     $page = isset($_POST['page']) ? (int) $_POST['page'] : 1;
+//     $offset = ($page - 1) * $limit;
+
+//     $search_condition = "(name LIKE '%$value%' OR email LIKE '%$value%' OR gender LIKE '$value' OR language LIKE '%$value%' OR city LIKE '%$value%')";
+//     $where = [];
+
+//     if (!empty($value))
+//         $where[] = $search_condition;
+//     if (!empty($city))
+//         $where[] = "city LIKE '%$city%'";
+//     if (!empty($gender))
+//         $where[] = "gender LIKE '$gender'";
+//     if (!empty($language))
+//         $where[] = "language LIKE '%$language%'";
+
+//     $where_sql = count($where) > 0 ? implode(" AND ", $where) : "1";
+
+//     $query = "SELECT * FROM employee WHERE $where_sql LIMIT $offset, $limit";
+//     $res = $conn->query($query);
+
+//     $count_query = "SELECT COUNT(*) as total FROM employee WHERE $where_sql";
+//     $total_res = $conn->query($count_query);
+//     $total_rows = $total_res->fetch_assoc()['total'];
+//     $total_pages = ceil($total_rows / $limit);
+
+//     $output = "<table border='1' cellspacing='0' cellpadding='6'>";
+//     $output .= "<tr style='border:1px solid;' class='text-center'>
+//         <th>No.</th>
+//         <th style='border:1px solid;' class='column' id='name' data-order='asc'>Name</th>
+//         <th style='border:1px solid;' class='column' id='email' data-order='asc'>Email</th>
+//         <th style='border:1px solid' class='column' id='gender' data-order='asc'>Gender</th>
+//         <th style='border:1px solid' class='column' id='language' data-order='asc'>Language</th>
+//         <th style='border:1px solid' class='column' id='city' data-order='asc'>City</th>
+//         <th>Action</th>
+//     </tr>";
+
+//     if ($res->num_rows > 0) {
+//         $i = $offset + 1;
+//         while ($data = $res->fetch_object()) {
+//             $output .= "<tr style='border:1px solid'>
+//                 <td>$i</td>
+//                 <td style='border:1px solid'>$data->name</td>
+//                 <td style='border:1px solid'>$data->email</td>
+//                 <td style='border:1px solid'>$data->gender</td>
+//                 <td style='border:1px solid'>$data->language</td>
+//                 <td style='border:1px solid'>$data->city</td>
+//                 <td>
+//                     <a class='btn btn-success' onclick='editUser($data->id)'>Edit</a>
+//                     <a class='btn btn-danger' onclick='deleteUser($data->id)'>Delete</a>
+//                 </td>
+//             </tr>";
+//             $i++;
+//         }
+
+//         $output .= "</table>";
+//         // Pagination using <ul><li>
+//         $output .= "<div class='pagination-wrapper' style='margin-top: 15px; text-align: center;'>";
+//         $output .= "<ul class='pagination' style='list-style: none; padding: 0; display: inline-flex;'>";
+
+//         for ($p = 1; $p <= $total_pages; $p++) {
+//             $output .= "<a style='margin: 0 5px; background-color: aqua'>
+//                 <li class='page-btn' style=' border: none;  cursor: pointer; background-color:aqua' onclick='searchFilter($p, $limit)'>$p</li>
+//             </a>";
+
+//         }
+
+
+//         $output .= "</ul>";
+//         $output .= "</div>";
+
+//         echo $output;
+
+//     } else {
+//         $output .= "<tr><td colspan='7' class='text-center'>No Data Found</td></tr></table>";
+//         echo $output;
+//     }
+// }
+
+
 ?>

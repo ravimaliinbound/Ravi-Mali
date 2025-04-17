@@ -1,28 +1,29 @@
 
 //-----Insert Data---------//
+
 function insertEmployee() {
-    var name = $("#name").val();
-    var email = $("#email").val();
-    var gender = $("input[name='gender']:checked").val();
-    var language = [];
-    $(':checkbox:checked').each(function (i) {
-        language[i] = $(this).val();
-    });
-    var city = $("#city").val();
-    var image = $("#image").val();
-    console.log(image)
+    var form = $('#form')[0];
+    var formData = new FormData(form);
+
+    formData.append('action', 'insert');
     $.ajax({
         url: "action.php",
-        data: {
-            "name": name, "email": email, "gender": gender, "language": language, "city": city, "image": image, "action": "insert"
-        },
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function (data) {
-            console.log(data)
+            $("#msg").html(data);
+            setTimeout(function () {
+                $('.msg').fadeOut('slow');
+            }, 3000);
             searchFilter();
             $('#form')[0].reset();
         }
     });
 }
+
+
 
 //----------Fetch Data For Edit------//
 function editUser(id, page) {
@@ -31,6 +32,7 @@ function editUser(id, page) {
         type: "POST",
         data: { "id": id, action: "edit" },
         success: function (data) {
+            $('#edit-form')[0].reset();
             var allData = JSON.parse(data);
             $("#userid").val(allData.id);
             $("#page").val(page);
@@ -62,14 +64,18 @@ function editUser(id, page) {
 
 //---------------Delete Data---------------//
 function deleteUser(id, page, limit) {
-
+    console.log(page)
     var conf = confirm("Are You Sure..?");
     if (conf == true) {
         $.ajax({
             url: "action.php",
             type: "POST",
             data: { "id": id, "action": "delete" },
-            success: function () {
+            success: function (data) {
+                $("#msg").html(data);
+                setTimeout(function () {
+                    $('.msg').fadeOut('slow');
+                }, 3000);
                 searchFilter(page, limit);
             }
         });
@@ -77,32 +83,56 @@ function deleteUser(id, page, limit) {
 }
 //-------------------Update Data--------------------//
 function editEmployee() {
+    // var id = $("#userid").val();
+    // var page = $("#page").val();
+    // var name = $("#edit-name").val();
+    // var email = $("#edit-email").val();
+    // var gender = $("input[name='gender']:checked").val();
+    // var language = [];
+    // $(':checkbox:checked').each(function (i) {
+    //     language[i] = $(this).val();
+    // });
+    // var city = $("#edit-city").val();
+    // $.ajax({
+    //     url: "action.php",
+    //     type: "POST",
+    //     data: {
+    //         "id": id, "name": name, "email": email, "gender": gender, "language": language, "city": city, "action": "update"
+    //     },
+    //     success: function (data) {
+    //         $("#msg").html(data);
+    //         setTimeout(function () {
+    //             $('.msg').fadeOut('slow');
+    //         }, 3000);
+    //         searchFilter(page);
+    //         $('#edit-form')[0].reset();
+    //     }
+    // });
+    var form = $('#edit-form')[0];
+    var formData = new FormData(form);
     var id = $("#userid").val();
     var page = $("#page").val();
-    var name = $("#edit-name").val();
-    var email = $("#edit-email").val();
-    var gender = $("input[name='gender']:checked").val();
-    var language = [];
-    $(':checkbox:checked').each(function (i) {
-        language[i] = $(this).val();
-    });
-    var city = $("#edit-city").val();
+    formData.append('action', 'update');
+    formData.append('id', id);
+    formData.append('page', page);
     $.ajax({
         url: "action.php",
         type: "POST",
-        data: {
-            "id": id, "name": name, "email": email, "gender": gender, "language": language, "city": city, "action": "update"
-        },
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function (data) {
-            searchFilter(page);
-            $('#edit-form')[0].reset();
+            $("#msg").html(data);
+            setTimeout(function () {
+                $('.msg').fadeOut('slow');
+            }, 3000);
+            searchFilter();
+            $('#form')[0].reset();
         }
     });
 }
 
-setTimeout(function () {
-    $('.msg').fadeOut('slow');
-}, 5000);
+
 
 
 //-------------Show Data with Filter And without filter------------//
@@ -134,9 +164,6 @@ function searchFilter(page = 1, limit, column = 'id', order = 'asc') {
 
 $(document).ready(function () {
     searchFilter();
-    $("#cancel").click(function () {
-        $('#edit-form')[0].reset();
-    });
     $(".remove-btn").click(function () {
         $('.remove').text("");
         $('#form')[0].reset();

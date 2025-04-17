@@ -17,22 +17,7 @@ session_start();
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>AJAX CRUD Operation</title>
 </head>
-<style>
-    ul a {
-        text-decoration: none;
-        color: black;
-    }
 
-    ul li {
-        border: 1px solid;
-        padding: 5px 10px;
-        display: inline;
-    }
-
-    .active {
-        background-color: red;
-    }
-</style>
 
 <body>
     <div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="exampleModalLabel">
@@ -45,6 +30,7 @@ session_start();
                 <div class="modal-body">
                     <form action="" id="form">
                         <div class="mb-3">
+                            <input type="hidden" name="page" id="page">
                             <label for="name" class="form-label">Name :</label>
                             <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
                                 placeholder="Enter Name" name="name">
@@ -79,7 +65,7 @@ session_start();
 
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">City :</label>
+                            <label for="" class="form-label" id="cityLabel">City :</label>
                             <select name="city" id="city" class="form-control">
                                 <option value="">Select City</option>
                                 <option value="Ahmedabad">Ahmedabad</option>
@@ -101,7 +87,7 @@ session_start();
                     </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="save"
+                        <button type="submit" class="btn btn-primary"  id="save"
                             onclick="insertEmployee()">Submit</button>
                     </div>
                 </div>
@@ -237,9 +223,8 @@ session_start();
 
         </div>
         <div id="show_records" class="d-flex justify-content-center">
-
-
-
+        </div>
+        <div id="pagination" class="d-flex justify-content-center">
 
         </div>
 

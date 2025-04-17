@@ -1,31 +1,86 @@
-
 //-----Insert Data---------//
 
-function insertEmployee() {
+function insertEmployee(e) {
     var form = $('#form')[0];
     var formData = new FormData(form);
+    validate();
+    if (!validate()) {
+        console.log("Hello Its failed")
+        // $("#save").attr("data-bs-dismiss", "modal")
+        return false;
+    }
+    else {
+        console.log("fvmbdfvh") 
+        var page = $("#page").val();
+        formData.append('action', 'insert');
+        $.ajax({
+            url: "action.php",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $("#save").prop("data-bs-dismiss", "modal")
+                $("#msg").html(data);
+                setTimeout(function () {
+                    $('.msg').fadeOut('slow');
+                }, 3000);
+                searchFilter(page);
+                $('#form')[0].reset();
+            }
+        });
+    }
 
-    formData.append('action', 'insert');
-    $.ajax({
-        url: "action.php",
-        type: "POST",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            $("#msg").html(data);
-            setTimeout(function () {
-                $('.msg').fadeOut('slow');
-            }, 3000);
-            searchFilter();
-            $('#form')[0].reset();
-        }
-    });
+}
+
+function validate() {
+
+
+    var nameReg = /^[A-Za-z]+$/;
+    var emailReg = /^[a-zA-Z0-9.]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;
+
+    var name = $('#name').val();
+    var email = $('#email').val();
+    var city = $('#city').val();
+    var image = $('#image').val();
+
+
+
+    $('.error').hide();
+
+    if (name == "") {
+        $("#errname").text("Name field is required...!");
+    }
+    else if (!nameReg.test(name)) {
+        $("#errname").text("Name is invalid...!");
+    }
+
+    if (!$("input[name='gender']:checked").val()) {
+        $("#errgender").text("Gender field is required...!");
+    }
+
+    if (email == "") {
+        $("#erremail").text("Email field is required...!");
+    }
+    else if (!emailReg.test(email)) {
+        $("#erremail").text("Enter a valid email...!");
+    }
+
+    if (!$("input[name='language[]']:checked").val()) {
+        $("#errlanguage").text("Language field is required...!");
+    }
+
+    if (city == "") {
+        $("#errcity").text("City field is required...!");
+    }
+    if (image == "") {
+        $("#errimage").text("Image field is required...!");
+    }
 }
 
 
-
 //----------Fetch Data For Edit------//
+
 function editUser(id, page) {
     $.ajax({
         url: "action.php",
@@ -64,50 +119,26 @@ function editUser(id, page) {
 
 //---------------Delete Data---------------//
 function deleteUser(id, page, limit) {
-    console.log(page)
     var conf = confirm("Are You Sure..?");
     if (conf == true) {
         $.ajax({
             url: "action.php",
             type: "POST",
-            data: { "id": id, "action": "delete" },
-            success: function (data) {
-                $("#msg").html(data);
+            data: { "id": id, "page": page, "limit": limit, "action": "delete" },
+            success: function (response) {
+                var data = JSON.parse(response)
+                $("#msg").html(data.success);
                 setTimeout(function () {
                     $('.msg').fadeOut('slow');
                 }, 3000);
-                searchFilter(page, limit);
+                searchFilter(data.new_page, limit);
             }
         });
     }
 }
 //-------------------Update Data--------------------//
 function editEmployee() {
-    // var id = $("#userid").val();
-    // var page = $("#page").val();
-    // var name = $("#edit-name").val();
-    // var email = $("#edit-email").val();
-    // var gender = $("input[name='gender']:checked").val();
-    // var language = [];
-    // $(':checkbox:checked').each(function (i) {
-    //     language[i] = $(this).val();
-    // });
-    // var city = $("#edit-city").val();
-    // $.ajax({
-    //     url: "action.php",
-    //     type: "POST",
-    //     data: {
-    //         "id": id, "name": name, "email": email, "gender": gender, "language": language, "city": city, "action": "update"
-    //     },
-    //     success: function (data) {
-    //         $("#msg").html(data);
-    //         setTimeout(function () {
-    //             $('.msg').fadeOut('slow');
-    //         }, 3000);
-    //         searchFilter(page);
-    //         $('#edit-form')[0].reset();
-    //     }
-    // });
+
     var form = $('#edit-form')[0];
     var formData = new FormData(form);
     var id = $("#userid").val();
@@ -126,17 +157,15 @@ function editEmployee() {
             setTimeout(function () {
                 $('.msg').fadeOut('slow');
             }, 3000);
-            searchFilter();
+            searchFilter(page);
             $('#form')[0].reset();
         }
     });
 }
 
-
-
-
 //-------------Show Data with Filter And without filter------------//
-function searchFilter(page = 1, limit, column = 'id', order = 'asc') {
+
+function searchFilter(page = 1, limit = 5, column = 'id', order = 'asc') {
     var keywords = $('#keywords').val();
     var gender = $('#genderfilter').val();
     var language = $('#languagefilter').val();
@@ -155,12 +184,17 @@ function searchFilter(page = 1, limit, column = 'id', order = 'asc') {
             "keywords": keywords, "gender": gender, "language": language, "city": city, "filter": "filter",
             "limit": limit, "page": page, "column": column, "order": order
         },
-        success: function (data) {
-            $("#show_records").html(data);
+        success: function (response) {
+            var data = JSON.parse(response);
+            $("#show_records").html(data.table);
+            $("#pagination").html(data.pagination);
+            $("#page").val(data.page);
             $('.column').append(arrow);
         }
     });
 }
+
+//----------Document.ready--------------------//
 
 $(document).ready(function () {
     searchFilter();
@@ -169,31 +203,17 @@ $(document).ready(function () {
         $('#form')[0].reset();
     });
 
+    //---------- For Sorting--------------//
 
     $(document).on("click", ".column", function () {
         var column = $(this).attr("id");
+        var page = $(this).attr("value");
         var order = $(this).data("order");
         var limit = $("#limit").val();
-        if (order == 'desc') {
-            arrow = '&nbsp;<i class="fa-solid fa-arrow-down"></i>';
-        }
-        else {
-            arrow = '&nbsp;<i class="fa-solid fa-arrow-up"></i>';
-        }
-        $.ajax({
-            url: "action.php",
-            type: "post",
-            data: { "column": column, "order": order, "limit": limit, "filter": "filter" },
-            success: function (data) {
-                $("#show_records").html(data);
-                $('.column').append(arrow);
-            }
-        });
-    })
-
+        searchFilter(page, limit, column, order);
+    });
 
     //------------------->> Validation <<----------------------//
-
 
     $("input").blur(function (e) {
         var isValid = true;
@@ -212,54 +232,165 @@ $(document).ready(function () {
         }
     });
 
-
-    $("input[name='gender']").blur(function (e) {
-        var valid = true;
-        if (!$("input[name='gender']:checked").val()) {
-            $("#errgender").text("Gender field is required...!");
-            valid = false;
+    //-----------Name Validation------------//
+    $("#name").blur(function (e) {
+        var isValid = true;
+        var name_val = $("#name").val().trim();
+        var namePattern = /^[a-zA-Z ]{3,15}$/;
+        if (namePattern.test(name_val)) {
+            $("#errname").text("");
         }
-        if (!valid) {
+        else {
+            $("#errname").text("Minimum 3 And Maximum 15 Characters Allowed...!");
+            isValid = false;
+        }
+        if (name_val == "") {
+            $("#errname").text("Only spaces are not allowed...!");
+        }
+        if ($("#name").val() == "") {
+            $("#errname").text("Name field is required...!");
+            isValid = false;
+        }
+        if (!isValid) {
             e.preventDefault();
         }
     });
-    $("input[name='gender']").change(function (e) {
+
+    //------------Email Validation----------------//
+
+    $("#email").blur(function (e) {
+        var isValid = true;
+        var mail = $("#email").val();
+        var emailPattern = /^[a-zA-Z0-9.]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;
+        var a = emailPattern.test(mail);
+        if (a == true) {
+            $("#erremail").text("");
+        }
+        else {
+            $("#erremail").text("Enter A Valid Email...!");
+            isValid = false;
+        }
+        if ($("#email").val() == "") {
+            $("#erremail").text("Email field is required...!");
+            isValid = false;
+        }
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+
+    //--------------Gender Validation---------------//
+
+    $("input[name='gender']").blur(function (e) {
+        var isValid = true;
+        if (!$("input[name='gender']:checked").val()) {
+            $("#errgender").text("Gender field is required...!");
+            isValid = false;
+        }
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+    $("input[name='gender']").change(function () {
         $("#errgender").text("");
     });
 
-    $("input[name='language[]']").blur(function () {
+    //----------------Language Validation------------//
+
+    $("input[name='language[]']").blur(function (e) {
+        var isValid = true;
         if (!$("input[name='language[]']:checked").val()) {
             $("#errlanguage").text("Language field is required...!");
-            valid = false;
+            isValid = false;
+        }
+        if (!isValid) {
+            e.preventDefault();
         }
     });
-    $("input[name='language[]']").change(function () {
+    $("input[name='language[]']").change(function (e) {
+        var isValid = true;
         if ($(this).val() == "") {
             $("#errlanguage").text("Language field is required...!");
+            isValid = false;
         } else {
             $("#errlanguage").text("");
         }
         if (!$("input[name='language[]']:checked").val()) {
             $("#errlanguage").text("Language field is required...!");
-            valid = false;
+            isValid = false;
+        }
+        if (!isValid) {
+            e.preventDefault();
         }
     });
 
-    $("#city").blur(function () {
+    //----------------------City Validation---------------//
+
+    $("#city").blur(function (e) {
+        var isValid = true;
         if ($(this).val() == "") {
             $("#errcity").text("City field is required...!");
+            isValid = false;
+        }
+        if (!isValid) {
+            e.preventDefault();
         }
     });
 
-    $("#city").change(function () {
+    $("#city").change(function (e) {
+        var isValid = true;
         if ($(this).val() == "") {
             $("#errcity").text("City field is required...!");
+            isValid = false;
         } else {
             $("#errcity").text("");
         }
-        if (!$("#city").val()) {
-            $("#errcity").text("City field is required...!");
-            valid = false;
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+
+    //-------------------Image Validation------------------//
+
+    $("#image").blur(function (e) {
+        var isValid = true;
+        var image = $("#image").val();
+        var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|PNG)$/;
+
+        if ($("#image").val() == "") {
+            $("#errimage").text("Image field is required...!");
+            isValid = false;
+
+        }
+        else if (!imgPattern.test(image)) {
+            $("#errimage").text("Only JPG, JPEG, PNG and GIF images allowed");
+            isValid = false;
+
+        }
+        else {
+            $("#errimage").text("");
+        }
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+    $("#image").change(function (e) {
+        var isValid = true;
+        var image = $("#image").val();
+        var imgPattern = /\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|PNG)$/;
+        if ($("#image").val() == "") {
+            $("#errimage").text("Image field is required...!");
+            isValid = false;
+        }
+        else if (!imgPattern.test(image)) {
+            $("#errimage").text("Only JPG, JPEG, PNG and GIF images allowed");
+            isValid = false;
+        }
+        else {
+            $("#errimage").text("");
+        }
+        if (!isValid) {
+            e.preventDefault();
         }
     });
 

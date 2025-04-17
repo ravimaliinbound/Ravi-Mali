@@ -39,13 +39,14 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "insert") {
 
 }
 
-
-
-
-
 //------------------------->> Delete Data----------------->>//
+
 if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $id = $_POST['id'];
+
+    $limit = isset($_POST['limit']) ? $_POST['limit'] : 5;
+    $page = isset($_POST['page']) ? $_POST['page'] : 1;
+
     $query = "SELECT * FROM employee WHERE id = $id";
     $run = $conn->query($query);
     if ($run->num_rows > 0) {
@@ -58,12 +59,28 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     $old_img = $data->image;
     $delete = "DELETE FROM employee WHERE id = $id";
     $res = $conn->query($delete);
+
+    //----------Getting Total Page after Delete--------------//
+
+    $res_page_query = "SELECT * FROM employee";
+    $res_page_run = $conn->query($res_page_query);
+    $res_page_row = $res_page_run->num_rows;
+    $res_total_page = ceil($res_page_row / $limit);
+    $new_page = $page > $res_total_page ? $res_total_page : $page;
+    $new_page = $new_page < 1 ? 1 : $new_page;
+
     if ($res) {
         unlink("image/" . $old_img);
-        echo "<p class='text-danger border border-danger p-2 rounded msg'>Data Deleted Successfully...!</p>";
+        echo json_encode([
+            'success' => "<p class='text-danger border border-danger p-2 rounded msg'>Data Deleted Successfully...!</p>",
+            'new_page' => $new_page
+        ]);
 
     } else {
-        echo "<p class='text-danger border border-danger p-2 rounded msg'>Something Went Wrong...!</p>";
+        echo json_encode([
+            'success' => "<p class='text-danger border border-danger p-2 rounded msg'>Something Went Wrong...!</p>",
+            'new_page' => $new_page
+        ]);
     }
 }
 
@@ -112,7 +129,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'update') {
                 while ($row = $run->fetch_object()) {
                     $data = $row;
                 }
-            }       
+            }
             $old_img = $data->image;
             unlink(filename: "image/" . $old_img);
 
@@ -183,14 +200,14 @@ if (isset($_POST['filter'])) {
 
     $next_order = $order === 'asc' ? 'desc' : 'asc';
 
-    $output = "<table border='1' cellspacing='0' cellpadding='6'>";
+    $output = "<table border='1' cellspacing='0' cellpadding='6' class='table table-responsive border border-dark'>";
     $output .= "<tr class='text-center'>
         <th style= 'border:1px solid;'>No.</th>
-        <th style= 'border:1px solid;' class='column' id='name' data-order='$next_order'>Name</th>
-        <th style= 'border:1px solid;' class='column' id='email' data-order='$next_order'>Email</th>
-        <th style= 'border:1px solid;' class='column' id='gender' data-order='$next_order'>Gender</th>
-        <th style= 'border:1px solid;' class='column' id='language' data-order='$next_order'>Language</th>
-        <th style= 'border:1px solid;' class='column' id='city' data-order='$next_order'>City</th>
+        <th  class='column' id='name' value='$page' data-order='$next_order'>Name</th>
+        <th style= 'border:1px solid;' class='column' id='email' value='$page' data-order='$next_order'>Email</th>
+        <th style= 'border:1px solid;' class='column' id='gender' value='$page' data-order='$next_order'>Gender</th>
+        <th style= 'border:1px solid;' class='column' id='language' value='$page' data-order='$next_order'>Language</th>
+        <th style= 'border:1px solid;' class='column' id='city' value='$page' data-order='$next_order'>City</th>
         <th style= 'border:1px solid;'>Image</th>
         <th style= 'border:1px solid;'>Action</th>
     </tr>";
@@ -216,28 +233,53 @@ if (isset($_POST['filter'])) {
         $output .= "</table>";
 
         // PAGINATION SECTION
-        $output .= "<div class='pagination-wrapper' style='margin-top: 15px; text-align: center;'>";
-        $output .= "<ul class='pagination' style='list-style: none; padding: 0; display: inline-flex;'>";
+        $pagination = "<div class='pagination-wrapper' style='margin-top: 15px; text-align: center;'>";
+        $pagination .= "<ul class='pagination' style='list-style: none; padding: 0; display: inline-flex;'>";
 
         $order = $next_order === 'asc' ? 'desc' : 'asc';
 
+        if ($page >= 2) {
+            $pagination .= "<li 
+                class='page-btn' 
+                style='margin: 0 5px; padding: 6px 12px; border: 1px solid black; border-radius: 5px; cursor: pointer; '
+                onclick='searchFilter($page-1,$limit, `$column`, `$order`)'
+            ><i class='fa-solid fa-backward'></i></li>";
+        }
         for ($p = 1; $p <= $total_pages; $p++) {
             $activeStyle = ($p == $page) ? "background-color: deepskyblue; color: white;" : "background-color: white;";
-            $output .= "<li 
+            $pagination .= "<li 
                 class='page-btn' 
                 style='margin: 0 5px; padding: 6px 12px; border: 1px solid black; border-radius: 5px; cursor: pointer; $activeStyle'
                 onclick='searchFilter($p, $limit, `$column`, `$order`)'
             >$p</li>";
+
         }
 
-        $output .= "</ul>";
-        $output .= "</div>";
+        if ($page < $total_pages) {
 
-        echo $output;
+            $pagination .= "<li 
+                class='page-btn' 
+                style='margin: 0 5px; padding: 6px 12px; border: 1px solid black; border-radius: 5px; cursor: pointer; '
+                onclick='searchFilter($page+1, $limit, `$column`, `$order`)'
+            ><i class='fa-solid fa-forward'></i></li>";
+        }
+
+
+        $pagination .= "</ul>";
+        $pagination .= "</div>";
+
+        echo json_encode([
+            'table' => $output,
+            'pagination' => $pagination,
+            'page' => $page
+        ]);
 
     } else {
         $output .= "<tr><td colspan='7' class='text-center'>No Data Found</td></tr></table>";
-        echo $output;
+        echo json_encode([
+            'table' => $output,
+            'pagination' => ""
+        ]);
     }
 }
 

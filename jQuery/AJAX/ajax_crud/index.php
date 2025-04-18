@@ -18,7 +18,6 @@ session_start();
     <title>AJAX CRUD Operation</title>
 </head>
 
-
 <body>
     <div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog">
@@ -28,9 +27,8 @@ session_start();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" id="form">
+                    <form action="" id="form" name="insertform" method="post">
                         <div class="mb-3">
-                            <input type="hidden" name="page" id="page">
                             <label for="name" class="form-label">Name :</label>
                             <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
                                 placeholder="Enter Name" name="name">
@@ -86,8 +84,8 @@ session_start();
 
                     </form>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary"  id="save"
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="save"
                             onclick="insertEmployee()">Submit</button>
                     </div>
                 </div>
@@ -107,34 +105,46 @@ session_start();
                     <form action="" id="edit-form">
                         <div class="mb-3">
                             <input type="hidden" id="userid">
+                            <input type="hidden" id="insert" value="0">
+                            <input type="hidden" id="update" value="0">
                             <input type="hidden" id="page">
                             <label for="edit-name" class="form-label">Name :</label>
                             <input type="text" class="form-control" id="edit-name" aria-describedby="emailHelp"
                                 placeholder="Enter Name" name="name">
+                            <span class="text-danger remove" id="erreditname"></span>
+
                         </div>
                         <div class="mb-3">
                             <label for="edit-email" class="form-label">Email :</label>
                             <input type="email" class="form-control" id="edit-email" aria-describedby="emailHelp"
                                 placeholder="Enter Email" name="email">
+                            <span class="text-danger remove" id="erreditemail"></span>
+
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Gender :</label>
                             <label>Gender :</label>
-                            <input type="radio" name="gender" class="gender" id="edit-male" value="Male"> <label
+                            <input type="radio" name="editgender" class="gender" id="edit-male" value="Male"> <label
                                 for="edit-male">Male</label>
-                            <input type="radio" name="gender" class="gender" id="edit-female" value="Female"> <label
+                            <input type="radio" name="editgender" class="gender" id="edit-female" value="Female"> <label
                                 for="edit-female">Female</label>
-                            <input type="radio" name="gender" class="gender" id="edit-other" value="Other"> <label
+                            <input type="radio" name="editgender" class="gender" id="edit-other" value="Other"> <label
                                 for="edit-other">Other</label>
+                            <span class="text-danger remove" id="erreditgender"></span>
+
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Language :</label>
-                            <input type="checkbox" class="language" name="language[]" id="edit-hindi" value="Hindi">
+                            <input type="checkbox" class="language" name="editlanguage[]" id="edit-hindi" value="Hindi">
                             <label for="edit-hindi" id="Hindi_lbl">Hindi</label>
-                            <input type="checkbox" id="edit-english" class="language" name="language[]" value="English">
+                            <input type="checkbox" id="edit-english" class="language" name="editlanguage[]"
+                                value="English">
                             <label for="edit-english">English</label>
-                            <input type="checkbox" id="edit-gujrati" class="language" name="language[]" value="Gujrati">
+                            <input type="checkbox" id="edit-gujrati" class="language" name="editlanguage[]"
+                                value="Gujrati">
                             <label for="edit-gujrati">Gujrati</label>
+                            <p><span class="text-danger remove" id="erreditlanguage"></span></p>
+
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">City :</label>
@@ -146,19 +156,23 @@ session_start();
                                 <option value="Mandar">Mandar</option>
                                 <option value="Surat">Surat</option>
                             </select>
+                            <span class="text-danger remove" id="erreditcity"></span>
+
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Upload Image :</label>
                             <input type="file" class="form-control" id="edit-image" name="image">
-                            <p><span class="text-danger remove" id="errimage"></span></p>
+                            <span class="text-danger remove" id="erreditimage"></span>
                         </div>
-
+                        <div class="mb-3">
+                            <img src="" height="100px" width="100px" id="show_image">
+                        </div>
                     </form>
-                    <div class="modal-footer">
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary" id="update" onclick="editEmployee()">Save
+                            Changes</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             id="cancel">Close</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="update"
-                            onclick="editEmployee()">Save Changes</button>
                     </div>
                 </div>
 

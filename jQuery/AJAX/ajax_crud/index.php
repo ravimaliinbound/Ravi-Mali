@@ -107,6 +107,13 @@ session_start();
                             <input type="hidden" id="userid">
                             <input type="hidden" id="insert" value="0">
                             <input type="hidden" id="update" value="0">
+                            <input type="hidden" id="show_limit" name="show_limit">
+                            <input type="hidden" id="show_value"  name="show_value">
+                            <input type="hidden" id="show_gender"  name="show_gender">
+                            <input type="hidden" id="show_language"  name="show_language">
+                            <input type="hidden" id="show_city"  name="show_city">
+                            <input type="hidden" id="show_column"  name="show_column">
+                            <input type="hidden" id="show_order"  name="show_order">
                             <input type="hidden" id="page">
                             <label for="edit-name" class="form-label">Name :</label>
                             <input type="text" class="form-control" id="edit-name" aria-describedby="emailHelp"

@@ -39,7 +39,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "email_check_edit") {
 //----------------------->> Insert data------------------>>//
 
 if (isset($_REQUEST['action']) && $_REQUEST['action'] == "insert") {
-     $name = $_POST['name'];
+    $name = $_POST['name'];
     $email = $_POST['email'];
     $gender = $_POST['gender'];
     $language = $_POST['language'];
@@ -134,6 +134,18 @@ if (isset($_POST['action']) && $_POST['action'] == 'update') {
     $gender = $_POST['editgender'];
     $language = $_POST['editlanguage'];
     $city = $_POST['city'];
+
+    $show_value = $_POST['show_value'];
+    $show_gender = $_POST['show_gender'];
+    $show_city = $_POST['show_city'];
+    $show_language = $_POST['show_language'];
+    $show_column = $_POST['show_column'];
+    $show_order = $_POST['show_order'];
+
+
+    $limit = isset($_POST['limit']) ? $_POST['limit'] : 5;
+    $page = isset($_POST['page']) ? $_POST['page'] : 1;
+
     $language_edit_str = implode(',', $language);
     if ($_FILES['image']['name'] > 0) {
         $image_name = $_FILES['image']['name'];
@@ -158,21 +170,70 @@ if (isset($_POST['action']) && $_POST['action'] == 'update') {
         $path = "image/" . $final_image;
 
         if (move_uploaded_file($tmp_name, $path)) {
-            $update = " UPDATE employee SET name = '$name', email = '$email', gender = '$gender', language = '$language_edit_str', city ='$city', image = '$final_image' WHERE id = $id";
+            $update = " UPDATE employee SET name = '$name', email = '$email', gender = '$gender', language = '$language_edit_str', 
+            city ='$city', image = '$final_image' WHERE id = $id";
             $result = $conn->query($update);
+
+            // Getting Total Page after Update
+            $res_page_query = "SELECT * FROM employee WHERE gender = '$show_gender' AND
+             language = '$show_language' AND city ='$show_city' ORDER BY $show_column $show_order";
+            $res_page_run = $conn->query($res_page_query);
+            $res_page_row = $res_page_run->num_rows;
+            $res_total_page = ceil($res_page_row / $limit);
+            $new_page = $page > $res_total_page ? $res_total_page : $page;
+            $new_page = $new_page < 1 ? 1 : $new_page;
+
             if ($result) {
-                echo "<p class='text-success border border-success p-2 rounded msg'>Data Updated Successfully With Image...!</p>";
+                echo json_encode([
+                    'success' => "<p class='text-success border border-success p-2 rounded msg'>Data Updated Successfully...!</p>",
+                    'new_page' => $new_page
+                ]);
+
             } else {
-                echo "<p class='text-danger border border-danger p-2 rounded msg'>Something Went Wrong...!</p>";
+                echo json_encode([
+                    'success' => "<p class='text-success border border-success p-2 rounded msg'>Something Went Wrong...!</p>",
+                    'new_page' => $new_page
+                ]);
             }
         }
     } else {
         $update = " UPDATE employee SET name = '$name', email = '$email', gender = '$gender', language = '$language_edit_str', city ='$city' WHERE id = $id";
         $res_upd = $conn->query($update);
+
+
+        // Getting Total Page after Update
+        $search_condition = "(name LIKE '%$show_value%' OR email LIKE '%$show_value%' OR gender LIKE '$show_value' OR 
+        language LIKE '%$show_value%' OR city LIKE '%$show_value%')";
+        $where = [];
+    
+        if (!empty($show_value))
+            $where[] = $search_condition;
+        if (!empty($show_city))
+            $where[] = "city LIKE '%$show_city%'";
+        if (!empty($show_gender))
+            $where[] = "gender LIKE '$show_gender'";
+        if (!empty($show_language))
+            $where[] = "language LIKE '%$show_language%'";
+    
+        $where_sql = count($where) > 0 ? implode(" AND ", $where) : "1";
+        $res_page_query = "SELECT * FROM employee WHERE $where_sql ORDER BY $show_column $show_order";
+        $res_page_run = $conn->query($res_page_query);
+        $res_page_row = $res_page_run->num_rows;
+        $res_total_page = ceil($res_page_row / $limit);
+        $new_page = $page > $res_total_page ? $res_total_page : $page;
+        $new_page = $new_page < 1 ? 1 : $new_page;
+
         if ($res_upd) {
-            echo "<p class='text-success border border-success p-2 rounded msg'>Data Updated Successfully...!</p>";
+            echo json_encode([
+                'success' => "<p class='text-success border border-success p-2 rounded msg'>Data Updated Successfully...!</p>",
+                'new_page' => $new_page
+            ]);
+
         } else {
-            echo "<p class='text-danger border border-danger p-2 rounded msg'>Something Went Wrong...!</p>";
+            echo json_encode([
+                'success' => "<p class='text-success border border-success p-2 rounded msg'>Something Went Wrong...!</p>",
+                'new_page' => $new_page
+            ]);
         }
     }
 
@@ -243,7 +304,7 @@ if (isset($_POST['filter'])) {
                 <td style= 'border:1px solid;'>$data->city</td>
                 <td style= 'border:1px solid;'><img src='image/$data->image'; height='40px' width='60px'></td>
                 <td style= 'border:1px solid;'>
-                    <a class='btn btn-success' onclick='editUser($data->id, $page, $limit)'>Edit</a>
+                    <a class='btn btn-success' onclick='editUser($data->id, $page, $limit, `$value`, `$gender`, `$language`, `$city`, `$column`, `$order`)'>Edit</a>
                     <a class='btn btn-danger' onclick='deleteUser($data->id, $page, $limit, `$value`, `$gender`, `$language`, `$city`, `$column`, `$order`)'>Delete</a>
                 </td>
             </tr>";

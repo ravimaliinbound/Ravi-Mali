@@ -1,9 +1,7 @@
 //-----Insert Data---------//
 function insertEmployee() {
     var form = $('#form')[0];
-    console.log(form)
     var formData = new FormData(form);
-    console.log(formData)
     var page = $("#page").val();
 
     if (!validate()) {
@@ -28,33 +26,6 @@ function insertEmployee() {
             $('#form')[0].reset();
         }
     });
-
-    // var image = $("#image").val()
-    // // console.log(image)
-    // var data = $("#form").serializeArray();
-    // // console.log(data)
-    // data.push({ name: 'image', value: image })
-    // data.push({ name: 'action', value: "insert" })
-    // console.log(data)
-
-    // $.ajax({
-    //     url: "action.php",
-    //     type: "POST",
-    //     data: data,
-    //     contentType: false,
-    //     processData: false,
-    //     success: function (data) {
-    //         $('#addEmployee').modal('hide');
-    //         $("#msg").html(data);
-    //         setTimeout(function () {
-    //             $('.msg').fadeOut('slow');
-    //         }, 3000);
-    //         searchFilter(page);
-    //         $('#form')[0].reset();
-    //     }
-    // });
-
-
 }
 
 //------------------ Validation Function ------------------//
@@ -200,7 +171,6 @@ function editvalidate() {
         isValid = false;
     }
 
-    var update_val = $("#update").val();
     if ($("#update").val() == 1) {
         $("#erreditemail").text("Email Already Exists...!");
         isValid = false;
@@ -211,7 +181,7 @@ function editvalidate() {
 
 //----------Fetch Data For Edit------//
 
-function editUser(id, page) {
+function editUser(id, page, limit, value = '', gender = '', language_show = '', city = '', column = '', order = '') {
     $('.remove').text("");
 
     $.ajax({
@@ -223,6 +193,13 @@ function editUser(id, page) {
             var allData = JSON.parse(data);
             $("#userid").val(allData.id);
             $("#page").val(page);
+            $("#show_limit").val(limit);
+            $("#show_value").val(value);
+            $("#show_gender").val(gender);
+            $("#show_language").val(language_show);
+            $("#show_city").val(city);
+            $("#show_column").val(column);
+            $("#show_order").val(order);
             $("#edit-name").val(allData.name);
             $("#edit-email").val(allData.email);
             $("#show_image").attr("src", "image/" + allData.image)
@@ -278,27 +255,36 @@ function editEmployee() {
     var form = $('#edit-form')[0];
     var formData = new FormData(form);
     var id = $("#userid").val();
-    var page = $("#page").val();
+    var page1 = $("#page").val();
+    var value = $("#show_value").val();
+    var limit = $("#show_limit").val();
+    var gender = $("#show_gender").val();
+    var language = $("#show_language").val();
+    var city = $("#show_city").val();
+    var column = $("#show_column").val();
+    var order = $("#show_order").val();
     formData.append('action', 'update');
     formData.append('id', id);
     formData.append('page', page);
     if (!editvalidate()) {
         return false;
     }
-
+  
     $.ajax({
         url: "action.php",
         type: "POST",
         data: formData,
         contentType: false,
         processData: false,
-        success: function (data) {
+        success: function (response) {
             $('#editEmployee').modal('hide');
-            $("#msg").html(data);
+            var data = JSON.parse(response)
+            $("#msg").html(data.success);
+            var page = data.new_page;
             setTimeout(function () {
                 $('.msg').fadeOut('slow');
             }, 3000);
-            searchFilter(page);
+            searchFilter(page, limit, column, order, value, gender, language, city);
             $('#form')[0].reset();
         }
     });
@@ -311,7 +297,7 @@ function searchFilter(page = 1, limit = 5, column = 'id', order = 'asc', value =
     var gender = gender == "" ? $('#genderfilter').val() : gender;
     var language = language == "" ? $('#languagefilter').val() : language;
     var city = city == "" ? $('#cityfilter').val() : city;
-    var limit =  $('#limit').val();
+    var limit = $('#limit').val();
 
     if (order == 'desc') {
         arrow = '&nbsp;<i class="fa-solid fa-arrow-down"></i>';
